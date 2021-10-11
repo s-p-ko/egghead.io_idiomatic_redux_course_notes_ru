@@ -1,72 +1,72 @@
-# 02\. Supplying the Initial State
+# 02\. Обеспечение начального состояния
 
-[Video Link](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
 
-When you create a Redux store, its initial state is determined by the root reducer.
+Когда вы создаете Redux store (встречаютс термины "стор", "хранилище"), его начальное состояние определяется корневым редюсером (root reducer).
 
-In this case, the root reducer is the result of calling `combineReducers` on `todos` and `visibilityFilter`.
+В этом случае корневой редюсер является результатом вызова `todos` и `visibilityFilter` в `combineReducers`.
 
-##### _Inside `src/index.js`_
+##### _Внутри `src/index.js`_
+
 ```javascript
 const store = createStore(todoApp)
 ```
 
+##### _Внутри `src/reducers/index.js`_
 
-##### _Inside `src/reducers/index.js`_
 ```javascript
 const todoApp = combineReducers({
   todos,
-  visibilityFilter
+  visibilityFilter,
 })
 ```
 
-Since reducers are autonomous, each of them specifies its own initial state as the default value of the `state` argument.
+Поскольку редюсеры автономны, каждый из них указывает собственное начальное состояние (initial state) как дефолтное значение аргумента `state`.
 
-In `const todos = (state = [], action) ...` the default state is an empty array.
+В `const todos = (state = [], action) ...` дефолтное значение state - пустой массив.
 
-The default state value in `const visibilityFilter = (state = 'SHOW_ALL', action) ...` is a string.
+Дефолтное значение state в `const visibilityFilter = (state = 'SHOW_ALL', action) ...` - строка.
 
-Therefore, our initial state of the combined reducer is going to be an object containing an empty array under the `todos` key, and a string `'SHOW_ALL'` under the `visibilityFilter` key:
+Следовательно, нашим начальным состоянием объединенного редюсера будет объект, содержащий пустой массив под ключом `todos` и строку `'SHOW_ALL'` под ключом `visibilityFilter` :
 
+##### Начальное состояние:
 
-##### Initial State:
 ```javascript
 const todoApp = combineReducers({
-    todos,
-    visibilityFilter
+  todos,
+  visibilityFilter,
 })
 ```
 
-However, sometimes we want to load data into the store synchronously before the application starts.
+Однако иногда нам нужно синхронно загрузить данные в хранилище (store) до запуска приложения.
 
-For example, there may be Todos left from the previous session.
+Например, с предидущей сессии могут остаться Todos.
 
-Redux lets us pass a `persistedState` as the second argument to the `createStore` function:
+Redux позволяет передавать `persistedState` как второй аргумент функции `createStore`:
+
 ```javascript
 const persistedState = {
-  todos: [{
-    id: 0,
-    text: 'Welcome Back!',
-    completed: false
-  }]
+  todos: [
+    {
+      id: 0,
+      text: "Welcome Back!",
+      completed: false,
+    },
+  ],
 }
 
-const store = createStore(
-  todoApp,
-  persistedState
-)
+const store = createStore(todoApp, persistedState)
 ```
 
-When passing in a `persistedState`, it will overwrite the default values set in the reducer as applicable. In this example, we've provided `todos` with an array, but since we didn't specify a value for `visibilityFilter`, the default `'SHOW_ALL'` will be used.
+При передаче в `persistedState` перезапишутся значения по умолчанию, установленные в редюсере. В этом примере мы снабдили `todos` массивом, но, поскольку мы не указали значение для `visibilityFilter`, то по умолчанию будет использовано `'SHOW_ALL'`.
 
-Since the `persistedState` that we provided as a second argument to `createStore()` was obtained from Redux itself, it doesn't break encapsulation of reducers.
+Поскольку `persistedState`, который мы передали в качестве второго аргумента в `createStore()`, был получен из самого Redux'а, инкапсуляция редюсеров не нарушается.
 
-It may be tempting to supply an initial state for your entire store inside of `persistedState`, but it is not recommended. If you were to do this, it would become more difficult to test and change your reducers later.
+Может возникнуть соблазн указать начальное состояние для всего вашего хранилища (store) внутри `persistedState`, но это не рекомендуется. Если бы вы это сделали, было бы труднее тестировать и менять ваши редюсеры позже.
 
-#### [Recap at 1:42 in video](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
-
+#### [Резюме с 1:42 видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
 
 <p align="center">
-  <a href="./01-Simplifying_the_Arrow_Functions.md"><- Prev</a>
-  <a href="./03-Persisting_the_State_to_the_Local_Storage.md">Next -></a>
+  <a href="./01-Simplifying_the_Arrow_Functions.md"><- Предидущая</a>
+  <a href="./03-Persisting_the_State_to_the_Local_Storage.md">Следующая -></a>
 </p>

@@ -20,9 +20,9 @@ gitbook serve
 
 Смотри, как можно использовать возможности ES6 для еще большей очистки стрелочных функций. [Видео](https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions)
 
-## 02. Supplying the Initial State
+## 02. Обеспечение начального состояния
 
-We will learn how to start a Redux app with a previously persisted state, and how it merges with the initial state specified by the reducers. [Video](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
+Мы узнаем, как запустить приложение Redux с ранее сохраненным состоянием и как оно сливается с начальным состоянием, обусловленным редюсерами. [Видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
 
 ## 03. Persisting the State to the Local Storage
 
