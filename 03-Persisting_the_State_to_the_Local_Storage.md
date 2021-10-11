@@ -157,7 +157,7 @@ store.subscribe(throttle(() => {
 
 Теперь, даже если стор обновляется очень быстро, у нас есть гарантия, что мы будем писать в `localStorage` не чаще одного раза в секунду.
 
-#### [Резюме на 6:05 в видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
+#### [Резюме на 6:05 видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
 
 <p align="center">
 <a href="./02-Supplying_the_Initial_State.md"><- Предидущая</a>
