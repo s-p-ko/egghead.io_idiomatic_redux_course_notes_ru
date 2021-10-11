@@ -8,7 +8,7 @@
 
 Функция `loadState` будет искать в `localStorage` по ключу, извлекать строку и пытаться парсить ее как JSON. Этот код нужно заключить в `try/catch`, так как браузер пользователя может запрещать использование `localStorage` API.
 
-####`localStorage.js`
+#### `localStorage.js`
 
 ```javascript
 export const loadState = () => {
