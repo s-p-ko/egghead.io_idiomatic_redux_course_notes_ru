@@ -28,10 +28,10 @@ gitbook serve
 
 Мы узнаем, как использовать store.subscribe() для эффективного сохранения некоторых состояний приложения в localStorage и восстановления их после обновления. [Видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
 
-## 04. Refactoring the Entry Point
+## 04. Рефакторинг точки входа
 
-We will learn how to better separate the code in the entry point to prepare it for adding the router.
-[Video](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
+Мы узнаем, как лучше разделить код в точке входа, чтобы подготовить его к добавлению маршрутизатора.
+[Видео](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
 ## 05. Adding React Router to the project
 

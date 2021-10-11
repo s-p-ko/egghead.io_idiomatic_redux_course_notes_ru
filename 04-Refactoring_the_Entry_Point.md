@@ -1,60 +1,64 @@
-# 04. Refactoring the Entry Point
-[Video Link](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux)
+# 04. Рефакторинг точки входа
 
-In this lesson we will extract the logic necessary for creating & subscribing to the store into a separate file.
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux)
 
-#### `index.js` Before
+В этом уроке мы извлечем логику, необходимую для создания хранилища и подписки на него, чтобы сохранить состояние в отдельном файле.
+
+#### `index.js` До:
+
 ```javascript
-import 'babel-polyfill'
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import throttle from 'lodash/throttle'
-import todoApp from './reducers'
-import App from './components/App'
-import { loadState, saveState } from './localStorage'
+import "babel-polyfill"
+import React from "react"
+import { render } from "react-dom"
+import { Provider } from "react-redux"
+import { createStore } from "redux"
+import throttle from "lodash/throttle"
+import todoApp from "./reducers"
+import App from "./components/App"
+import { loadState, saveState } from "./localStorage"
 
 const persistedState = loadState()
-const store = createStore(
-  todoApp,
-  persistedState
-);
+const store = createStore(todoApp, persistedState)
 
-store.subscribe(throttle(() => {
-  saveState({
-    todos: store.getState().todos,
-  })
-}, 1000))
+store.subscribe(
+  throttle(() => {
+    saveState({
+      todos: store.getState().todos,
+    })
+  }, 1000)
+)
 
 render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 )
 ```
 
-We will call our new file `configureStore.js`, and start by creating a funcion `configureStore` that will contain the store creation & persistence logic.
+Мы назовем новый файл `configureStore.js`, и начнем с создания функции `configureStore`, которая будет содержать логику создания и сохранения хранилища.
 
-We do this because this way our app doesn't have to know exactly how the store is created and whether or not we have subscribe handlers. It can just use the returned store in the `index.js` file.
+Мы делаем это, потому что в этом случае нашему приложению не нужно точно знать, как создается хранилище (store) и есть ли у нас обработчики подписки. Оно может просто использовать возвращенное хранилище (store) в файле `index.js`.
 
 #### `configureStore.js`
+
 ```javascript
-import { createStore } from 'redux'
-import throttle from 'lodash/throttle'
-import todoApp from './reducers'
-import { loadState, saveState } from './localStorage'
+import { createStore } from "redux"
+import throttle from "lodash/throttle"
+import todoApp from "./reducers"
+import { loadState, saveState } from "./localStorage"
 
 const configureStore = () => {
   const persistedState = loadState()
   const store = createStore(todoApp, persistedState)
 
-  store.subscribe(throttle(() => {
-    saveState({
-      todos: store.getState().todos
-    })
-  }, 1000))
+  store.subscribe(
+    throttle(() => {
+      saveState({
+        todos: store.getState().todos,
+      })
+    }, 1000)
+  )
 
   return store
 }
@@ -62,54 +66,52 @@ const configureStore = () => {
 export default configureStore
 ```
 
-By exporting `configureStore` instead of just `store`, we will be able to create as many store instances as we want for testing.
+Экспортируя `configureStore` вместо просто `store`, мы сможем создать столько экземпляров хранилища для тестирования, сколько захотим.
 
-#### `index.js` After
+#### `index.js` После:
+
 ```javascript
-import 'babel-polyfill'
-import React from 'react'
-import { render } from 'react-dom'
-import Root from './components/Root'
-import configureStore from './configureStore'
+import "babel-polyfill"
+import React from "react"
+import { render } from "react-dom"
+import Root from "./components/Root"
+import configureStore from "./configureStore"
 
 const store = configureStore()
-render(
-  <Root store={store} />,
-  document.getElementById('root')
-);
+render(<Root store={store} />, document.getElementById("root"))
 ```
 
-Note that we have also extracted the root rendered element into a separate component called `Root`. It accepts `store` as a prop, and will be defined in a separate file in our `src/components` folder.
+Обратите внимание, что мы также извлекли корневой отрендеренный элемент в отдельный компонент `Root`. Он принимает `store` как проп (prop) и будет определен в отдельном файле в нашей папке `src/components`.
 
 ---
 
 #### `Root` Component
+
 ```javascript
-import React, { PropTypes } from 'react';
-import { Provider } from 'react-redux';
-import App from './App';
+import React, { PropTypes } from "react"
+import { Provider } from "react-redux"
+import App from "./App"
 
 const Root = ({ store }) => (
   <Provider store={store}>
     <App />
   </Provider>
-);
+)
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,
-};
+}
 
-export default Root;
+export default Root
 ```
 
-We've defined a stateless functional component that just takes the `store` as a prop and returns `<App />` inside of `react-redux`'s `Provider`.
+Мы определили функциональный компонент без сохранения состояния, который просто принимает `store` как проп и возвращает `<App />` внутри `Provider`'а `response-redux`'а.
 
-Now inside of `index.js`, we can remove our `Provider` import as well as replacing the `App` component import with our `Root` component import.
+Теперь внутри `index.js` мы можем удалить наш импорт `Provider`'а, равно как и заменить импорт компонента `App` импортом компонента `Root`.
 
-[Recap at 1:45 in video](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
-
+[Резюме с 1:45 видео.](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
 <p align="center">
-<a href="./03-Persisting_the_State_to_the_Local_Storage.md"><- Prev</a>
-<a href="./05-Adding_React_Router_to_the_Project.md">Next -></a>
+<a href="./03-Persisting_the_State_to_the_Local_Storage.md"><- Предидущая</a>
+<a href="./05-Adding_React_Router_to_the_Project.md">Следующая -></a>
 </p>
