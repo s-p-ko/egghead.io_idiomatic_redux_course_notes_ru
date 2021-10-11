@@ -24,9 +24,9 @@ gitbook serve
 
 Мы узнаем, как запустить приложение Redux с ранее сохраненным состоянием и как оно сливается с начальным состоянием, обусловленным редюсерами. [Видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
 
-## 03. Persisting the State to the Local Storage
+## 03. Сохранение состояния в Local Storage
 
-We will learn how to use store.subscribe() to efficiently persist some of the app’s state to localStorage and restore it after a refresh. [Video](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
+Мы узнаем, как использовать store.subscribe() для эффективного сохранения некоторых состояний приложения в localStorage и восстановления их после обновления. [Видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
 
 ## 04. Refactoring the Entry Point
 

@@ -1,57 +1,61 @@
-# 03. Persisting the State to the Local Storage
-[Video Link](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage)
+# 03. Сохранение состояния в Local Storage
 
-In this example, we want to be able to persist the state of the application using the browser's `localStorage` API.
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage)
 
-We will write a function called `loadState()` and a new model called `localStorage.js`.
+В этом примере мы хотим иметь возможность сохранять состояние приложения с помощью `localStorage` API браузера.
 
-The `loadState` function is going to look into `localStorage` by key, retrieve a string, and try to parse it as JSON. This code needs to be wrapped into a `try/catch` because it's possible that the user's browser disallows usage of the `localStorage` API.
+Мы напишем функцию `loadState()` и новую модель `localStorage.js`.
+
+Функция `loadState` будет искать в `localStorage` по ключу, извлекать строку и пытаться парсить ее как JSON. Этот код нужно заключить в `try/catch`, так как браузер пользователя может запрещать использование `localStorage` API.
 
 ####`localStorage.js`
+
 ```javascript
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem('state');
+    const serializedState = localStorage.getItem("state")
     if (serializedState === null) {
-      return undefined;
+      return undefined
     }
-    return JSON.parse(serializedState);
+    return JSON.parse(serializedState)
   } catch (err) {
-    return undefined;
+    return undefined
   }
-};
+}
 ```
 
-In our `loadState` function, if the `serializedState` is `null`, it means that the key doesn't exist, so we return `undefined` which lets the reducers set the state instead.
+У нашей функции `loadState`, если `serializedState` имеет значение `null`, это означает, что ключ не существует, поэтому мы возвращаем `undefined`, что позволяет самим редюсерам устанавливать состояние.
 
-However, if the `serializedState` string exists, we'll use `JSON.parse(serializedState)` in order to return it into the `state` object.
+Однако, если строка `serializedState` существует, мы будем использовать `JSON.parse(serializedState)`, чтобы вернуть ее в `state` объекта.
 
-Since we have a function for loading state, we should have one for saving state to localStorage:
+Поскольку у нас есть функция для загрузки состояния, у нас должна быть функция для сохранения состояния в localStorage:
 
 ```javascript
 export const saveState = (state) => {
   try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('state', serializedState);
+    const serializedState = JSON.stringify(state)
+    localStorage.setItem("state", serializedState)
   } catch (err) {
     // Ignore write errors.
   }
-};
+}
 ```
 
-Our `saveState` function accepts our `state` as an argument, and does the exact opposite thing as our `loadState` function.
+Функция `saveState` принимает `state` как аргумент и делает точно противоположную к `loadState` функции вещь.
 
-First, we use `JSON.stringify(state)` to serialize our state to a string. This will only work if the state is serializable, but if you're following suggested Redux practices, you'll be good to go.
+Сначала мы используем `JSON.stringify(state)` для сериализации состояния (state) в строку. Это будет работать только в том случае, если состояние сериализуемо, но если вы следуете предлагаемым Redux'ом практикам, вам незачем беспокоится.
 
-We catch any errors, since either `JSON.stringify()` or `localStorage.setItem()` can fail.
+Мы отлавливаем любые ошибки, поскольку либо `JSON.stringify()`, либо `localStorage.setItem()` может завершиться ошибкой.
 
-### Using `localStorage.js`
-Back in our `index.js` file, we will import the functions we just wrote:
+### Использование `localStorage.js`
+
+Вернитесь в наш `index.js` файл, в нём мы импортируем только что написанные функции:
+
 ```javascript
-import { loadState, saveState } from './localStorage'
+import { loadState, saveState } from "./localStorage"
 ```
 
-In order to save our state any time the store changes, we will use the `store`'s `subscribe()` method to add a listener that will be invoked on any state change, passing in the current state of the store into the `saveState` function:
+Чтобы сохранять наше состояние в любое время, когда хранилище (`store`) изменяется, мы будем использовать его метод `subscribe()`, чтобы добавить слушателя, который будет вызываться при любом изменении состояния, передавая текущее состояние хранилища в функцию `saveState`:
 
 ```javascript
 // Inside of index.js ...
@@ -60,74 +64,84 @@ store.subscribe(() => {
 })
 ```
 
-Now we have our state being preserved across reloads. However, it isn't just our complete & incomplete Todo items being tracked, but the visibility filter as well. This isn't ideal, since in most cases we would want to persist just the data and not the UI as well.
+Теперь наше состояние сохраняется при перезагрузках. Однако отслеживаются не только наши полные и неполные элементы Todo, но и фильтр видимости. Это не идеально, поскольку в большинстве случаев мы хотели бы сохранить только данные, а не UI (пользовательский интерфейс).
 
-To fix this, we'll adjust `store.subscribe()`:
+Чтобы исправить это, мы настроим `store.subscribe()`:
+
 ```javascript
 store.subscribe(() => {
   saveState({
-    todos: store.getState().todos
+    todos: store.getState().todos,
   })
 })
 ```
-Now that we are only saving the `todos` portion of our state, when we refresh the page our `visibilityFilter` will be set to the default of `'SHOW_ALL'` by its reducer.
 
-### But we have a bug...
-With the way our code is currently written, when we try to add a new Todo item, React will error with `Encountered two children with the same key, 0`.
+Теперь, когда мы сохраняем ту часть состояния, что относится к `todos`, при обновлении страницы наш `visibilityFilter` получит от своего редюсера дефолтное значение `'SHOW_ALL'`.
 
-This is because in our `TodoList` component we use `todo.id` as our key, which is assigned in the `addTodo` action creator inside of `actions.js`. The `addTodo` action creator uses a local variable `nextTodoId` that is assigned to `0` by default.
+### Но у нас есть баг ...
 
-##### `addTodo` Before:
+С учетом того, как в настоящее время написан наш код, когда мы пытаемся добавить новый элемент Todo, React выдаст ошибку: `Encountered two children with the same key, 0` ("Встречены два дочерних элемента с одним и тем же ключом, 0").
+
+Это потому, что в нашем компоненте `TodoList` мы используем `todo.id` в качестве ключа, который назначается в экшн криэйтере `addTodo` внутри actions.js. Экшн криэйтер `addTodo` использует локальную переменную `nextTodoId`, которой по умолчанию присвоено значение `0`.
+
+##### `addTodo` До:
+
 ```javascript
 let nextTodoId = 0
 
 export const addTodo = (text) => ({
-  type: 'ADD_TODO',
+  type: "ADD_TODO",
   id: (nextTodoId++).toString(),
-  text
+  text,
 })
 ```
 
-To get around this, we will use an npm module called `node-uuid`:
+Чтобы обойти это, мы будем использовать npm модуль `node-uuid`:
 
 `$ npm install --save node-uuid`
 
-To use the module, we import `v4` from `node-uuid` and call it instead of `(nextTodoId++)`. _Note: `v4` is just the name of the standard._
+Чтобы использовать модуль, мы импортируем `v4` с `node-uuid` и вызовим его вместо `(nextTodoId++)`. _Примечание: `v4` - просто название стандарта._
 
-##### `addTodo` After:
+##### `addTodo` После:
+
 ```javascript
-import { v4 } from 'node-uuid'
+import { v4 } from "node-uuid"
 
 export const addTodo = (text) => ({
-  type: 'ADD_TODO',
+  type: "ADD_TODO",
   id: v4(),
-  text
+  text,
 })
 ```
-Now all of our Todo items are persisted throughout reloads.
 
-### Throttling `saveState()`
-We currently call `saveState()` inside the subscribe listener so it is called every time the storage state changes. We want to avoid calling it too often because it uses the expensive `stringify` operation.
+Теперь все наши элементы Todo сохраняются во время перезагрузки.
 
-We will fix this by using another npm module `lodash` that includes a `throttle` utility.
+### Троттлинг\* `saveState()`
+
+##### \*_от англ._ "throttling"
+
+Теперь мы вызываем `saveState()` внутри слушателя подписки, и он вызывается всякий раз при изменении состояния хранилища. Мы не хотим вызывать его слишком часто, потому что он использует дорогостоящую операцию `stringify`.
+
+Исправим это с помощью другого модуля npm - `lodash`, который включает утилиту `throttle`.
 
 `$ npm install --save lodash`
 
+#### `store.subscribe()` До:
 
-#### `store.subscribe()` Before:
 ```javascript
 store.subscribe(() => {
   saveState({
-    todos: store.getState().todos
+    todos: store.getState().todos,
   })
 })
 ```
 
-By wrapping our callback in a `throttle` call, we can insure that the inner function we pass is not going to be called more often than our specified number of milliseconds.
+Обернув наш коллбэк в вызов `throttle`, мы можем гарантировать, что внутренняя функция, которую мы передаем, не будет вызываться чаще, чем указанное нами количество миллисекунд.
 
-We'll import just `throttle` directly from `lodash`, instead of bringing in the entire library to use a single function.
+Мы импортируем только `throttle` прямо из ` lodash`, вместо того, чтобы использовать всю библиотеку для использования одной функции.
 
-#### `store.subscribe()` After:
+#### `store.subscribe()` После:
+
 ```javascript
 // top of index.js
 import throttle from 'lodash/throttle'
@@ -141,12 +155,11 @@ store.subscribe(throttle(() => {
 }, 1000))
 ```
 
-Now, even if the store gets updated really fast, we have a guarantee that we only write to `localStorage` once a second at most.
+Теперь, даже если стор обновляется очень быстро, у нас есть гарантия, что мы будем писать в `localStorage` не чаще одного раза в секунду.
 
-#### [Recap at 6:05 in video](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
-
+#### [Резюме на 6:05 в видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
 
 <p align="center">
-<a href="./02-Supplying_the_Initial_State.md"><- Prev</a>
-<a href="./04-Refactoring_the_Entry_Point.md">Next -></a>
+<a href="./02-Supplying_the_Initial_State.md"><- Предидущая</a>
+<a href="./04-Refactoring_the_Entry_Point.md">Следующая -></a>
 </p>
