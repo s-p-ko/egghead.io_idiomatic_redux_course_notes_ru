@@ -1,6 +1,6 @@
 # Summary
 
-* [Simplifying the Arrow Functions](01-Simplifying_the_Arrow_Functions.md)
+* [Упрощение стрелочных функций](01-Simplifying_the_Arrow_Functions.md)
 * [Supplying the Initial State](02-Supplying_the_Initial_State.md)
 * [Persisting the State to the Local Storage](03-Persisting_the_State_to_the_Local_Storage.md)
 * [Refactoring the Entry Point](04-Refactoring_the_Entry_Point.md)

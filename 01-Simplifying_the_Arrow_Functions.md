@@ -1,55 +1,61 @@
-# 01. Simplifying the Arrow Functions
-[Video Link](https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions?course=building-react-applications-with-idiomatic-redux)
+# 01. Упрощение стрелочных функций
 
-Since action creators are just regular JavaScript functions, you can define them any way you like.
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions?course=building-react-applications-with-idiomatic-redux)
 
-For example, if you don't like arrow notation, you can replace it with the traditional function declaration syntax:
+Поскольку экшн криэйтеры - это обычные функции JavaScript, вы можете определять их как угодно.
 
-##### Arrow Function Syntax
-``` javascript
+Например, если вам не нравится стрелочная нотация, вы можете заменить её традиционным синтаксисом объявления функции:
+
+##### Синтаксис стрелочной функции
+
+```javascript
 export const addTodo = (text) => {
   return {
-    type: 'ADD_TODO',
+    type: "ADD_TODO",
     id: (nextTodoId++).toString(),
     text,
-  };
-};
-```
-##### Traditional Function Syntax
-``` javascript
-export function addTodo(text) {
-  return {
-    type: 'ADD_TODO',
-    id: (nextTodoId++).toString(),
-    text,
-  };
+  }
 }
 ```
 
-However, if you like using arrow functions, they can be made even more concise.
+##### Традиционный синтаксис функций
 
+```javascript
+export function addTodo(text) {
+  return {
+    type: "ADD_TODO",
+    id: (nextTodoId++).toString(),
+    text,
+  }
+}
+```
 
-Looking at our arrow function above, we can see that our function starts and ends with a curly brace, and contains a `return` statement inside. Since the return statement is all that is inside our function, we can use it as the body of the arrow function.
+Но, если вам нравится использовать стрелочные функции, их можно сделать еще более краткими.
 
-We can remove the block in favor of the object expression:
+Рассматривая нашу стрелочную функцию выше, мы видим, что она начинается и заканчивается фигурной скобкой и содержит внутри `return` оператор. Поскольку оператор return - это все, что находится внутри нашей функции, то можно использовать его как тело стрелочной функции .
+
+Мы можем удалить блок в пользу объектного выражения:
+
 ```javascript
 export const addTodo = (text) => ({
-  type:'ADD_TODO',
+  type: "ADD_TODO",
   id: (nextTodoId++).toString(),
   text,
 })
 ```
 
-*Note:* It is important to wrap the expression in parents so that the parser understands this as an expression instead of a block.
+_Примечание:_ Важно заключить выражение в круглые скобки, чтобы синтаксический анализатор понимал это как выражение, а не как блок.
 
-These steps can be repeated for any function that just returns an object; just remove the `return` statement, and change the body into an expression.
+Эти действия можно повторить для любой функции, которая просто возвращает объект; для этого удалите оператор `return` и превратите тело в выражение.
 
-This process can be used outside of Action Creators as well. For example, it is common for `mapStateToProps` and `mapDispatchToProps` to just return objects:
-##### Before:
+Этот процесс можно использовать и вне Экшн Криэйтеров (Action Creators). Например, в `mapStateToProps` и `mapDispatchToProps`, чтобы просто вернуть объекты:
+
+##### До:
+
 ```javascript
 const mapStateToProps = (state, ownProps) => {
   return {
-    active: ownProps.filter === state.visibilityFilter
+    active: ownProps.filter === state.visibilityFilter,
   }
 }
 
@@ -57,36 +63,37 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onClick: () => {
       dispatch(setVisibilityFilter(ownProps.filter))
-    }
+    },
   }
 }
 ```
 
-##### After:
+##### После:
+
 ```javascript
 const mapStateToProps = (state, ownProps) => ({
-    active: ownProps.filter === state.visibilityFilter
+  active: ownProps.filter === state.visibilityFilter,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClick: () => {
-      dispatch(setVisibilityFilter(ownProps.filter))
-    }
+  onClick: () => {
+    dispatch(setVisibilityFilter(ownProps.filter))
+  },
 })
 ```
 
-We can make `mapDispatchToProps` even more compact by replacing the arrow function with a concise method notation that is part of ES6 and is available when a function is defined inside an object.
+Мы можем сделать `mapDispatchToProps` более компактным, заменив стрелочную функцию краткой нотацией метода, которая является частью ES6 и доступна, когда функция определена внутри объекта.
 
 ```javascript
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClick() {
-      dispatch(setVisibilityFilter(ownProps.filter))
-    }
+  onClick() {
+    dispatch(setVisibilityFilter(ownProps.filter))
+  },
 })
 ```
 
-#### [Recap at 2:05 in video](https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions?course=building-react-applications-with-idiomatic-redux)
+#### [Резюме со 2:05 видео](https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions?course=building-react-applications-with-idiomatic-redux)
 
 <p align="center">
-<a href="./02-Supplying_the_Initial_State.md">Next -></a>
+<a href="./02-Supplying_the_Initial_State.md">Далее -></a>
 </p>
