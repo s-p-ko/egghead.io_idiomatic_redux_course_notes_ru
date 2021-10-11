@@ -2,7 +2,9 @@
 
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
 
-Когда вы создаете Redux store (встречаютс термины "стор", "хранилище"), его начальное состояние определяется корневым редюсером (root reducer).
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/02-supplying-the-initial-state)
+
+Когда вы создаете Redux store (встречаются термины "стор", "хранилище"), его начальное состояние определяется корневым редюсером (root reducer).
 
 В этом случае корневой редюсер является результатом вызова `todos` и `visibilityFilter` в `combineReducers`.
 
@@ -67,6 +69,6 @@ const store = createStore(todoApp, persistedState)
 #### [Резюме с 1:42 видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
 
 <p align="center">
-  <a href="./01-Simplifying_the_Arrow_Functions.md"><- Предидущая</a>
+  <a href="./01-Simplifying_the_Arrow_Functions.md"><- Предыдущая</a>
   <a href="./03-Persisting_the_State_to_the_Local_Storage.md">Следующая -></a>
 </p>

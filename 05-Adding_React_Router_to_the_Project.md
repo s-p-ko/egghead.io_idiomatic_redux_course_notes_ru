@@ -1,9 +1,13 @@
-# 05. Adding React Router to the Project
-[Video Link](https://egghead.io/lessons/javascript-redux-adding-react-router-to-the-project?series=building-react-applications-with-idiomatic-redux)
+# 05. Добавление React Router в проект
 
-In this lesson, we will add React Router.
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-adding-react-router-to-the-project?series=building-react-applications-with-idiomatic-redux)
 
-#### `Root.js` Before
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/05-adding-react-router)
+
+В этом уроке мы добавим React Router.
+
+#### `Root.js` до
+
 ```javascript
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
@@ -19,16 +23,18 @@ const Root = ({ store }) => (
 .
 ```
 
-To add React Router to the project, run:
+Чтобы добавить в проект React Router, запустите:
+
 `$ npm install --save react-router`
 
-Inside of `Root.js` we will import the `Router` and `Route` components.
+Внутри `Root.js` мы импортируем компоненты `Router` и `Route`.
 
-We also replace our `<App />` with `<Router />`. It's important that it is still inside of `<Provider />` so that any components rendered by the router still have access to the store.
+Мы также заменяем `<App />` на `<Router />`. И важно, чтобы он все еще находился внутри `<Provider />`, чтоб любые, отображаемые (rendered) маршрутизатором компоненты, по-прежнему имели доступ к хранилищу (store).
 
-Inside of `<Router />` we will put a single `<Route />` element that tells React Router that we want to render our `<App />` component at the root path (`'/'`) in the browser's address bar.
+Внутри `<Router />` мы поместим единственный элемент `<Route />`, который сообщает React Router'у, что мы хотим отобразить наш компонент `<App />` по корневому пути (`'/'`) в адресной строке браузера.
 
-#### `Root.js` After
+#### `Root.js` после
+
 ```javascript
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
@@ -47,11 +53,12 @@ const Root = ({ store }) => (
 .
 ```
 
-_Note: the video contains a fix for weird address bar symbols stemming from an old release of `react-router`_
+_Примечание: видео содержит исправление для странных символов адресной строки, происходящих из старого релиза `react-router`_
 
-_Note: the explanations in the video require a version of `react-router` previous to the 4.0.0. Starting in that version some changes have been included which require this slightly different syntax:_
+_Примечание: объяснения в видео требуют версии `react-router` до 4.0.0. Начиная с этой версии были внесены некоторые изменения, требующие немного другого синтаксиса:_
 
-#### `Root.js` After (react-router v4.0.0 or superior)
+#### `Root.js` после (react-router v4.0.0 или выше)
+
 ```javascript
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
@@ -70,10 +77,9 @@ const Root = ({ store }) => (
 .
 ```
 
-[Recap at 1:09 in video](https://egghead.io/lessons/javascript-redux-adding-react-router-to-the-project?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
-
+[Резюме с 1:09 видео](https://egghead.io/lessons/javascript-redux-adding-react-router-to-the-project?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
 <p align="center">
-<a href="./04-Refactoring_the_Entry_Point.md"><- Prev</a>
-<a href="./06-Navigating_with_React_Router_Link.md">Next -></a>
+<a href="./04-Refactoring_the_Entry_Point.md"><- Предыдущая</a>
+<a href="./06-Navigating_with_React_Router_Link.md">Следующая -></a>
 </p>

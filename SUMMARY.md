@@ -4,7 +4,7 @@
 - [Обеспечение начального состояния](02-Supplying_the_Initial_State.md)
 - [Сохранение состояния в Local Storage](03-Persisting_the_State_to_the_Local_Storage.md)
 - [Рефакторинг точки входа](04-Refactoring_the_Entry_Point.md)
-- [Adding React Router to the project](05-Adding_React_Router_to_the_Project.md)
+- [Добавление React Router в проект](05-Adding_React_Router_to_the_Project.md)
 - [Navigating with React Router <Link>](06-Navigating_with_React_Router_Link.md)
 - [Filtering Redux State with React Router Params](07-Filtering_Redux_State_with_React_Router_Params.md)
 - [Using withRouter() to Inject the Params into Connected Components](08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md)

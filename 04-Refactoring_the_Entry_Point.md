@@ -2,9 +2,11 @@
 
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux)
 
-В этом уроке мы извлечем логику, необходимую для создания хранилища и подписки на него, чтобы сохранить состояние в отдельном файле.
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/04-refactoring-entry-point)
 
-#### `index.js` До:
+В этом уроке мы извлечем логику, необходимую для создания хранилища (`store`) и подписки на него, чтобы сохранить состояние в отдельном файле.
+
+#### `index.js` до
 
 ```javascript
 import "babel-polyfill"
@@ -36,9 +38,9 @@ render(
 )
 ```
 
-Мы назовем новый файл `configureStore.js`, и начнем с создания функции `configureStore`, которая будет содержать логику создания и сохранения хранилища.
+Назовем новый файл `configureStore.js`, и начнем с создания функции `configureStore`, которая будет содержать логику создания и сохранения хранилища.
 
-Мы делаем это, потому что в этом случае нашему приложению не нужно точно знать, как создается хранилище (store) и есть ли у нас обработчики подписки. Оно может просто использовать возвращенное хранилище (store) в файле `index.js`.
+Делаем это, потому что в данном случае нашему приложению не нужно точно знать, как создается хранилище (`store`) и есть ли у нас обработчики подписки (subscribe handlers). Оно может просто использовать возвращенное хранилище (store) в файле `index.js`.
 
 #### `configureStore.js`
 
@@ -112,6 +114,6 @@ export default Root
 [Резюме с 1:45 видео.](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
 <p align="center">
-<a href="./03-Persisting_the_State_to_the_Local_Storage.md"><- Предидущая</a>
+<a href="./03-Persisting_the_State_to_the_Local_Storage.md"><- Предыдущая</a>
 <a href="./05-Adding_React_Router_to_the_Project.md">Следующая -></a>
 </p>

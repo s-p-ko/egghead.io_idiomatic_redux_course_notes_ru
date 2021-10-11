@@ -1,10 +1,10 @@
 # Building React Applications with Idiomatic Redux (Egghead.io)
 
-## Перевод на русский, [смотреть оригинал](https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes)
+## Перевод [конспекта](https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes) на русский  с некоторыми дополнениями
 
 ![](https://s3.amazonaws.com/f.cl.ly/items/212E0u153X2A18131808/Image%202016-07-10%20at%2012.00.28%20PM.png?v=feaddbc8)
 
-"Это репо содержит записи" [Dan Abramov's](https://github.com/gaearon) second [Redux course](https://egghead.io/courses/building-react-applications-with-idiomatic-redux) on Egghead.io.
+Это репо - конспект [Dan Abramov's](https://github.com/gaearon) second [Redux course](https://egghead.io/courses/building-react-applications-with-idiomatic-redux) on Egghead.io.
 
 ### Gitbook Setup
 
@@ -18,24 +18,24 @@ gitbook serve
 
 ## 01\. Упрощение стрелочных функций
 
-Смотри, как можно использовать возможности ES6 для еще большей очистки стрелочных функций. [Видео](https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions)
+Смотрим, как можно использовать возможности ES6 для еще большей очистки стрелочных функций. [Видео](https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions)
 
 ## 02. Обеспечение начального состояния
 
-Мы узнаем, как запустить приложение Redux с ранее сохраненным состоянием и как оно сливается с начальным состоянием, обусловленным редюсерами. [Видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
+Узнаем, как запустить приложение Redux с ранее сохраненным состоянием и как оно сливается с начальным состоянием, обусловленным редюсерами. [Видео](https://egghead.io/lessons/javascript-redux-supplying-the-initial-state)
 
 ## 03. Сохранение состояния в Local Storage
 
-Мы узнаем, как использовать store.subscribe() для эффективного сохранения некоторых состояний приложения в localStorage и восстановления их после обновления. [Видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
+Узнаем, как использовать store.subscribe() для эффективного сохранения некоторых состояний приложения в localStorage и восстановления их после обновления. [Видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
 
 ## 04. Рефакторинг точки входа
 
-Мы узнаем, как лучше разделить код в точке входа, чтобы подготовить его к добавлению маршрутизатора.
+Узнаем, как лучше разделить код в точке входа, чтобы подготовить его к добавлению маршрутизатора.
 [Видео](https://egghead.io/lessons/javascript-redux-refactoring-the-entry-point?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
-## 05. Adding React Router to the project
+## 05. Добавление React Router в проект
 
-We will learn how to add React Router to a Redux project and make it render our root component. [Video](https://egghead.io/lessons/javascript-redux-adding-react-router-to-the-project?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
+Узнаем, как добавить React Router в проект Redux и заставить его рендерить наш корневой (root) компонент. [Видео](https://egghead.io/lessons/javascript-redux-adding-react-router-to-the-project?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
 ## 06. Navigating with React Router `<Link>`
 

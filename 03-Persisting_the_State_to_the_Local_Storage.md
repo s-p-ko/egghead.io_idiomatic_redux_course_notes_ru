@@ -2,9 +2,11 @@
 
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage)
 
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/03-persisting-state-to-local-storage)
+
 В этом примере мы хотим иметь возможность сохранять состояние приложения с помощью `localStorage` API браузера.
 
-Мы напишем функцию `loadState()` и новую модель `localStorage.js`.
+Напишем функцию `loadState()` и новую модель `localStorage.js`.
 
 Функция `loadState` будет искать в `localStorage` по ключу, извлекать строку и пытаться парсить ее как JSON. Этот код нужно заключить в `try/catch`, так как браузер пользователя может запрещать использование `localStorage` API.
 
@@ -24,7 +26,7 @@ export const loadState = () => {
 }
 ```
 
-У нашей функции `loadState`, если `serializedState` имеет значение `null`, это означает, что ключ не существует, поэтому мы возвращаем `undefined`, что позволяет самим редюсерам устанавливать состояние.
+Если `serializedState` у функции `loadState` имеет значение `null` - это значит, что ключ не существует, поэтому мы возвращаем `undefined`, что позволяет самим редюсерам устанавливать состояние.
 
 Однако, если строка `serializedState` существует, мы будем использовать `JSON.parse(serializedState)`, чтобы вернуть ее в `state` объекта.
 
@@ -84,7 +86,7 @@ store.subscribe(() => {
 
 Это потому, что в нашем компоненте `TodoList` мы используем `todo.id` в качестве ключа, который назначается в экшн криэйтере `addTodo` внутри actions.js. Экшн криэйтер `addTodo` использует локальную переменную `nextTodoId`, которой по умолчанию присвоено значение `0`.
 
-##### `addTodo` До:
+##### `addTodo` до
 
 ```javascript
 let nextTodoId = 0
@@ -102,7 +104,7 @@ export const addTodo = (text) => ({
 
 Чтобы использовать модуль, мы импортируем `v4` с `node-uuid` и вызовим его вместо `(nextTodoId++)`. _Примечание: `v4` - просто название стандарта._
 
-##### `addTodo` После:
+##### `addTodo` после
 
 ```javascript
 import { v4 } from "node-uuid"
@@ -120,13 +122,13 @@ export const addTodo = (text) => ({
 
 ##### \*_от англ._ "throttling"
 
-Теперь мы вызываем `saveState()` внутри слушателя подписки, и он вызывается всякий раз при изменении состояния хранилища. Мы не хотим вызывать его слишком часто, потому что он использует дорогостоящую операцию `stringify`.
+Теперь мы вызываем `saveState()` внутри слушателя подписки (subscribe listener), и он вызывается всякий раз при изменении состояния хранилища. Мы не хотим вызывать его слишком часто, потому что он использует дорогостоящую операцию `stringify`.
 
 Исправим это с помощью другого модуля npm - `lodash`, который включает утилиту `throttle`.
 
 `$ npm install --save lodash`
 
-#### `store.subscribe()` До:
+#### `store.subscribe()` до
 
 ```javascript
 store.subscribe(() => {
@@ -140,7 +142,7 @@ store.subscribe(() => {
 
 Мы импортируем только `throttle` прямо из ` lodash`, вместо того, чтобы использовать всю библиотеку для использования одной функции.
 
-#### `store.subscribe()` После:
+#### `store.subscribe()` после
 
 ```javascript
 // top of index.js
@@ -155,11 +157,11 @@ store.subscribe(throttle(() => {
 }, 1000))
 ```
 
-Теперь, даже если стор обновляется очень быстро, у нас есть гарантия, что мы будем писать в `localStorage` не чаще одного раза в секунду.
+Теперь, даже если стор (`store`) обновляется очень быстро, у нас есть гарантия, что мы будем писать в `localStorage` не чаще одного раза в секунду.
 
-#### [Резюме на 6:05 видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
+#### [Резюме с 6:05 видео](https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage#/tab-transcript)
 
 <p align="center">
-<a href="./02-Supplying_the_Initial_State.md"><- Предидущая</a>
+<a href="./02-Supplying_the_Initial_State.md"><- Предыдущая</a>
 <a href="./04-Refactoring_the_Entry_Point.md">Следующая -></a>
 </p>
