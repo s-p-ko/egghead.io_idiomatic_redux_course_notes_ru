@@ -3,7 +3,7 @@
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/07-filtering-redux-state-with-react-router-params)
 
-Теперь мы используем `Link`и React Router'а, поэтому, когда мы кликаем ссылку обновляется URL. Однако контент не обновляется, потому что видимый компонент `TodoList` в своей функции `mapStateToProps` все еще зависит от `visibilityFilter` в хранилище Redux вместо чтения его из URL.
+Теперь мы используем `Link'и` React Router'а, поэтому, когда мы кликаем ссылку обновляется URL. Однако контент не обновляется, потому что видимый компонент `TodoList` в своей функции `mapStateToProps` все еще зависит от `visibilityFilter` в хранилище Redux вместо чтения его из URL.
 
 #### `mapStateToProps` до:
 ```javascript
