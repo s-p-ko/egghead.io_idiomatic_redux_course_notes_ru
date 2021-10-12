@@ -1,13 +1,15 @@
-# 06. Navigating with React Router `<Link>`
+# 06. Навигация с React Router `<Link>`
+
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/06-navigating-with-react-router-link)
 
-In this lesson we will update the "links" that control the visibility filter to behave more like _real_ links. We're going to change it so our browser's "Back" button works, and the URL changes when we switch filters.
+В этом уроке мы обновим «ссылки», управляющие фильтром видимости, чтобы они больше походили на _реальные_ ссылки. Мы собираемся изменить его так, чтобы кнопка «Назад» в нашем браузере работала, а URL-адрес изменялся при переключении фильтров.
 
-We'll start by adding a parameter to the Route `path` called `filter`. We wrap it in parents to tell React Router that it's optional (we want all Todos shown by default).
+Мы начнем с добавления в Route параметра `path`, именуемый `filter`. Мы заключим его в скобки, чтобы сообщить React Router, что он необязательный (мы хотим, чтобы все Todos отображались по умолчанию).
 
-#### Update `Root.js`
+#### Обновить `Root.js`
+
 ```javascript
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -21,9 +23,10 @@ const Root = ({ store }) => (
 .
 ```
 
-_Note: the explanations in the video require a version of `react-router` previous to the 4.0.0. Starting in that version some changes have been included which require this slightly different syntax:_
+_Примечание: пояснения в видео требуют версии `react-router` до 4.0.0. Начиная с этой версии были внесены некоторые изменения, требующие немного другого синтаксиса:_
 
-#### Update `Root.js` (react-router v4.0.0 or superior)
+#### Обновить `Root.js` (react-router v4.0.0 или выше)
+
 ```javascript
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -37,10 +40,12 @@ const Root = ({ store }) => (
 .
 ```
 
-### Update Links in `Footer.js`
-We also need to update our visibility filter links inside of the footer.
+### Обновить ссылки в `Footer.js`
+
+Нам также необходимо обновить ссылки фильтров видимости внутри футера. We also need to update our visibility filter links inside of the footer.
 
 #### `Footer.js` Before
+
 ```javascript
 ...
 const Footer = () => (
@@ -67,6 +72,7 @@ export default Footer;
 The previous implementation used the convention for the `filter` prop, but we will update them to align with the "active" and "completed" paths we want displayed in the address bar.
 
 #### `Footer.js` After
+
 ```javascript
 // Rest as above...
 <p>
@@ -89,9 +95,11 @@ The previous implementation used the convention for the `filter` prop, but we wi
 We use a null string to signify the default path and avoid passing an empty string.
 
 ### Update `FilterLink.js` Implementation
+
 In our current implementation, the `FilterLink` component dispatches an action every time that it's clicked, then reads its active state from the store and compares its `filter` prop to the `visibilityFilter` in the store.
 
 #### `FilterLink.js` Before
+
 ```javascript
 ...
 const mapStateToProps = (state, ownProps) => ({
@@ -123,6 +131,7 @@ We also will use the `activeStyle` prop to style it differently when its `to` pr
 We pass `children` to the `Link` itself, and add `children` as a prop to `FilterLink` so that the parent component can specify the children.
 
 #### `FilterLink.js` After
+
 ```javascript
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
@@ -150,6 +159,7 @@ export default FilterLink;
 _Note: the explanations in the video require a version of `react-router` previous to the 4.0.0. Starting in that version some changes have been included which require this slightly different syntax:_
 
 #### `FilterLink.js` After (react-router v4.0.0 or superior)
+
 ```javascript
 import React, { PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -175,14 +185,13 @@ FilterLink.propTypes = {
 export default FilterLink;
 ```
 
-
 ### More Cleanup to Do...
+
 We are no longer using the `setVisibilityFilter` action creator, so it can be removed from `src/actions/index.js`, leaving us with just `addTodo` and `toggleTodo` action creators.
 
 We can also delete our custom `Link` component from `src/components` since we are now using the one provided by `react-router`.
 
 [Recap at 2:20 in video](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
-
 
 <p align="center">
 <a href="./05-Adding_React_Router_to_the_Project.md"><- Предыдущая</a>

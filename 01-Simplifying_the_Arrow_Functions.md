@@ -10,25 +10,25 @@
 
 ##### Синтаксис стрелочной функции
 
-```javascript
+``` javascript
 export const addTodo = (text) => {
   return {
-    type: "ADD_TODO",
+    type: 'ADD_TODO',
     id: (nextTodoId++).toString(),
     text,
-  }
-}
+  };
+};
 ```
 
 ##### Традиционный синтаксис функций
 
-```javascript
+``` javascript
 export function addTodo(text) {
   return {
-    type: "ADD_TODO",
+    type: 'ADD_TODO',
     id: (nextTodoId++).toString(),
     text,
-  }
+  };
 }
 ```
 
@@ -40,7 +40,7 @@ export function addTodo(text) {
 
 ```javascript
 export const addTodo = (text) => ({
-  type: "ADD_TODO",
+  type:'ADD_TODO',
   id: (nextTodoId++).toString(),
   text,
 })
@@ -57,7 +57,7 @@ _Примечание:_ Важно заключить выражение в кр
 ```javascript
 const mapStateToProps = (state, ownProps) => {
   return {
-    active: ownProps.filter === state.visibilityFilter,
+    active: ownProps.filter === state.visibilityFilter
   }
 }
 
@@ -65,7 +65,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onClick: () => {
       dispatch(setVisibilityFilter(ownProps.filter))
-    },
+    }
   }
 }
 ```
@@ -74,13 +74,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 ```javascript
 const mapStateToProps = (state, ownProps) => ({
-  active: ownProps.filter === state.visibilityFilter,
+    active: ownProps.filter === state.visibilityFilter
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick: () => {
-    dispatch(setVisibilityFilter(ownProps.filter))
-  },
+    onClick: () => {
+      dispatch(setVisibilityFilter(ownProps.filter))
+    }
 })
 ```
 
@@ -88,9 +88,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 ```javascript
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick() {
-    dispatch(setVisibilityFilter(ownProps.filter))
-  },
+    onClick() {
+      dispatch(setVisibilityFilter(ownProps.filter))
+    }
 })
 ```
 

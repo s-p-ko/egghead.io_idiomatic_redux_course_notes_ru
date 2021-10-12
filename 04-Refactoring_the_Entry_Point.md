@@ -9,32 +9,33 @@
 #### `index.js` до
 
 ```javascript
-import "babel-polyfill"
-import React from "react"
-import { render } from "react-dom"
-import { Provider } from "react-redux"
-import { createStore } from "redux"
-import throttle from "lodash/throttle"
-import todoApp from "./reducers"
-import App from "./components/App"
-import { loadState, saveState } from "./localStorage"
+import 'babel-polyfill'
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import throttle from 'lodash/throttle'
+import todoApp from './reducers'
+import App from './components/App'
+import { loadState, saveState } from './localStorage'
 
 const persistedState = loadState()
-const store = createStore(todoApp, persistedState)
+const store = createStore(
+  todoApp,
+  persistedState
+);
 
-store.subscribe(
-  throttle(() => {
-    saveState({
-      todos: store.getState().todos,
-    })
-  }, 1000)
-)
+store.subscribe(throttle(() => {
+  saveState({
+    todos: store.getState().todos,
+  })
+}, 1000))
 
 render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById("root")
+  document.getElementById('root')
 )
 ```
 
@@ -45,22 +46,20 @@ render(
 #### `configureStore.js`
 
 ```javascript
-import { createStore } from "redux"
-import throttle from "lodash/throttle"
-import todoApp from "./reducers"
-import { loadState, saveState } from "./localStorage"
+import { createStore } from 'redux'
+import throttle from 'lodash/throttle'
+import todoApp from './reducers'
+import { loadState, saveState } from './localStorage'
 
 const configureStore = () => {
   const persistedState = loadState()
   const store = createStore(todoApp, persistedState)
 
-  store.subscribe(
-    throttle(() => {
-      saveState({
-        todos: store.getState().todos,
-      })
-    }, 1000)
-  )
+  store.subscribe(throttle(() => {
+    saveState({
+      todos: store.getState().todos
+    })
+  }, 1000))
 
   return store
 }
@@ -73,14 +72,17 @@ export default configureStore
 #### `index.js` После:
 
 ```javascript
-import "babel-polyfill"
-import React from "react"
-import { render } from "react-dom"
-import Root from "./components/Root"
-import configureStore from "./configureStore"
+import 'babel-polyfill'
+import React from 'react'
+import { render } from 'react-dom'
+import Root from './components/Root'
+import configureStore from './configureStore'
 
 const store = configureStore()
-render(<Root store={store} />, document.getElementById("root"))
+render(
+  <Root store={store} />,
+  document.getElementById('root')
+);
 ```
 
 Обратите внимание, что мы также извлекли корневой отрендеренный элемент в отдельный компонент `Root`. Он принимает `store` как проп (prop) и будет определен в отдельном файле в нашей папке `src/components`.
@@ -90,21 +92,21 @@ render(<Root store={store} />, document.getElementById("root"))
 #### `Root` Component
 
 ```javascript
-import React, { PropTypes } from "react"
-import { Provider } from "react-redux"
-import App from "./App"
+import React, { PropTypes } from 'react';
+import { Provider } from 'react-redux';
+import App from './App';
 
 const Root = ({ store }) => (
   <Provider store={store}>
     <App />
   </Provider>
-)
+);
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,
-}
+};
 
-export default Root
+export default Root;
 ```
 
 Мы определили функциональный компонент без сохранения состояния, который просто принимает `store` как проп и возвращает `<App />` внутри `Provider`'а `response-redux`'а.

@@ -19,7 +19,7 @@ const store = createStore(todoApp)
 ```javascript
 const todoApp = combineReducers({
   todos,
-  visibilityFilter,
+  visibilityFilter
 })
 ```
 
@@ -35,8 +35,8 @@ const todoApp = combineReducers({
 
 ```javascript
 const todoApp = combineReducers({
-  todos,
-  visibilityFilter,
+    todos,
+    visibilityFilter
 })
 ```
 
@@ -48,16 +48,17 @@ Redux позволяет передавать `persistedState` как второ
 
 ```javascript
 const persistedState = {
-  todos: [
-    {
-      id: 0,
-      text: "Welcome Back!",
-      completed: false,
-    },
-  ],
+  todos: [{
+    id: 0,
+    text: 'Welcome Back!',
+    completed: false
+  }]
 }
 
-const store = createStore(todoApp, persistedState)
+const store = createStore(
+  todoApp,
+  persistedState
+)
 ```
 
 При передаче в `persistedState` перезапишутся значения по умолчанию, установленные в редюсере. В этом примере мы снабдили `todos` массивом, но, поскольку мы не указали значение для `visibilityFilter`, то по умолчанию будет использовано `'SHOW_ALL'`.

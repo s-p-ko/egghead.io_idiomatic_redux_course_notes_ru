@@ -15,15 +15,15 @@
 ```javascript
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem("state")
+    const serializedState = localStorage.getItem('state');
     if (serializedState === null) {
-      return undefined
+      return undefined;
     }
-    return JSON.parse(serializedState)
+    return JSON.parse(serializedState);
   } catch (err) {
-    return undefined
+    return undefined;
   }
-}
+};
 ```
 
 Если `serializedState` у функции `loadState` имеет значение `null` - это значит, что ключ не существует, поэтому мы возвращаем `undefined`, что позволяет самим редюсерам устанавливать состояние.
@@ -35,12 +35,12 @@ export const loadState = () => {
 ```javascript
 export const saveState = (state) => {
   try {
-    const serializedState = JSON.stringify(state)
-    localStorage.setItem("state", serializedState)
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
   } catch (err) {
     // Ignore write errors.
   }
-}
+};
 ```
 
 Функция `saveState` принимает `state` как аргумент и делает точно противоположную к `loadState` функции вещь.
@@ -54,7 +54,7 @@ export const saveState = (state) => {
 Вернитесь в наш `index.js` файл, в нём мы импортируем только что написанные функции:
 
 ```javascript
-import { loadState, saveState } from "./localStorage"
+import { loadState, saveState } from './localStorage'
 ```
 
 Чтобы сохранять наше состояние в любое время, когда хранилище (`store`) изменяется, мы будем использовать его метод `subscribe()`, чтобы добавить слушателя, который будет вызываться при любом изменении состояния, передавая текущее состояние хранилища в функцию `saveState`:
@@ -73,7 +73,7 @@ store.subscribe(() => {
 ```javascript
 store.subscribe(() => {
   saveState({
-    todos: store.getState().todos,
+    todos: store.getState().todos
   })
 })
 ```
@@ -92,9 +92,9 @@ store.subscribe(() => {
 let nextTodoId = 0
 
 export const addTodo = (text) => ({
-  type: "ADD_TODO",
+  type: 'ADD_TODO',
   id: (nextTodoId++).toString(),
-  text,
+  text
 })
 ```
 
@@ -107,12 +107,12 @@ export const addTodo = (text) => ({
 ##### `addTodo` после
 
 ```javascript
-import { v4 } from "node-uuid"
+import { v4 } from 'node-uuid'
 
 export const addTodo = (text) => ({
-  type: "ADD_TODO",
+  type: 'ADD_TODO',
   id: v4(),
-  text,
+  text
 })
 ```
 
@@ -133,7 +133,7 @@ export const addTodo = (text) => ({
 ```javascript
 store.subscribe(() => {
   saveState({
-    todos: store.getState().todos,
+    todos: store.getState().todos
   })
 })
 ```
