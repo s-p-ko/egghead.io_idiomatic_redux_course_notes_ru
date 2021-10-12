@@ -26,7 +26,8 @@ const mapStateToProps = (state, { params }) => ({
   todos: getVisibleTodos(state.todos, params.filter || 'all'),
 });
 ```
-_Примечание: объяснения в видео требуют версии `react-router` до 4.0.0. Начиная с этой версии были внесены некоторые изменения, требующие немного другого синтаксиса:_
+
+_Note: the explanations in the video require a version of `react-router` previous to the 4.0.0. Starting in that version some changes have been included which require this slightly different syntax:_
 
 #### `VisibleTodoList` Before (react-router v4.0.0 or superior)
 ```javascript
@@ -113,7 +114,7 @@ const mapStateToProps = (state, { params }) => ({
   });
 ```
 
-_Примечание: объяснения в видео требуют версии `react-router` до 4.0.0. Начиная с этой версии были внесены некоторые изменения, требующие немного другого синтаксиса:_
+_Note: the explanations in the video require a version of `react-router` previous to the 4.0.0. Starting in that version some changes have been included which require this slightly different syntax:_
 
 ### react-router v4.0.0 or superior
 ```
