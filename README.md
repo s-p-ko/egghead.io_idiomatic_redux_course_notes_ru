@@ -37,15 +37,15 @@ gitbook serve
 
 Узнаем, как добавить React Router в проект Redux и заставить его рендерить наш корневой (root) компонент. [Видео](https://egghead.io/lessons/javascript-redux-adding-react-router-to-the-project?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
-## 06. Navigating with React Router `<Link>`
+## 06. Навигация с React Router `<Link>`
 
-We will learn how to change the address bar using a component from React Router.
-[Video](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
+Узнаем, как изменить адресную строку с помощью компонента из React Router.
+[Видео](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
 
-## 07. Filtering Redux State with React Router Params
+## 07. Фильтрация Redux State c React Router Params
 
-We will learn how adding React Router shifts the balance of responsibilities, and how the components can use both at the same time.
-[Video](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
+Узнаем, как добавление React Router меняет баланс обязанностей и как компоненты могут использовать и то, и другое одновременно.
+[Видео](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
 
 ## 08. Using `withRouter()` to Inject the Params into Connected Components
 

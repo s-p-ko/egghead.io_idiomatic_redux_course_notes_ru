@@ -1,11 +1,11 @@
-# 07. Filtering Redux State with React Router Params
+# 07. Фильтрация Redux State c React Router Params
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/07-filtering-redux-state-with-react-router-params)
 
-Now we're using the `Link`s provided by React Router, so when we click a link the URL gets updated. However, the content doesn't get updated because the visible `TodoList` component in its `mapStateToProps` function still depends on the `visibilityFilter` in the Redux store instead of reading it from the URL.
+Теперь мы используем `Link`и React Router'а, поэтому, когда мы кликаем ссылку обновляется URL. Однако контент не обновляется, потому что видимый компонент `TodoList` в своей функции `mapStateToProps` все еще зависит от `visibilityFilter` в хранилище Redux вместо чтения его из URL.
 
-#### `mapStateToProps` Before:
+#### `mapStateToProps` до:
 ```javascript
 const mapStateToProps = (state) => ({
   todos: getVisibleTodos(
@@ -15,9 +15,9 @@ const mapStateToProps = (state) => ({
 })
 ```
 
-In order to fix this, we'll add an argument `ownProps`, and we'll read the `visibilityFilter` from `ownProps`.
+Чтобы исправить это, мы добавим аргумент `ownProps` и прочитаем `visibilityFilter` из `ownProps`.
 
-#### `mapStateToProps` After:
+#### `mapStateToProps` после:
 ```javascript
 const mapStateToProps = (state, ownProps) => ({
   todos: getVisibleTodos(
@@ -27,9 +27,9 @@ const mapStateToProps = (state, ownProps) => ({
 })
 ```
 
-We will also update our `getVisibleTodos` function to use our current convention for filter props `'all'`, `'completed'`, and `'after'`.
+Мы также обновим нашу функцию `getVisibleTodos`, чтобы использовать наше текущее соглашение для пропсов `'all'`, `'completed'` и `'after'`.
 
-#### `getVisibleTodos` Before:
+#### `getVisibleTodos` до:
 ```javascript
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -45,7 +45,7 @@ const getVisibleTodos = (todos, filter) => {
 };
 ```
 
-#### `getVisibleTodos` After:
+#### `getVisibleTodos` после:
 ```javascript
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -61,13 +61,13 @@ const getVisibleTodos = (todos, filter) => {
 };
 ```
 
-## Updating `App.js`
+## Обновление `App.js`
 
-Since the `VisibleTodoList` component gets rendered from the app, we need to add the `filter` prop to make it available in the `mapStateToProps` function of the `VisibleTodoList`.
+Поскольку компонент `VisibleTodoList` рендерится из приложения, нам нужно добавить проп `filter`, чтобы он был доступен в функции `mapStateToProps`  компонента `VisibleTodoList`.
 
-We want the filter prop to correspond to the current `filter` parameter in our route configuration (the `path='/(:filter)'` we set in a previous lesson). React Router makes these parameters available to the route handler component in a special prop called `params`, so we will add `params` as a prop to `App`. Now we will be able to read the filter from `params.filter`.
+Мы хотим, чтобы проп filter соответствовал текущему параметру `filter` в нашей конфигурации маршрута (`path='/(:filter)'`, которую мы установили в предыдущем уроке). React Router делает эти параметры доступными для компонента обработчика маршрута (the route handler component) в специальном пропе `params`, поэтому мы добавим `params` в качестве пропа в `App`. Теперь мы сможем читать фильтр из `params.filter`.
 
-Since the `filter` param is empty on the root path, we'll pass `'all'` to `VisibleTodoList` as a fallback.
+Поскольку параметр `filter` пуст в корневом пути, мы передадим `'all'` в `VisibleTodoList` как запасной вариант.
 
 ```javascript
 const App = ({ params }) => (
@@ -81,7 +81,7 @@ const App = ({ params }) => (
 );
 ```
 
-## `App.js` (react-router v4.0.0 or superior)
+## `App.js` (react-router v4.0.0 или выше)
 ```javascript
 const App = ({ match }) => (
   <div>
@@ -94,11 +94,9 @@ const App = ({ match }) => (
 );
 ```
 
+Теперь, когда наши фильтры видимости управляются React Router, нам больше не нужен `visibilityFilter` редюсер. Мы можем удалить его, а также убрать его из объявления `combineReducers()` в `index.js`.
 
-Now that our visibility filters are managed by React Router, we no longer need the `visibilityFilter` reducer. We can delete it, and also remove it from the `combineReducers()` declaration in `index.js`.
-
-
-[Recap at 2:20 in video](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
+[Резюме со 2:20 видео](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
 
 
 <p align="center">
