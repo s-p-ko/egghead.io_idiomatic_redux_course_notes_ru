@@ -42,9 +42,9 @@ const Root = ({ store }) => (
 
 ### Обновить ссылки в `Footer.js`
 
-Нам также необходимо обновить ссылки фильтров видимости внутри футера. We also need to update our visibility filter links inside of the footer.
+Нам также необходимо обновить ссылки фильтров видимости внутри футера.
 
-#### `Footer.js` Before
+#### `Footer.js` до
 
 ```javascript
 ...
@@ -69,9 +69,9 @@ const Footer = () => (
 export default Footer;
 ```
 
-The previous implementation used the convention for the `filter` prop, but we will update them to align with the "active" and "completed" paths we want displayed in the address bar.
+Предыдущая реализация использовала соглашение для свойства (prop) `filter`, но мы обновим их, чтобы они соответствовали «активному» ("active") и «завершенному» ("completed") путям, которые мы хотим отображать в адресной строке.
 
-#### `Footer.js` After
+#### `Footer.js` после
 
 ```javascript
 // Rest as above...
@@ -92,13 +92,13 @@ The previous implementation used the convention for the `filter` prop, but we wi
 </p>
 ```
 
-We use a null string to signify the default path and avoid passing an empty string.
+Мы используем пустую строку для обозначения пути по умолчанию и избегаем передачи пустой строки.
 
-### Update `FilterLink.js` Implementation
+### Обновить реализацию `FilterLink.js`
 
-In our current implementation, the `FilterLink` component dispatches an action every time that it's clicked, then reads its active state from the store and compares its `filter` prop to the `visibilityFilter` in the store.
+В нашей текущей реализации компонент `FilterLink` отправляет действие каждый раз, когда по нему щелкают, затем считывает свое активное состояние из хранилища (store) и сравнивает свое свойство (prop) `filter` с `visibilityFilter` в хранилище.
 
-#### `FilterLink.js` Before
+#### `FilterLink.js` до
 
 ```javascript
 ...
@@ -120,17 +120,17 @@ const FilterLink = connect(
 export default FilterLink;
 ```
 
-However, we no longer need this implementation since we want the router to be in control of any state that is in the URL. We'll import `Link` from `react-router` and use it in our new implementation.
+Однако нам больше не нужна эта реализация, поскольку мы хотим, чтобы маршрутизатор (router) контролировал любое состояние, указанное в URL. Мы импортируем `Link` из `react-router` и будем использовать его в нашей новой реализации.
 
-`FilterLink` now accepts `filter` as a prop, and render it through React Router's `Link`.
+`FilterLink` теперь принимает `filter` как проп и рендерит его через `Link` React Router'а.
 
-The `to` prop corresponds to path we want the link to point to, so if the `filter` is `'all'`, we're going to use the root path, otherwise we will use `filter` itself as the URL's path.
+Проп `to` соответствует пути, на который мы хотим, чтобы указывала ссылка, поэтому, если `filter` строго равен `'all'`, мы будем использовать корневой путь, иначе будем использовать сам `filter` в качестве пути URL-фдреса.
 
-We also will use the `activeStyle` prop to style it differently when its `to` prop matches the current path.
+Мы также будем использовать проп `activeStyle`, чтобы стилизовать ее по-другому, когда ее проп `to` соответствует текущему пути.
 
-We pass `children` to the `Link` itself, and add `children` as a prop to `FilterLink` so that the parent component can specify the children.
+Мы передаем `children` в сам `Link` и добавляем `children` в качестве пропа в `FilterLink`, чтобы родительский компонент мог указывать дочерние элементы.
 
-#### `FilterLink.js` After
+#### `FilterLink.js` после
 
 ```javascript
 import React, { PropTypes } from 'react';
@@ -156,9 +156,9 @@ FilterLink.propTypes = {
 export default FilterLink;
 ```
 
-_Note: the explanations in the video require a version of `react-router` previous to the 4.0.0. Starting in that version some changes have been included which require this slightly different syntax:_
+_Примечание: пояснения в видео требуют версии `react-router` до 4.0.0. Начиная с этой версии были внесены некоторые изменения, требующие немного другого синтаксиса:_
 
-#### `FilterLink.js` After (react-router v4.0.0 or superior)
+#### `FilterLink.js` после (react-router v4.0.0 или выше)
 
 ```javascript
 import React, { PropTypes } from 'react';
@@ -185,13 +185,13 @@ FilterLink.propTypes = {
 export default FilterLink;
 ```
 
-### More Cleanup to Do...
+### Ёще больше чистоты ...
 
-We are no longer using the `setVisibilityFilter` action creator, so it can be removed from `src/actions/index.js`, leaving us with just `addTodo` and `toggleTodo` action creators.
+Мы больше не используем экшн криэйтер `setVisibilityFilter`, поэтому его можно удалить из `src/actions/index.js`, оставив нам только экшн криэйтеры `addTodo` и `toggleTodo`.
 
-We can also delete our custom `Link` component from `src/components` since we are now using the one provided by `react-router`.
+Мы также можем удалить наш собственный компонент `Link` из `src/components`, так как теперь используем компонент `react-router`'а.
 
-[Recap at 2:20 in video](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
+[Резюме со 2:20 видео](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
 
 <p align="center">
 <a href="./05-Adding_React_Router_to_the_Project.md"><- Предыдущая</a>
