@@ -52,10 +52,10 @@ gitbook serve
 Мы узнаем, как использовать `withRouter()` для внедрения параметров, предоставленных React Router, в подключенные компоненты глубоко в дереве, не передавая их полностью вниз как пропсы.
 [Видео](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components)
 
-## 09. Using `mapDispatchToProps()` Shorthand Notation
+## 09. Использование сокращенной записи `mapDispatchToProps()`
 
-We will learn how to avoid the boilerplate code in `mapDispatchToProps()` for the common case where action creator arguments match the callback prop arguments.
-[Video](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
+Мы узнаем, как избежать шаблонного кода в `mapDispatchToProps()` для общего случая, когда аргументы экшн криэйтера совпадают с коллбэк проп аргументами.
+[Видео](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
 
 ## 10. Colocating Selectors with reducers
 

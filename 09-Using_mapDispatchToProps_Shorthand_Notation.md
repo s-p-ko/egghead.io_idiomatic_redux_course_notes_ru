@@ -1,11 +1,11 @@
-# 09. Using `mapDispatchToProps()` Shorthand Notation
+# 09. Использование сокращенной записи `mapDispatchToProps()`
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/09-using-mapdispatchtoprops-shorthand-notation)
 
-The `mapDispatchToProps` function lets us inject certain props into the React component that can dispatch actions. For example, the `TodoList` component calls its `onTodoClick` callback prop with the `id` of the `todo`.
+Функция `mapDispatchToProps` позволяет вставлять определенные пропсы в компонент React'а, который может отправлять (dispatch) действия. Например, компонент `TodoList` вызывает свой `onTodoClick` - коллбэк проп -  с `id` `todo`.
 
-#### Inside `TodoList`
+#### Внутри `TodoList`
 ```javascript
       <Todo
         key={todo.id}
@@ -14,7 +14,7 @@ The `mapDispatchToProps` function lets us inject certain props into the React co
       />
 ```
 
-Inside `mapDispatchToProps` in our `VisibleTodoList` component we specify that when `onTodoClick()` is called with an `id`, we want to dispatch the `toggleTodo` action with this `id`. The `toggleTodo` action creator uses this `id` to generate an action object that will be dispatched.
+Внутри `mapDispatchToProps` в нашем компоненте` VisibleTodoList` мы указываем, что когда `onTodoClick()` вызывается с `id`, мы хотим отправить (диспатчить) экшн `toggleTodo` с этим `id`. Экшн криэйтер `toggleTodo` использует этот `id` для создания объекта экшина, который будет отправлен.
 
 #### `VisibleTodoList` `mapDispatchToProps`
 ```javascript
@@ -30,13 +30,13 @@ const VisibleTodoList = withRouter(connect(
 )(TodoList));
 ```
 
-When the arguments for the callback prop match the arguments to the action creator exactly, there is a shorter way to specify `mapDispatchToProps`.
+Когда аргументы для коллбэк пропа в точности совпадают с аргументами экшн криэйтера, существует более короткий способ указать `mapDispatchToProps`.
 
-Rather than pass a function, we can pass an object mapping of the names of the callback props that we want to inject and the action creator functions that create the corresponding actions.
+Вместо того, чтобы передавать функцию, мы можем передать объектное сопоставление (object mapping) имен коллбэк пропов, которые мы хотим внедрить, и функций экшн криэйтера, которые создают соответствующие действия.
 
-This is a rather common case, so often you don't need to write `mapDispatchToProps`, and you can pass this map in object instead.
+Это довольно распространенный случай, поэтому часто вам не нужно писать `mapDispatchToProps`, а вместо этого передать эту карту (map) в объект.
 
-#### `VisibleTodoList` After:
+#### `VisibleTodoList` после:
 ```javascript
 const VisibleTodoList = withRouter(connect(
   mapStateToProps,
@@ -44,7 +44,7 @@ const VisibleTodoList = withRouter(connect(
 )(TodoList));
 ```
 
-[Recap at 1:13 in video](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
+[Резюме с 1:13 видео](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
 
 <p align="center">
 <a href="./08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md"><- Предыдущая</a>

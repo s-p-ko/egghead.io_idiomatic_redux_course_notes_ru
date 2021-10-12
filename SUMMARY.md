@@ -8,7 +8,7 @@
 - [Навигация с React Router <Link>](06-Navigating_with_React_Router_Link.md)
 - [Фильтрация Redux State c React Router Params](07-Filtering_Redux_State_with_React_Router_Params.md)
 - [Использование withRouter() для вставки параметров в подключенные компоненты](08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md)
-- [Using mapDispatchToProps() Shorthand Notation](09-Using_mapDispatchToProps_Shorthand_Notation.md)
+- [UИспользование сокращенной записи mapDispatchToProps()](09-Using_mapDispatchToProps_Shorthand_Notation.md)
 - [Colocating Selectors with reducers](10-Colocating_Selectors_with_Reducers.md)
 - [Normalizing the State Shape](11-Normalizing_the_State_Shape.md)
 - [Wrapping dispatch() to Log Actions](12-Wrapping_dispatch_to_Log_Actions.md)
