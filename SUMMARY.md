@@ -7,7 +7,7 @@
 - [Добавление React Router в проект](05-Adding_React_Router_to_the_Project.md)
 - [Навигация с React Router <Link>](06-Navigating_with_React_Router_Link.md)
 - [Фильтрация Redux State c React Router Params](07-Filtering_Redux_State_with_React_Router_Params.md)
-- [Using withRouter() to Inject the Params into Connected Components](08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md)
+- [Использование withRouter() для вставки параметров в подключенные компоненты](08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md)
 - [Using mapDispatchToProps() Shorthand Notation](09-Using_mapDispatchToProps_Shorthand_Notation.md)
 - [Colocating Selectors with reducers](10-Colocating_Selectors_with_Reducers.md)
 - [Normalizing the State Shape](11-Normalizing_the_State_Shape.md)

@@ -47,10 +47,10 @@ gitbook serve
 Узнаем, как добавление React Router меняет баланс обязанностей и как компоненты могут использовать и то, и другое одновременно.
 [Видео](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
 
-## 08. Using `withRouter()` to Inject the Params into Connected Components
+## 08. Использование `withRouter()` для вставки параметров в подключенные компоненты
 
-We will learn how to use `withRouter()` to inject params provided by React Router into connected components deep in the tree without passing them down all the way down as props.
-[Video](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components)
+Мы узнаем, как использовать `withRouter()` для внедрения параметров, предоставленных React Router, в подключенные компоненты глубоко в дереве, не передавая их полностью вниз как пропсы.
+[Видео](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components)
 
 ## 09. Using `mapDispatchToProps()` Shorthand Notation
 

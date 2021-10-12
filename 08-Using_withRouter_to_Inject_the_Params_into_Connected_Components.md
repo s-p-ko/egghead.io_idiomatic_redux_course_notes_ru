@@ -1,15 +1,16 @@
-# 08. Using `withRouter()` to Inject the Params into Connected Components
+# 08. Использование `withRouter()` для вставки параметров в подключенные компоненты
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/08-using-withrouter-to-inject-params-into-connected-components)
 
-Currently we are reading `params.filter` passed by the Router inside of the `App` component. We can access the params from there because the router injects the `params` prop into any Route handler component specified in the route configuration. In this case, the `filter` is passed inside `params`.
+Сейчас мы читаем `params.filter`, передаваемый Router'ом внутри компонента `App`. Мы можем получить доступ к параметрам оттуда, потому что маршрутизатор внедряет проп `params` в любой компонент обработчика маршрута (Route handler component), указанный в конфигурации маршрута. В этом случае `filter` передается внутрь `params`.
 
-However, the `App` component itself doesn't use `filter`, it just passes it to `VisibleTodoList`, which uses it to calculate the currently visible Todos.
+Хотя, сам компонент `App` не использует `filter`, но передает его в `VisibleTodoList`, который использует его для вычисления текущего видимого Todos.
 
-Passing the `params` from the top level of Route Handlers gets tedious, so we'll remove the `filter` prop. Instead, we'll find a way to read the current Router `params` in the `VisibleTodoList` itself.
+Передача `params` с верхнего уровня обработчиков маршрутов (Route Handlers) становится утомительной, поэтому мы удалим проп `filter`. Вместо этого мы найдем способ прочитать параметры текущего маршрутизатора в самом `VisibleTodoList`.
 
-#### `App.js` Before:
+
+#### `App.js` до:
 ```javascript
 const App = ({ params }) => (
   <div>
@@ -22,7 +23,7 @@ const App = ({ params }) => (
 );
 ```
 
-#### `App.js` After:
+#### `App.js` после:
 ```javascript
 const App = () => (
   <div>
@@ -33,20 +34,20 @@ const App = () => (
 );
 ```
 
-## Updating `VisibleTodoList`
-We will start by importing `withRouter` from React Router (version 3+):
+## Обновление  `VisibleTodoList`
+Начнем с импорта `withRouter` из React Router (version 3+):
 
 `import { withRouter } from 'react-router'`
 
-`withRouter` takes a React component and returns a different React component that injects the router-related props such as `params` into your component.
+`withRouter` принимает компонент React и возвращает другой компонент React, который внедряет связанные с маршрутизатором пропсы, такие как `params`, в ваш компонент.
 
-We want `params` to be available inside of `mapStateToProps`, so we need to wrap the `connect()` result so that the connected component gets the `params` as a prop.
+Мы хотим, чтобы `params` был доступен внутри `mapStateToProps`, поэтому нам нужно обернуть результат в  `connect()`  так, чтобы подключенный компонент получил `params` в качестве пропа.
 
-We will also need to change `mapStateToProps` to read the `filter` from `ownProps.params` instead of `ownProps` directly.
+Нам также нужно будет изменить `mapStateToProps`, чтобы читать `filter` прямо из `ownProps.params`, а не из `ownProps`.
 
-Like before, we'll specify the fallback value to `'all'`.
+Как и раньше, мы укажем запасное значение для `'all'`.
 
-#### `VisibleTodoList` Before:
+#### `VisibleTodoList` до:
 ```javascript
 const mapStateToProps = (state, ownProps) => ({
   todos: getVisibleTodos(
@@ -63,7 +64,7 @@ const VisibleTodoList = connect(
 )(TodoList);
 ```
 
-#### `VisibleTodoList` After:
+#### `VisibleTodoList` после:
 ```javascript
 const mapStateToProps = (state, ownProps) => ({
   todos: getVisibleTodos(
@@ -79,7 +80,7 @@ const VisibleTodoList = withRouter(connect(
 )(TodoList));
 ```
 
-We can make `mapStateToProps` even more compact by reading `params` directly from the argument definition thanks to the ES6 destructuring syntax:
+Мы можем сделать `mapStateToProps` еще более компактным читая `params` прямо из определения аргумента благодаря синтаксису деструктуризации ES6:
 
 ```javascript
 const mapStateToProps = (state, { params }) => ({
@@ -87,9 +88,9 @@ const mapStateToProps = (state, { params }) => ({
 });
 ```
 
-_Note: the explanations in the video require a version of `react-router` previous to the 4.0.0. Starting in that version some changes have been included which require this slightly different syntax:_
+_Примечание: объяснения в видео требуют версии `react-router` до 4.0.0. Начиная с этой версии были внесены некоторые изменения, требующие немного другого синтаксиса:_
 
-#### `VisibleTodoList` After (react-router v4.0.0 or superior):
+#### `VisibleTodoList` после (react-router v4.0.0 или выше):
 ```javascript
 const mapStateToProps = (state, ownProps) => ({
   todos: getVisibleTodos(
@@ -105,7 +106,7 @@ const VisibleTodoList = withRouter(connect(
 )(TodoList));
 ```
 
-We can make `mapStateToProps` even more compact by reading `params` directly from the argument definition thanks to the ES6 destructuring syntax:
+Мы можем сделать `mapStateToProps` еще короче, читая `params` прямо из определения аргумента благодаря синтаксису деструктуризации ES6:
 
 ```javascript
 const mapStateToProps = (state, { match }) => ({
@@ -113,7 +114,7 @@ const mapStateToProps = (state, { match }) => ({
 });
 ```
 
-[Recap at 1:51 in video](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components#/tab-transcript)
+[Резюме с 1:51 видео](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components#/tab-transcript)
 
 
 <p align="center">
