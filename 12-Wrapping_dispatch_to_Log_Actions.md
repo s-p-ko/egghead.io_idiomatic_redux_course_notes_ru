@@ -1,5 +1,7 @@
 # 12. Wrapping `dispatch()` to Log Actions
-[Video Link](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-log-actions)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-log-actions)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/12-wrapping-dispatch-to-log-actions)
 
 Now that our state shape is more complex, we want to override the `store.dispatch` function to add some `console.log()` statements so we can see how the state is affected by the actions.
 
@@ -81,6 +83,6 @@ Logging the action we dispatch along with the state before and after dispatching
 
 
 <p align="center">
-<a href="./11-Normalizing_the_State_Shape.md"><- Prev</a>
-<a href="./13-Adding_a_Fake_Backend_to_the_Project.md">Next -></a>
+<a href="./11-Normalizing_the_State_Shape.md"><- Предыдущая</a>
+<a href="./13-Adding_a_Fake_Backend_to_the_Project.md">Следующая -></a>
 </p>

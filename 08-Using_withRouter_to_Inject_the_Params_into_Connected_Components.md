@@ -1,5 +1,7 @@
 # 08. Using `withRouter()` to Inject the Params into Connected Components
-[Video Link](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/08-using-withrouter-to-inject-params-into-connected-components)
 
 Currently we are reading `params.filter` passed by the Router inside of the `App` component. We can access the params from there because the router injects the `params` prop into any Route handler component specified in the route configuration. In this case, the `filter` is passed inside `params`.
 
@@ -115,6 +117,6 @@ const mapStateToProps = (state, { match }) => ({
 
 
 <p align="center">
-<a href="./07-Filtering_Redux_State_with_React_Router_Params.md"><- Prev</a>
-<a href="./09-Using_mapDispatchToProps_Shorthand_Notation.md">Next -></a>
+<a href="./07-Filtering_Redux_State_with_React_Router_Params.md"><- Предыдущая</a>
+<a href="./09-Using_mapDispatchToProps_Shorthand_Notation.md">Следующая -></a>
 </p>

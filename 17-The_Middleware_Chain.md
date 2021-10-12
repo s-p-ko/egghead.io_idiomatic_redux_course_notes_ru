@@ -1,5 +1,7 @@
 # 17. The Middleware Chain
-[Video Link](https://egghead.io/lessons/javascript-redux-the-middleware-chain)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-the-middleware-chain)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/17-the-middleware-chain)
 
 In our last lesson, we wrote two functions that wrap the `dispatch` function to add custom behavior. Let's take a closer look at how they work together.
 
@@ -245,6 +247,6 @@ const wrapDispatchWithMiddlewares = (store, middlewares) =>
 
 
 <p align="center">
-<a href="./16-Wrapping_dispatch_to_Recognize_Promises.md"><- Prev</a>
-<a href="./18-Applying_Redux_Middleware.md">Next -></a>
+<a href="./16-Wrapping_dispatch_to_Recognize_Promises.md"><- Предыдущая</a>
+<a href="./18-Applying_Redux_Middleware.md">Следующая -></a>
 </p>

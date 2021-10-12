@@ -1,5 +1,7 @@
 # 25. Creating Data on the Server
-[Video Link](https://egghead.io/lessons/javascript-redux-creating-data-on-the-server)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-creating-data-on-the-server)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/25-creating-data-on-the-server)
 
 ### Updating the Fake API
 
@@ -117,6 +119,6 @@ const createList = (filter) => {
 
 
 <p align="center">
-<a href="./24-Displaying_Error_Messages.md"><- Prev</a>
-<a href="./26-Normalizing_API_Responses_with_normalizr.md">Next -></a>
+<a href="./24-Displaying_Error_Messages.md"><- Предыдущая</a>
+<a href="./26-Normalizing_API_Responses_with_normalizr.md">Следующая -></a>
 </p>

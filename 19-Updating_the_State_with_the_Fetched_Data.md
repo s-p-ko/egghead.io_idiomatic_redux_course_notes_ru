@@ -1,6 +1,7 @@
 # 19. Updating the State with the Fetched Data
-[Video Link](https://egghead.io/lessons/javascript-redux-updating-the-state-with-the-fetched-data#/tab-transcript)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-updating-the-state-with-the-fetched-data#/tab-transcript)
 
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/19-updating-state-with-fetched-data)
 
 In the current implementation of `getVisibleTodos` inside of `todos.js`, we keep all todos in memory. We have an array of all `id`s ever and we get the array of todos that we can filter according to the filter passed from React Router.
 
@@ -210,6 +211,6 @@ As the last step, we can remove the import of `todo.js` as well as the file itse
 
 
 <p align="center">
-<a href="./18-Applying_Redux_Middleware.md"><- Prev</a>
-<a href="./20-Refactoring_the_Reducers.md">Next -></a>
+<a href="./18-Applying_Redux_Middleware.md"><- Предыдущая</a>
+<a href="./20-Refactoring_the_Reducers.md">Следующая -></a>
 </p>

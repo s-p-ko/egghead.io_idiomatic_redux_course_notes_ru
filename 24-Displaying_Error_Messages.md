@@ -1,5 +1,7 @@
 # 24. Displaying Error Messages
-[Video Link](https://egghead.io/lessons/javascript-redux-displaying-error-messages)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-displaying-error-messages)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/24-handling-network-errors)
 
 Sometimes API requests fail, and we will simulate this by `throw`ing inside the fake API client so that it returns a rejected Promise. If we run the app, the loading indicator gets stuck because the `isFetching` flag get set to `true`, but there is no corresponding `receiveTodos` action to set it back to `false` again.
 
@@ -210,6 +212,6 @@ Instead of having our API throw the error every time, we'll have it throw random
 
 
 <p align="center">
-<a href="./23-Avoiding_Race_Conditions_with_Thunks.md"><- Prev</a>
-<a href="./25-Creating_Data_on_the_Server.md">Next -></a>
+<a href="./23-Avoiding_Race_Conditions_with_Thunks.md"><- Предыдущая</a>
+<a href="./25-Creating_Data_on_the_Server.md">Следующая -></a>
 </p>

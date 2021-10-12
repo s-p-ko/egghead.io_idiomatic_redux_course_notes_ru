@@ -1,5 +1,7 @@
 # 15. Dispatching Actions with the Fetched Data
-[Video Link](https://egghead.io/lessons/javascript-redux-dispatching-actions-with-the-fetched-data?series=building-react-applications-with-idiomatic-redux)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-with-the-fetched-data?series=building-react-applications-with-idiomatic-redux)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/15-dispatching-actions-with-fetched-data)
 
 Picking up where we left off inside of `VisibleTodoList`, we will extract the common code between the lifecycle hooks into a separate method called `fetchData`, where the data we want to fetch only depends on the filter.
 
@@ -143,6 +145,6 @@ The `...rest` object now contains all the props other than `toggleTodo`, so we w
 
 
 <p align="center">
-<a href="./14-Fetching_Data_on_Route_Change.md"><- Prev</a>
-<a href="./16-Wrapping_dispatch_to_Recognize_Promises.md">Next -></a>
+<a href="./14-Fetching_Data_on_Route_Change.md"><- Предыдущая</a>
+<a href="./16-Wrapping_dispatch_to_Recognize_Promises.md">Следующая -></a>
 </p>

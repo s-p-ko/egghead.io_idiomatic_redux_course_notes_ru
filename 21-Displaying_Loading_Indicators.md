@@ -1,5 +1,8 @@
 # 21. Displaying Loading Indicators
-[Video Link](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
+
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/21-displaying-loading-indicators)
 
 When the data is fetched asynchronously, we want to display some kind of visual cue to the user. We'll add a condition to the `render` function that says that if we're fetching data, and we have no to-dos to show, we'll return a loading indicator from the `render` function of `VisibleTodoList`.
 
@@ -8,6 +11,7 @@ We will grab `todos` and `isFetching` from `props`. Since `todos` is the only ex
 Our `mapStateToProps` function already calculates `visibleTodos` and includes the `todos` in the props. We need to do something similar for `isFetching`. `getIsFetching` accepts the current `state` of the app, and the `filter` for the `todos` being fetched. It is declared alongside other top level selectors in the top level reducer file.
 
 #### Inside `VisibleTodoList.js`
+
 ```javascript
 render() {
     const { isFetching, toggleTodo, todos } = this.props;
@@ -43,7 +47,7 @@ We will pass in the state of this list from `state.listByFilter`, but we haven't
 
 ```javascript
 export const getIsFetching = (state, filter) =>
-  fromList.getIsFetching(state.listByFilter[filter]);
+  fromList.getIsFetching(state.listByFilter[filter])
 ```
 
 ### Updating `createList.js`
@@ -53,8 +57,8 @@ Before creating our new `getIsFetching` selector, we need to modify the state sh
 Now we can add another selector called `getIsFetching` that reads `state.isFetching`.
 
 ```javascript
-export const getIds = (state) => state.ids;
-export const getIsFetching = state => state.isFetching;
+export const getIds = (state) => state.ids
+export const getIsFetching = (state) => state.isFetching
 ```
 
 We want our reducer to keep track of both of these fields, so rather than complicate the existing `createList` reducer, we will rename it to `ids`, because it manages just the `id`s.
@@ -62,8 +66,9 @@ We want our reducer to keep track of both of these fields, so rather than compli
 ### Creating `isFetching`
 
 First, at the top of our file we need to add an import for the `combineReducers` utility from Redux:
+
 ```javascript
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux"
 ```
 
 Now we can create our `isFetching` reducer that will manage just the `state`'s `isFetching` flag.
@@ -75,20 +80,21 @@ If it's `'RECEIVE_TODOS'`, we'll return `false` because the operation has finish
 We'll include the same condition as our `ids` reducer that ignores any actions with a filter that does not match the `filter` argument to `createList`.
 
 #### Inside `createList.js`
+
 ```javascript
 const isFetching = (state = false, action) => {
-    if (filter !== action.filter) {
-      return state;
-    }
-    switch (action.type) {
-      case 'REQUEST_TODOS':
-        return true;
-      case 'RECEIVE_TODOS':
-        return false;
-      default:
-        return state;
-    }
-  };
+  if (filter !== action.filter) {
+    return state
+  }
+  switch (action.type) {
+    case "REQUEST_TODOS":
+      return true
+    case "RECEIVE_TODOS":
+      return false
+    default:
+      return state
+  }
+}
 ```
 
 Notice that we handle the `REQUEST_TODOS` action, but we are not dispatching it anywhere.
@@ -99,14 +105,15 @@ In our action creators file (`src/actions/index.js`), we will add a new exported
 
 ```javascript
 export const requestTodos = (filter) => ({
-  type: 'REQUEST_TODOS',
+  type: "REQUEST_TODOS",
   filter,
-});
+})
 ```
 
 Every exported action creator will be available on the `props` of the `VisibleToDoList` component.
 
 ### Updating `fetchData` inside `VisibleToDoList`
+
 We can destructure `requestTodos` from the `props`, and call it right before starting the asynchronous `fetchToDos` operation.
 
 ```javascript
@@ -119,8 +126,7 @@ fetchData() {
 
 [Recap at 3:51 in video](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
 
-
 <p align="center">
-<a href="./20-Refactoring_the_Reducers.md"><- Prev</a>
-<a href="./22-Dispatching_Actions_Asynchronously_with_Thunks.md">Next -></a>
+<a href="./20-Refactoring_the_Reducers.md"><- Предыдущая</a>
+<a href="./22-Dispatching_Actions_Asynchronously_with_Thunks.md">Следующая -></a>
 </p>

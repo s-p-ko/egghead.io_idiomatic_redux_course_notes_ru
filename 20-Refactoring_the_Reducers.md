@@ -1,5 +1,7 @@
 # 20. Refactoring the Reducers
-[Video Link](https://egghead.io/lessons/javascript-redux-refactoring-the-reducers)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-refactoring-the-reducers)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/20-splitting-the-reducer-files)
 
 Earlier, we removed the `visibilityFilter` reducer, and so the root reducer in the app now combines only a single `todos` reducer. Since `index.js` acts effectively as a proxy to the `todos` reducer, we will remove `index.js` completely. Then we will rename `todos.js` to `index.js`, thereby making `todos` the new root reducer.
 
@@ -70,6 +72,6 @@ With this refactor, we can change the state shape of any reducer in the future w
 
 
 <p align="center">
-<a href="./19-Updating_the_State_with_the_Fetched_Data.md"><- Prev</a>
-<a href="./21-Displaying_Loading_Indicators.md">Next -></a>
+<a href="./19-Updating_the_State_with_the_Fetched_Data.md"><- Предыдущая</a>
+<a href="./21-Displaying_Loading_Indicators.md">Следующая -></a>
 </p>

@@ -1,5 +1,7 @@
 # 22. Dispatching Actions Asynchronously with Thunks
-[Video Link](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/22-dispatching-multiple-actions-with-thunks)
 
 To show the loading indicator in our current implementation, we dispatch the `requestTodos` action before we fetch the todos with `fetchTodos`. It would be great if we could make `requestTodos` dispatch automatically when we fetch the todos because we never want them to fire separately.
 
@@ -77,6 +79,6 @@ const configureStore = () => {
 
 
 <p align="center">
-<a href="./21-Displaying_Loading_Indicators.md"><- Prev</a>
-<a href="./23-Avoiding_Race_Conditions_with_Thunks.md">Next -></a>
+<a href="./21-Displaying_Loading_Indicators.md"><- Предыдущая</a>
+<a href="./23-Avoiding_Race_Conditions_with_Thunks.md">Следующая -></a>
 </p>

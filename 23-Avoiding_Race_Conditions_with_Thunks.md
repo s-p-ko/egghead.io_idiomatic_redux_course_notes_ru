@@ -1,5 +1,7 @@
 # 23. Avoiding Race Conditions with Thunks
-[Video Link](https://egghead.io/lessons/javascript-redux-avoiding-race-conditions-with-thunks)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-avoiding-race-conditions-with-thunks)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/23-dispatching-actions-conditionally-with-thunks)
 
 When we increase the delay in our fake API client to five seconds, we notice a problem. We aren't checking if the tab is already loading before starting a request, and then a bunch of `receiveTodos` actions come back, potentially resulting in a race condition.
 
@@ -81,6 +83,6 @@ With `redux-thunk` installed, we can remove the version of thunk middleware that
 
 
 <p align="center">
-<a href="./22-Dispatching_Actions_Asynchronously_with_Thunks.md"><- Prev</a>
-<a href="./24-Displaying_Error_Messages.md">Next -></a>
+<a href="./22-Dispatching_Actions_Asynchronously_with_Thunks.md"><- Предыдущая</a>
+<a href="./24-Displaying_Error_Messages.md">Следующая -></a>
 </p>

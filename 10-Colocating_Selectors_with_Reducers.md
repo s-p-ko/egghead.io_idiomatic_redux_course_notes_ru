@@ -1,5 +1,7 @@
 # 10. Colocating Selectors with reducers
-[Video Link](https://egghead.io/lessons/javascript-redux-colocating-selectors-with-reducers?series=building-react-applications-with-idiomatic-redux)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-colocating-selectors-with-reducers?series=building-react-applications-with-idiomatic-redux)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/10-colocating-selectors-with-reducers)
 
 Inside of `VisibleTodoList`, the `mapStateToProps` function uses the `getVisibleTodos` function, and it passes the slice of the `state` corresponding to the `todos`. However, if we ever change the state's structure, we have to remember to update this whole side.
 
@@ -125,6 +127,6 @@ const mapStateToProps = (state, { match }) => ({
 
 
 <p align="center">
-<a href="./09-Using_mapDispatchToProps_Shorthand_Notation.md"><- Prev</a>
-<a href="./11-Normalizing_the_State_Shape.md">Next -></a>
+<a href="./09-Using_mapDispatchToProps_Shorthand_Notation.md"><- Предыдущая</a>
+<a href="./11-Normalizing_the_State_Shape.md">Следующая -></a>
 </p>

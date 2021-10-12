@@ -1,5 +1,7 @@
 # 14. Fetching Data on Route Change
-[Video Link](https://egghead.io/lessons/javascript-redux-fetching-data-on-route-change)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-fetching-data-on-route-change)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/14-fetching-data-on-route-change)
 
 To start, we'll remove the `fetchTodos` test API call from our `index.js` entry point because we want to fetch the todos from inside our `VisibleTodoList` component.
 
@@ -110,6 +112,6 @@ componentDidUpdate(prevProps) {
 
 
 <p align="center">
-<a href="./13-Adding_a_Fake_Backend_to_the_Project.md"><- Prev</a>
-<a href="./15-Dispatching_Actions_with_the_Fetched_Data.md">Next -></a>
+<a href="./13-Adding_a_Fake_Backend_to_the_Project.md"><- Предыдущая</a>
+<a href="./15-Dispatching_Actions_with_the_Fetched_Data.md">Следующая -></a>
 </p>

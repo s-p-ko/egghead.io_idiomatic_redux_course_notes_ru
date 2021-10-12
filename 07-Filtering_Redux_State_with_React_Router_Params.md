@@ -1,5 +1,7 @@
 # 07. Filtering Redux State with React Router Params
-[Video Link](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/07-filtering-redux-state-with-react-router-params)
 
 Now we're using the `Link`s provided by React Router, so when we click a link the URL gets updated. However, the content doesn't get updated because the visible `TodoList` component in its `mapStateToProps` function still depends on the `visibilityFilter` in the Redux store instead of reading it from the URL.
 
@@ -100,6 +102,6 @@ Now that our visibility filters are managed by React Router, we no longer need t
 
 
 <p align="center">
-<a href="./06-Navigating_with_React_Router_Link.md"><- Prev</a>
-<a href="./08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md">Next -></a>
+<a href="./06-Navigating_with_React_Router_Link.md"><- Предыдущая</a>
+<a href="./08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md">Следующая -></a>
 </p>

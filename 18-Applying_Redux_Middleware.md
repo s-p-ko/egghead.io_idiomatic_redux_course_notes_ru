@@ -1,5 +1,7 @@
 # 18. Applying Redux Middleware
-[Video Link](https://egghead.io/lessons/javascript-redux-applying-redux-middleware)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-applying-redux-middleware)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/18-applying-redux-middleware)
 
 In the previous lesson, we figured out the contract that we want to use for our middleware functions.
 
@@ -85,6 +87,6 @@ export default configureStore;
 
 
 <p align="center">
-<a href="./17-The_Middleware_Chain.md"><- Prev</a>
-<a href="./19-Updating_the_State_with_the_Fetched_Data.md">Next -></a>
+<a href="./17-The_Middleware_Chain.md"><- Предыдущая</a>
+<a href="./19-Updating_the_State_with_the_Fetched_Data.md">Следующая -></a>
 </p>

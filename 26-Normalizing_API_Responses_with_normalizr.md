@@ -1,5 +1,7 @@
 # 26. Normalizing API Responses with `normalizer`
-[Video Link](https://egghead.io/lessons/javascript-redux-normalizing-api-responses-with-normalizr)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-normalizing-api-responses-with-normalizr)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/26-normalizing-json-responses-with-normalizr)
 
 The `byId` reducer currently has to handle server actions differently, because they have different response shapes.
 
@@ -191,6 +193,6 @@ const ids = (state = [], action) => {
 
 
 <p align="center">
-<a href="./25-Creating_Data_on_the_Server.md"><- Prev</a>
-<a href="./27-Updating_Data_on_the_Server.md">Next -></a>
+<a href="./25-Creating_Data_on_the_Server.md"><- Предыдущая</a>
+<a href="./27-Updating_Data_on_the_Server.md">Следующая -></a>
 </p>

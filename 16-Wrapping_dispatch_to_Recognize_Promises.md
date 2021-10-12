@@ -1,5 +1,7 @@
 # 16. Wrapping `dispatch()` to Recognize Promises
-[Video Link](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-recognize-promises)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-recognize-promises)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/16-wrapping-dispatch-to-recognize-promises)
 
 The `receiveTodos` action creator is not very useful by itself because anytime we call it, we want to fetch the `todos` first. Since `fetchTodos` and `receiveTodos` accept the same arguments, it would be great if we could group this code into a single action creator.
 
@@ -109,6 +111,6 @@ This would give us an action type of `undefined` and we see the Promise instead 
 
 
 <p align="center">
-<a href="./15-Dispatching_Actions_with_the_Fetched_Data.md"><- Prev</a>
-<a href="./17-The_Middleware_Chain.md">Next -></a>
+<a href="./15-Dispatching_Actions_with_the_Fetched_Data.md"><- Предыдущая</a>
+<a href="./17-The_Middleware_Chain.md">Следующая -></a>
 </p>

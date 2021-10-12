@@ -1,5 +1,7 @@
 # 13. Adding a Fake Backend to the project
-[Video Link](https://egghead.io/lessons/javascript-redux-adding-a-fake-backend-to-the-project)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-adding-a-fake-backend-to-the-project)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/13-adding-a-fake-backend)
 
 In the next lessons, we won't be dealing with persistence anymore. Instead, we're going to add some asynchronous fetching to the app.
 
@@ -59,6 +61,6 @@ The fake API waits for half a second to simulate the network connection, and the
 
 
 <p align="center">
-<a href="./12-Wrapping_dispatch_to_Log_Actions.md"><- Prev</a>
-<a href="./14-Fetching_Data_on_Route_Change.md">Next -></a>
+<a href="./12-Wrapping_dispatch_to_Log_Actions.md"><- Предыдущая</a>
+<a href="./14-Fetching_Data_on_Route_Change.md">Следующая -></a>
 </p>

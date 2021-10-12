@@ -1,5 +1,7 @@
 # 09. Using `mapDispatchToProps()` Shorthand Notation
-[Video Link](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/09-using-mapdispatchtoprops-shorthand-notation)
 
 The `mapDispatchToProps` function lets us inject certain props into the React component that can dispatch actions. For example, the `TodoList` component calls its `onTodoClick` callback prop with the `id` of the `todo`.
 
@@ -45,6 +47,6 @@ const VisibleTodoList = withRouter(connect(
 [Recap at 1:13 in video](https://egghead.io/lessons/javascript-redux-using-mapdispatchtoprops-shorthand-notation)
 
 <p align="center">
-<a href="./08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md"><- Prev</a>
-<a href="./10-Colocating_Selectors_with_Reducers.md">Next -></a>
+<a href="./08-Using_withRouter_to_Inject_the_Params_into_Connected_Components.md"><- Предыдущая</a>
+<a href="./10-Colocating_Selectors_with_Reducers.md">Следующая -></a>
 </p>

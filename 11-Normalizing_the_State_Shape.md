@@ -1,5 +1,7 @@
 # 11. Normalizing the State shape
-[Video Link](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/11-normalizing-the-state-shape)
 
 We currently represent the `todos` in the state tree as an array of `todo` objects. However, in the real app we would probably have more than a single array, and `todos` with the same `id`s in different arrays might get out of sync.
 
@@ -216,6 +218,6 @@ export const getVisibleTodos = (state, filter) => {
 
 
 <p align="center">
-<a href="./10-Colocating_Selectors_with_Reducers.md"><- Prev</a>
-<a href="./12-Wrapping_dispatch_to_Log_Actions.md">Next -></a>
+<a href="./10-Colocating_Selectors_with_Reducers.md"><- Предыдущая</a>
+<a href="./12-Wrapping_dispatch_to_Log_Actions.md">Следующая -></a>
 </p>

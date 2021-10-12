@@ -1,5 +1,7 @@
 # 06. Navigating with React Router `<Link>`
-[Video Link](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
+[Ссылка на видео](https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link?series=building-react-applications-with-idiomatic-redux)
+
+[Код урока на GitHub](https://github.com/gaearon/todos/tree/06-navigating-with-react-router-link)
 
 In this lesson we will update the "links" that control the visibility filter to behave more like _real_ links. We're going to change it so our browser's "Back" button works, and the URL changes when we switch filters.
 
@@ -183,6 +185,6 @@ We can also delete our custom `Link` component from `src/components` since we ar
 
 
 <p align="center">
-<a href="./05-Adding_React_Router_to_the_Project.md"><- Prev</a>
-<a href="./07-Filtering_Redux_State_with_React_Router_Params.md">Next -></a>
+<a href="./05-Adding_React_Router_to_the_Project.md"><- Предыдущая</a>
+<a href="./07-Filtering_Redux_State_with_React_Router_Params.md">Следующая -></a>
 </p>
