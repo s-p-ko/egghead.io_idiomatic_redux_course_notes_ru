@@ -187,7 +187,7 @@ export default FilterLink;
 
 ### Ёще больше чистоты ...
 
-Мы больше не используем экшн криэйтер `setVisibilityFilter`, поэтому его можно удалить из `src/actions/index.js`, оставив нам только экшн криэйтеры `addTodo` и `toggleTodo`.
+Мы больше не используем экшн криэйтер `setVisibilityFilter`, поэтому его можно удалить из `src/actions/index.js`, оставив только экшн криэйтеры `addTodo` и `toggleTodo`.
 
 Мы также можем удалить наш собственный компонент `Link` из `src/components`, так как теперь используем компонент `react-router`'а.
 
