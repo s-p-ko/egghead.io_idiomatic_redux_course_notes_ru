@@ -3,7 +3,7 @@
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/09-using-mapdispatchtoprops-shorthand-notation)
 
-Функция `mapDispatchToProps` позволяет вставлять определенные пропсы в компонент React'а, который может отправлять (dispatch) действия. Например, компонент `TodoList` вызывает свой `onTodoClick` - коллбэк проп -  с `id` `todo`.
+Функция `mapDispatchToProps` позволяет вставлять определенные пропсы в компонент React'а, который может отправлять действия (_диспатчить экшины_). Например, компонент `TodoList` вызывает свой `onTodoClick` - коллбэк проп -  с `id` `todo`.
 
 #### Внутри `TodoList`
 ```javascript
@@ -14,7 +14,7 @@
       />
 ```
 
-Внутри `mapDispatchToProps` в нашем компоненте` VisibleTodoList` мы указываем, что когда `onTodoClick()` вызывается с `id`, мы хотим отправить (диспатчить) экшн `toggleTodo` с этим `id`. Экшн криэйтер `toggleTodo` использует этот `id` для создания объекта экшина, который будет отправлен.
+Внутри `mapDispatchToProps` в нашем компоненте` VisibleTodoList` мы указываем, что когда `onTodoClick()` вызывается с `id`, мы хотим отправить (_диспатчить_) экшн `toggleTodo` с этим `id`. Экшн криэйтер `toggleTodo` использует этот `id` для создания объекта экшина, который будет отправлен.
 
 #### `VisibleTodoList` `mapDispatchToProps`
 ```javascript
