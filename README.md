@@ -62,9 +62,9 @@ gitbook serve
 Узнаем, как инкапсулировать знания о форме состояния в файлах редюсера, чтобы компоненты не полагались на них.
 [Видео](https://egghead.io/lessons/javascript-redux-colocating-selectors-with-reducers?series=building-react-applications-with-idiomatic-redux#/tab-transcript)
 
-## 11. Normalizing the State Shape
+## 11. Нормализация состояния формы (Normalizing the State shape)
 
-We will learn how to normalize the state shape to ensure data consistency that is important in real-world applications.
+Узнаем, как нормализовать состояния форму для обеспечения согласованности данных, что важно в реальных приложениях.
 [Видео](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
 
 ## 12. Wrapping `dispatch()` to Log Actions

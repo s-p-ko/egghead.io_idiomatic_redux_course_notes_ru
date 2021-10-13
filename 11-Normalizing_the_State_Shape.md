@@ -1,11 +1,11 @@
-# 11. Normalizing the State shape
+# 11. Нормализация состояния формы (Normalizing the State shape)
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/11-normalizing-the-state-shape)
 
-We currently represent the `todos` in the state tree as an array of `todo` objects. However, in the real app we would probably have more than a single array, and `todos` with the same `id`s in different arrays might get out of sync.
+В настоящее время мы представляем `todos` в дереве состояний как массив  `todo` объектов. Однако в реальном приложении у нас, вероятно, будет более одного массива, и `todos` с одинаковыми `id` в разных массивах могут не синхронизироваться.
 
-#### `todos.js` Before
+#### `todos.js` до
 ```javascript
 const todos = (state = [], action) => {
   switch (action.type) {
@@ -24,13 +24,13 @@ const todos = (state = [], action) => {
 };
 ```
 
-### Refactoring `todos.js`
+### Рефакторинг `todos.js`
 
-We should treat our state as a database, so we are going to keep `todos` in an object indexed by `id`.
+Мы должны рассматривать наше состояние как базу данных, поэтому мы собираемся сохранить `todos` в объекте, индексируемом по `id`.
 
-We will start by renaming the reducer to `byId`. Now, rather than adding a new item at the end or mapping over every item, we will change the value in the lookup table.
+Мы начнем с переименования редюсера в `byId`. Теперь, вместо того, чтобы добавлять новый элемент в конец или отображать каждый элемент, мы изменим значение в таблице поиска.
 
-Now both `TOGGLE_TODO` and `ADD_TODO` have the same logic. We want to return a new lookup table where the value of `action.id` is going to be the result of calling the reducer on the previous `action.id` value and the `action`.
+Теперь и `TOGGLE_TODO`, и `ADD_TODO` имеют одинаковую логику. Мы хотим вернуть новую таблицу поиска, в которой значение `action.id` будет результатом вызова редюсера для предыдущего значения `action.id` и `action`.
 
 ```javascript
 const byId = (state = {}, action) => {
@@ -47,24 +47,24 @@ const byId = (state = {}, action) => {
 };
 ```
 
-This is still reducer composition, but with an object instead of an array.
+Это все еще композиция редюсера, но с объектом вместо массива.
 
 ---
-**NOTE**:
-We are using the Object Spread operator (`...state`). This is not a part of ES6, so we need to install the `transform-object-rest-spread` Babel plugin, and add it to our `.babelrc` file in order for this to work.
+**ПРИМЕЧАНИЕ**:
+Мы используем оператор Object Spread (`...state`). Это не часть ES6, поэтому нам нужно установить плагин Babel `transform-object-rest-spread` и добавить его в наш файл `.babelrc`, чтобы это работало.
 ---
 
-Anytime the `byId` reducer receives an action, it's going to return a copy of its mapping between the `id`s and the actual todos with an updated `todo` for the current action.
+Каждый раз, когда редюсер `byId` получает экшен, он возвращает копию своего сопоставления между идентификаторами (`id`s) и актуальным задачами (todos) с обновленным `todo` для текущего экшена.
 
-Now we'll add another reducer that keeps track of all the added `id`s.
+Теперь мы добавим еще один редюсер, который отслеживает все добавленные идентификаторы (`id`s).
 
-### Adding an `allIds` Reducer
+### Добавление `allIds` редюсера
 
-Now that we keep the todos themselves in the `byId` map, we will have the state of this reducer be an array of `id`s.
+Теперь, когда мы сохраняем сами задачи в `byId` карте (map), у нас будет состояние этого редюсера как массив идентификаторов (`id`s).
 
-This reducer will switch on the action's type, and the only action I care about is `'ADD_TODO'` because if a new todo is added, we want to return a new array of `id`s with the new `id` as the last item.
+Этот редюсер включит тип экшена, и единственный экшен, который меня заботит, - это `'ADD_TODO'`, потому что, если добавляется новый todo, мы хотим вернуть новый массив идентификаторов (`id`s) с новым `id` в качестве последнего элемента.
 
-For any other actions, we just need to return the current state (which is the current array of `id`s).
+Для любых других экшенов нам просто нужно вернуть текущее состояние (которое является текущим массивом идентификаторов (`id`s)).
 
 ```javascript
 const allIds = (state = [], action) => {
@@ -77,7 +77,7 @@ const allIds = (state = [], action) => {
 };
 ```
 
-We still need to export the single reducer from the `todos.js` file, so we use `combineReducers()` again to combine the `byId` and the `allIds` reducers.
+Нам по-прежнему нужно экспортировать единственный редюсер из файла `todos.js`, поэтому мы снова используем `combineReducers()`, чтобы объединить `byId` и `allIds` редюсеры.
 
 ```javascript
 const todos = combineReducers({
@@ -87,31 +87,30 @@ const todos = combineReducers({
 ```
 
 ---
-
-_Note_: You can use combined reducers as many times as you like. You don't have to only use it on the top-level reducer. In fact, it's very common that as your app grows, you'll use `combineReducers` in several places.
+_Примечание_: вы можете использовать объединенный (combined) редюсеры сколько угодно раз. Вам не обязательно использовать его только на редюсере верхнего уровня. Фактически, очень часто по мере роста вашего приложения вы будете использовать `combineReducers` в нескольких местах.
 
 ---
 
-### Updating the `getVisibleTodos` Selector
+### Обновление `getVisibleTodos` селектора
 
-Now that we have changed the state shape in our reducers, we also need to update the selectors that rely on it.
+Теперь, когда мы изменили форму состояния (state shape) в наших редюсерах, нам также нужно обновить селекторы, которые на нее полагаются.
 
-The `state` object in `getVisibleTodos` is now going to contain `byId` and `allIds` fields, because it corresponds to the `state` of the combined reducer.
+`state` объект в  `getVisibleTodos` теперь будет содержать поля `byId` и `allIds`, потому что он соответствует `state` объединенного (combined) редюсера.
 
-Since we don't use an array of todos anymore, we will write a `getAllTodos` selector to create the array for us.
+Поскольку мы больше не используем массив todos, мы напишем селектор `getAllTodos`, чтобы создать массив для нас.
 
-`getAllTodos` will take the current `state` and return all `todos` by mapping `allIds` to the `state`'s `byId` lookup table.
+`getAllTodos` возьмет текущее `state` и вернет все `todos`, сопоставив `allIds` с таблицей поиска `byId` в `state` (the `state`'s `byId` lookup table).
 
-We won't export `getAllTodos` because it will only be used in the current file.
+Мы не будем экспортировать `getAllTodos`, потому что он будет использоваться только в текущем файле.
 
 ```javascript
 const getAllTodos = (state) =>
   state.allIds.map(id => state.byId[id]);
 ```
 
-We will use this new selector inside our `getVisibleTodo` selector to obtain an array of todos that can be filtered.
+Мы будем использовать этот новый селектор внутри нашего `getVisibleTodo` селектора, чтобы получить массив todos, которые можно фильтровать.
 
-`allTodos` is an array of todos just like the components expect, so we can return it from the selector and not worry about changing component code.
+`allTodos` - это массив todos, который ожидают компоненты, поэтому мы можем вернуть его из селектора и не беспокоиться об изменении кода компонента.
 
 ```javascript
 export const getVisibleTodos = (state, filter) => {
@@ -129,12 +128,12 @@ export const getVisibleTodos = (state, filter) => {
 };
 ```
 
-### Extracting the `todo` Reducer
+### Извлечение `todo` редюсера
 
 
-The `todos.js` file has grown quite a bit, so it's a good time to extract the todo reducer that manages a single todo into a separate file of its own.
+Файл `todos.js` немного вырос, так что сейчас самое время извлечь todo редюсер, что управляет одним todo, в отдельный файл.
 
-We will create a file called `todo.js` in the same `src/reducers` folder, paste in the implementation. Now we can import it into the `todos.js` file.
+Мы создадим файл с именем `todo.js` в той же папке `src/reducers` и вставим его в реализацию. Теперь мы можем импортировать его в `todos.js` файл.
 
 #### `todo.js`
 ```javascript
@@ -214,7 +213,7 @@ export const getVisibleTodos = (state, filter) => {
 };
 ```
 
-[Recap at 3:54 in video](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
+[Резюме с 3:54 видео](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
 
 
 <p align="center">
