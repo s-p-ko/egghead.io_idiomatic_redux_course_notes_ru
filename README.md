@@ -1,6 +1,6 @@
-# Building React Applications with Idiomatic Redux (Egghead.io)
+## Перевод данного [конспекта](https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes) на русский с некоторыми дополнениям
 
-## Перевод [конспекта](https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes) на русский  с некоторыми дополнениями
+# Building React Applications with Idiomatic Redux (Egghead.io)
 
 ![](https://s3.amazonaws.com/f.cl.ly/items/212E0u153X2A18131808/Image%202016-07-10%20at%2012.00.28%20PM.png?v=feaddbc8)
 
