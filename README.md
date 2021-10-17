@@ -67,9 +67,9 @@ gitbook serve
 Узнаем, как нормализовать состояния форму для обеспечения согласованности данных, что важно в реальных приложениях.
 [Видео](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
 
-## 12. Wrapping `dispatch()` to Log Actions
+## 12. Обёртываем `dispatch()` в логи экшенов
 
-We will learn how centralized updates in Redux let us log every state change to the console along with the action that caused it.
+Узнаем, как централизованные обновления в Redux позволяют нам логировать каждое изменение состояния в консоли вместе с экшеном, его вызвавшим.
 [Видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-log-actions)
 
 ## 13. Adding a Fake Backend to the Project

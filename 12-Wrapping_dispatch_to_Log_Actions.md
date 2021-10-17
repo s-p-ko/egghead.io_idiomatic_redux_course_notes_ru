@@ -1,19 +1,20 @@
-# 12. Wrapping `dispatch()` to Log Actions
+# 12. Обёртываем `dispatch()` в логи экшенов
+
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-log-actions)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/12-wrapping-dispatch-to-log-actions)
 
-Now that our state shape is more complex, we want to override the `store.dispatch` function to add some `console.log()` statements so we can see how the state is affected by the actions.
+Теперь, когда наша форма состояния (state shape) более сложная, мы хотим переопределить функцию `store.dispatch` добавив несколько  `console.log()` операторов, чтобы мы могли видеть, как на состояние влияют экшены.
 
-We'll start by creating a new function called `addLoggingToDispatch` that accepts `store` as an argument. It's going to wrap the `dispatch` provided by Redux, so it reads the raw dispatch from `store.dispatch`.
+Мы начнем с создания новой функции с именем `addLoggingToDispatch`, которая принимает `store` в качестве аргумента. Она собирается обернуть предоставленный Redux'ом `dispatch`, поэтому она прочитает необработанный диспатч из `store.dispatch`.
 
-`addLoggingToDispatch()` will return another function with the same signature as dispatch, which is a single action argument. Some browsers like Chrome support using `console.group()` to group several log statements under a single title, and we're passing in `action.type` in order to group several logs under the action type.
+`addLoggingToDispatch()` вернет другую функцию с той же сигнатурой, что и диспатч, который является аргумнтом единственного экшена. Некоторые браузеры, такие как Chrome, поддерживают использование `console.group()` для группировки нескольких log операторов под одним заголовком, и мы передаем `action.type`, чтобы сгруппировать несколько log'ов по типу экшена.
 
-We will log the previous `state` before dispatching the action by calling `store.getState()`. Next, we will log the action itself so that we can see which action causes the change.
+Мы будем логировать предыдущее `state` перед диспатчем экшенов вызывая `store.getState()`. Затем мы залогируем сам экшен, чтобы видеть, какой экшен вызывает изменение.
 
-To preserve the contract of the `dispatch` function exactly, we'll declare `returnValue` and call the `rawDispatch()` function with the action. Now the calling code will not be able to distinguish between our function and the function provided by Redux, except that we are also logging some information.
+Чтобы сохранить контракт `dispatch` функции в точности, мы объявим `returnValue` и вызовем  `rawDispatch()` функцию с экшеном. Теперь вызывающий код не сможет отличить нашу функцию от функции, предоставляемой Redux, за исключением того, что мы также регистрируем (логгируем) некоторую информацию.
 
-We log the next state as well, because the store is guaranteed to be updated after the dispatch is called. We can use `store.getState()` in order to receive the next state after the dispatch.
+Мы также логируем следующее состояние, потому что стор (store) гарантированно обновится после вызова диспатча. Мы можем использовать `store.getState()` для получения следующего состояния после диспатча.
 
 #### `configureStore.js`
 ```javascript
@@ -41,9 +42,9 @@ const configureStore = () => {
 ```
 
 
-### Finishing Touches
+### Последние штрихи
 
-Chrome offers an API to style `console.log()`s, so we can add some colors to our logs. These modifications paint the previous state in gray, the action in blue, and the next state in green.
+Chrome предлагает API для стилизации `console.log()`'ов, поэтому мы можем добавить несколько цветов в наши логи. Эти модификации окрашивают предыдущее состояние в серый цвет, экшен - в синий, а следующее состояние - в зеленый.
 
 ```javascript
 console.log('%c prev state', 'color: gray', store.getState());
@@ -52,7 +53,7 @@ const returnValue = rawDispatch(action);
 console.log('%c next state', 'color: green', store.getState());
 ```
 
-If the `console.group()` API is not available in all browsers, we just return the raw dispatch as is.
+Если API `console.group()` доступен не во всех браузерах, мы просто возвращаем необработанный диспатч как есть.
 
 ```javascript
 // At the top of `addLoggingToDispatch()` after `rawDispatch` is declared
@@ -61,7 +62,7 @@ if (!console.group) {
 }
 ```
 
-Since it's not a good idea to log everything in production, we add a gate inside of `configureStore()` saying that if `process.env.NODE_ENV` is not production, then we're going to run this code. Otherwise, we're just going to leave the store as is.
+Поскольку все логировать на продакшене - не лучшая идея, мы добавляем шлюз внутри `configureStore()`, указывая этим, что если `process.env.NODE_ENV` не продакшен, то мы собираемся запустить этот код. В противном случае мы просто оставим стор как есть.
 
 #### Inside `configureStore`
 ```javascript
@@ -77,9 +78,9 @@ const configureStore = () => {
     .
 ```
 
-Logging the action we dispatch along with the state before and after dispatching it makes it easy to find any mistakes.
+Логирование экшена, который диспатчим вместе с состоянием до и после диспатча, позволяет легко находить любые ошибки.
 
-[Recap at 2:18 in video](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-log-actions)
+[Резюме со 2:18 видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-log-actions)
 
 
 <p align="center">

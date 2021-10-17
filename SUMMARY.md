@@ -11,7 +11,7 @@
 - [UИспользование сокращенной записи mapDispatchToProps()](09-Using_mapDispatchToProps_Shorthand_Notation.md)
 - [Размещение (colocating) селекторов с редюсерами](10-Colocating_Selectors_with_Reducers.md)
 - [Нормализация состояния формы (Normalizing the State shape)](11-Normalizing_the_State_Shape.md)
-- [Wrapping dispatch() to Log Actions](12-Wrapping_dispatch_to_Log_Actions.md)
+- [Обёртываем `dispatch()` в логи экшенов](12-Wrapping_dispatch_to_Log_Actions.md)
 - [Adding a Fake Backend to the Project](13-Adding_a_Fake_Backend_to_the_Project.md)
 - [Fetching Data on Route Change](14-Fetching_Data_on_Route_Change.md)
 - [Dispatching Actions with the Fetched Data](15-Dispatching_Actions_with_the_Fetched_Data.md)
