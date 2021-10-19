@@ -72,9 +72,9 @@ gitbook serve
 Узнаем, как централизованные обновления в Redux позволяют нам логировать каждое изменение состояния в консоли вместе с экшеном, его вызвавшим.
 [Видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-log-actions)
 
-## 13. Adding a Fake Backend to the Project
+## 13. Добавление фэйкового бэкэнда в проект
 
-We will learn about fake backend module that we will be using throughout the next lessons to simulate data fetching.
+Узнаем о фейковом бэкэнд-модуле, который будем использовать на следующих уроках для имитации получения данных.
 [Видео](https://egghead.io/lessons/javascript-redux-adding-a-fake-backend-to-the-project)
 
 ## 14. Fetching Data on Route Change

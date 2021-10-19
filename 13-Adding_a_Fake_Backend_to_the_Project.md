@@ -1,13 +1,13 @@
-# 13. Adding a Fake Backend to the project
+# 13. Добавление фэйкового бэкэнда в проект
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-adding-a-fake-backend-to-the-project)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/13-adding-a-fake-backend)
 
-In the next lessons, we won't be dealing with persistence anymore. Instead, we're going to add some asynchronous fetching to the app.
+В следующих уроках мы больше не будем иметь дело с персистентностью. Вместо этого мы собираемся добавить в приложение асинхронное получение [данных].
 
-We are now removing all the code related to the `localStorage` persistence, and deleting the `localStorage.js` file as well, because a new module has been added that implements a fake remote API.
+Теперь мы удаляем весь код, относящийся к `localStorage` сохранению (персистентности), а также удаляем файл `localStorage.js`, потому что был добавлен новый модуль, реализующий удаленный фейковый API.
 
-All of the todos are kept in memory, and an artificial delay has been added. We also have methods that return Promises just like a real API implementation.
+Все todos хранятся в памяти, и была добавлена искусственная задержка. У нас также есть методы, которые возвращают промисы, как у настоящей реализации API.
 
 #### `src/api/index.js`
 ```javascript
@@ -42,13 +42,13 @@ export const fetchTodos = (filter) =>
     .
 ```
 
-This approach lets us explore how Redux works with asynchronous data fetching without writing a real backend for the app.
+Этот подход позволяет нам изучить, как Redux работает с асинхронной выборкой данных без написания реальной серверной части для приложения.
 
-Now we will import `fetchTodos` into the different modules of our app.
+Теперь мы импортируем `fetchTodos` в разные модули нашего приложения.
 
 `import { fetchTodos } from './api'`
 
-We will learn how to put these todos into the Redux store later, but for now, we can call `fetchTodos` with a filter argument that will return a Promise that resolves through an array of todos, just like a REST backend would return an array.
+Мы узнаем, как поместить эти задачи в хранилище Redux, позже, а пока мы можем вызвать `fetchTodos` с аргументом фильтра, что вернет промис, который разрешается через массив задач, точно так же, как бэкэнд REST возвращает массив.
 
 #### `index.js`
 ```javascript
@@ -57,7 +57,7 @@ fetchTodos('all').then(todos =>
 );
 ```
 
-The fake API waits for half a second to simulate the network connection, and then resolves the promise to an array of todos that we will treat as if they were retrieved from a remote server.
+Фэйковый API ожидает полсекунды, чтобы смоделировать сетевое соединение, а затем выполняет промис для массива todos, которые мы будем обрабатывать так, как если бы они были получены с удаленного сервера.
 
 
 <p align="center">
