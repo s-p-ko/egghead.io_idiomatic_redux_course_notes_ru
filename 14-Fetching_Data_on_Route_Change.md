@@ -32,7 +32,7 @@ class VisibleTodoList extends Component {
 .
 ```
 
-Мы все еще хотим визуализировать презентационный компонент `TodoList` так же, как и раньше. Единственная цель добавления этого нового класса - добавить хуки жизненного цикла (lifecycle hooks). Любые пропсы будут переданы в `TodoList`.
+Мы все еще,  как и раньше, хотим визуализировать презентационный компонент `TodoList`. Единственная цель добавления этого нового класса - добавить хуки жизненного цикла (lifecycle hooks). Любые пропсы будут переданы в `TodoList`.
 
 Теперь, когда `VisibleTodoList` определен как вышеуказанный класс, мы не можем объявить другую константу с тем же именем, поэтому мы переназначаем привязку `VisibleTodoList`, чтобы она указывала на обернутый компонент. Мы также изменим вызов `connect()`, чтобы вместо него обернуть наш новый класс.
 
@@ -92,7 +92,6 @@ class VisibleTodoList extends Component {
 В нашей текущей реализации при запуске приложения будет отображаться печатаемый фильтр `all` и соответствующие `todos`.
 
 Но при изменении фильтров ничего не произойдет, потому что `componentDidMount` запускается только один раз. Чтобы исправить это, нам нужно добавить второй хук жизненного цикла `componentDidUpdate`.
-However, nothing will happen when filters are changed, because `componentDidMount` only runs once. To fix this, we need to add a second lifecycle hook called `componentDidUpdate`.
 
 #### Реализация `componentDidUpdate`
 ```javascript
@@ -107,7 +106,6 @@ componentDidUpdate(prevProps) {
 ```
 
 `componentDidUpdate` принимает как аргумент предыдущие пропсы. Затем мы сравниваем текущее и предыдущее значения фильтра. Если текущий фильтр не такой как предыдущиий, мы вызываем `fetchTodos()` для текущего фильтра.
-`componentDidUpdate` receives the previous props as an argument. We then compare the current and the previous values of the filter. If the current filter is not the same as the previous filter, we call `fetchTodos()` for the current filter.
 
 [Резюме с 3:36 видео](https://egghead.io/lessons/javascript-redux-fetching-data-on-route-change)
 
