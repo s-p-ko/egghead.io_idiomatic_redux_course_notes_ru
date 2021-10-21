@@ -13,7 +13,7 @@
 - [Нормализация состояния формы (Normalizing the State shape)](11-Normalizing_the_State_Shape.md)
 - [Обёртываем `dispatch()` в логи экшенов](12-Wrapping_dispatch_to_Log_Actions.md)
 - [Добавление фэйкового бэкэнда в проект](13-Adding_a_Fake_Backend_to_the_Project.md)
-- [Fetching Data on Route Change](14-Fetching_Data_on_Route_Change.md)
+- [Получение данных при изменении маршрута](14-Fetching_Data_on_Route_Change.md)
 - [Dispatching Actions with the Fetched Data](15-Dispatching_Actions_with_the_Fetched_Data.md)
 - [Wrapping dispatch() to Recognize Promises](16-Wrapping_dispatch_to_Recognize_Promises.md)
 - [The Middleware chain](17-The_Middleware_Chain.md)
