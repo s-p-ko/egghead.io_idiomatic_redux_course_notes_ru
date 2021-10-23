@@ -1,4 +1,4 @@
-# 14. Получение данных при изменении маршрута
+# 14. Получение данных при изменении роута (маршрута)
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-fetching-data-on-route-change)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/14-fetching-data-on-route-change)
