@@ -77,14 +77,14 @@ gitbook serve
 Узнаем о фейковом бэкэнд-модуле, который будем использовать на следующих уроках для имитации получения данных.
 [Видео](https://egghead.io/lessons/javascript-redux-adding-a-fake-backend-to-the-project)
 
-## 14. Получение данных при изменении маршрута
+## 14. Получение данных при изменении роута (маршрута)
 
-Узнаем, как запускать асинхронный запрос при изменении маршрута.
+Узнаем, как запускать асинхронный запрос при изменении роута (маршрута).
 [Видео](https://egghead.io/lessons/javascript-redux-fetching-data-on-route-change)
 
-## 15. Dispatching Actions with the Fetched Data
+## 15. Диспатчинг экшенов с получеными данными
 
-We will learn how to dispatch a Redux action after the data has been fetched and recap how to do it when the route changes.
+Узнаем, как диспатчить Redux экшены после получения данных, и вспомним, как это сделать при изменении роута (маршрута).
 [Видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-with-the-fetched-data?series=building-react-applications-with-idiomatic-redux)
 
 ## 16. Wrapping `dispatch()` to Recognize Promises

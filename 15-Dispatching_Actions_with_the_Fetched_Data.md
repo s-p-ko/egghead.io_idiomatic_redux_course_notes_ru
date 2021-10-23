@@ -1,11 +1,11 @@
-# 15. Dispatching Actions with the Fetched Data
+# 15. Диспатчинг экшенов с получеными данными
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-with-the-fetched-data?series=building-react-applications-with-idiomatic-redux)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/15-dispatching-actions-with-fetched-data)
 
-Picking up where we left off inside of `VisibleTodoList`, we will extract the common code between the lifecycle hooks into a separate method called `fetchData`, where the data we want to fetch only depends on the filter.
+Продолжая с того места, на котором мы остановились внутри `VisibleTodoList`, мы извлечем общий код между хуками жизненного цикла в отдельный метод `fetchData`, где данные, которые мы хотим получить, зависят только от фильтра.
 
-We call this method from the `componentDidMount()` hook in order to fetch the initial data. We will also call it whenever the `filter` changes inside the `componentDidUpdate` lifecycle hook.
+Мы вызываем этот метод из `componentDidMount()` хука, чтобы получить исходные данные. Мы также будем вызывать его всякий раз, когда `filter` изменяется внутри хука жизненного цикла `componentDidUpdate`.
 
 #### `VisibleTodoList.js`
 ```javascript
@@ -30,10 +30,10 @@ class VisibleTodoList extends Component {
   .
 ```
 
-### Updating `fetchData()`
-We want the fetched todos to become a part of the Redux store's `state`, and the only way to get something into the state is to dispatch an action.
+### Обновление `fetchData()`
+Мы хотим, чтобы полученные todos стали частью `state` Redux стора , и единственный способ получить что-то в состояние (state) - это диспатчить экшен.
 
-We'll have it call the callback prop `receiveTodos` with the `todos` we just fetched.
+Мы заставим его вызывать коллбэк проп `receiveTodos` с только что полученными `todos`.
 
 ```javascript
 fetchData() {
@@ -43,9 +43,9 @@ fetchData() {
 }
 ```
 
-To make it available inside the component, we need to pass a function called `receiveTodos` that would be an action creator inside the second argument to `connect`. Since the name of the function matches the name of the callback prop, we can use the shorter ES6 Object property notation.
+Чтобы сделать его доступным внутри компонента, нам нужно передать функцию с именем `receiveTodos`, которая будет экшен криэйтером внутри второго аргумента для `connect`. Поскольку имя функции совпадает с именем коллбэк пропа, мы можем использовать более короткую ES6 нотацию свойства объекта 
 
-We also will import `receiveTodos` from the file where all other action creators are defined.
+Мы также импортируем `receiveTodos` из файла, в котором определены все остальные экшен криэйтеры.
 
 ```javascript
 // At the top of `VisibleTodoList.js`
@@ -60,13 +60,13 @@ VisibleTodoList = withRouter(connect(
 )(VisibleTodoList))
 ```
 
-### Implementing `receiveTodos`
+### Реализация `receiveTodos`
 
-Now we need to actually implement `receiveTodos`.
+Теперь нам нужно реализовать `receiveTodos`
 
-Inside of our action creators file (`src/actions/index.js`) we creating a new export of a function `receiveTodos` that takes the server `response` as an argument and returns an object with the `type` of `'RECEIVE_TODOS'` and the `response` as a field.
+Внутри нашего файла экшен крийтера (`src/actions/index.js`) мы создаем новый экспорт функции `receiveTodos`, которая принимает `response` сервера в качестве аргумента и возвращает объект с `type` (типом) `'RECEIVE_TODOS'` и `response` в виде поля.
 
-#### Inside `src/actions/index.js`
+#### Внутри `src/actions/index.js`
 ```javascript
 export const receiveTodos = (response) => ({
   type: 'RECEIVE_TODOS',
@@ -74,7 +74,7 @@ export const receiveTodos = (response) => ({
 });
 ```
 
-The reducers handling this action will need to know which filter the response corresponds to, so we will add a `filter` as an argument to the `receiveTodos` action creator and we'll pass it as part of the action object.
+Редюсеры, обрабатывающие этот экшен, должны будут знать, какому фильтру соответствует ответ, поэтому мы добавим `filter` в качестве аргумента в экшен криэйтер `receiveTodos` и передадим его как часть экшен объекта.
 
 ```javascript
 export const receiveTodos = (filter, response) => ({
@@ -84,13 +84,13 @@ export const receiveTodos = (filter, response) => ({
 });
 ```
 
-### Updating the `VisibleTodoList` Component with `filter`
+### Обновление `VisibleTodoList` компонента с помощью фильтра
 
-Back in `VisibleTodoList`,  we need to update `fetchData` to pass the filter through the action creator.
+Вернувшись в `VisibleTodoList`, нам нужно обновить `fetchData`, чтобы передать фильтр через экшен криэйтера.
 
-We use the ES6 destructuring syntax to get the `filter` and `receiveTodos` from `props`. It's important that I destructure the `filter` right away, because by the time the callback fires, `this.props.filter` might have changed because the user might have navigated away.
+Мы используем ES6 синтаксис деструктуризации, чтобы получить `filter` и `receiveTodos` из `props`. Важно, сразу же деструктурировть `filter`, так как к моменту срабатывания коллбэка `this.props.filter` мог измениться, потому что пользователь мог уйти.
 
-#### Inside `VisibleTodoList`
+#### Внутри `VisibleTodoList`
 ```javascript
 fetchData() {
   const { filter, receiveTodos } = this.props;
@@ -100,11 +100,11 @@ fetchData() {
 }
 ```
 
-### Writing Less Boilerplate
+### Пишем меньше шаблонов
 
-As we navigate through the app, the component fetches data in its lifecycle hooks and dispatches Redux actions when the data is ready. Now let's write less boilerplate.
+По мере перемещения по приложению, компонент извлекает данные из своих хуков жизненного цикла и диспатчит экшены Redux, когда готовы данные. Теперь давайте будем писать меньше шаблонов.
 
-We can start by replacing named imports with a namespace import. This means that any function exported from the actions file will be in the object called `actions`, which we will pass as a second argument to connect.
+Мы можем начать с замены именованного импорта импортом пространства имен. Это означает, что любая функция, экспортированная из файла экшена, будет в объекте с именем `actions`, который мы передадим в качестве второго аргумента для connect'а.
 
 ```javascript
 // At the top of `VisibleTodoList`
@@ -122,10 +122,10 @@ VisibleTodoList = withRouter(connect(
 )(VisibleTodoList))
 
 ```
+ 
+Внутри функции `render()` `VisibleTodoList`'а мы деструктурируем `props`'ы, потому что экшен криэйтеру `toggleTodo` нужно передать имя `onTodoClick` пропа, но остальные пропсы могут быть переданы как есть.
 
-Inside of `VisibleTodoList`'s `render()` function, we'll destructure the `props`, because the `toggleTodo` action creator needs to be passed the `onTodoClick` prop name, but the rest of the props can be passed as they are.
-
-The `...rest` object now contains all the props other than `toggleTodo`, so we will pass them through. We will also pass `toggleTodo` as the `onTodoClick` prop, because that's what the `TodoList` component expects.
+Объект `...rest` содержит теперь все пропсы, кроме `toggleTodo`, поэтому мы их пропустим. Мы также передадим `toggleTodo` как проп `onTodoClick`, потому что этого ожидает компонент `TodoList`.
 
 ```javascript
 // Inside of `VisibleTodoList`
@@ -141,7 +141,7 @@ The `...rest` object now contains all the props other than `toggleTodo`, so we w
 }
 ```
 
-[Recap at 3:30 in video](https://egghead.io/lessons/javascript-redux-dispatching-actions-with-the-fetched-data?series=building-react-applications-with-idiomatic-redux)
+[Резюме с 3:30 видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-with-the-fetched-data?series=building-react-applications-with-idiomatic-redux)
 
 
 <p align="center">
