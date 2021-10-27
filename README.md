@@ -87,9 +87,9 @@ gitbook serve
 Узнаем, как диспатчить Redux экшены после получения данных, и вспомним, как это сделать при изменении роута (маршрута).
 [Видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-with-the-fetched-data?series=building-react-applications-with-idiomatic-redux)
 
-## 16. Wrapping `dispatch()` to Recognize Promises
+## 16. Обертывание `dispatch()` для распонавания проимсов
 
-We will learn how to teach `dispatch()` to recognize Promises so that we can move the async logic out of the components into asynchronous action creators.
+Узнаем, как научить `dispatch()` распознавать промисы, чтобы мы могли переместить асинхронную логику из компонентов в асинхронные экшен криэйтеры.
 [Видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-recognize-promises)
 
 ## 17. The Middleware chain
