@@ -1,4 +1,4 @@
-# 16. Обертывание `dispatch()` для распонавания проимсов
+# 16. Обертывание `dispatch()` для распознавания промисов
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-recognize-promises)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/16-wrapping-dispatch-to-recognize-promises)
@@ -23,7 +23,7 @@ fetchData() {
 
 Теперь мы добавим асинхронный экшен криэйтор именуемый `fetchTodos`. Он принимает `filter` в качестве аргумента, а затем вызывает с ним метод API `fetchTodos`.
 
-Я использую `then` - метод поромиса (Promise)  для преобразования результата промиса из `response` в объект экшена, сгенерированного `receiveTodos` с учетом `filter` и `response`.
+Я использую `then` - метод промиса (Promise)  для преобразования результата промиса из `response` в объект экшена, сгенерированного `receiveTodos` с учетом `filter` и `response`.
 
 #### Внутри `src/actions/index.js`
 ```javascript
@@ -33,9 +33,9 @@ export const fetchTodos = (filter) =>
   );
 ```
 
-`receiveTodos` возвращает объект экшена синхронно, но `fetchTodos` возвращает промис, который разрешается посоредством объекта экшена.
+`receiveTodos` возвращает объект экшена синхронно, но `fetchTodos` возвращает промис, который разрешается посредством объекта экшена.
 
-Теперь можно не экспортировать `receiveTodos`  из наших экшен криэйторов, так как можем изменить компоненты, чтобы `fetchTodos` использовать напрямую.
+Теперь можно не экспортировать `receiveTodos`  из наших экшен криэйторов, так как можем изменить компоненты, чтобы напрямую использовать `fetchTodos`qg.
 
 ### Обновление `VisibleTodoList`
 
