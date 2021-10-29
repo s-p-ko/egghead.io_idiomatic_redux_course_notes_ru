@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 })
 ```
 
-Чтобы исправить это, мы добавим аргумент `ownProps` и прочитаем `visibilityFilter` из `ownProps`.
+Чтобы исправить это, добавим аргумент `ownProps` и прочитаем `visibilityFilter` из `ownProps`.
 
 #### `mapStateToProps` после:
 ```javascript
@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 ```
 
-Мы также обновим нашу функцию `getVisibleTodos`, чтобы использовать наше текущее соглашение для пропсов `'all'`, `'completed'` и `'after'`.
+Также обновим функцию `getVisibleTodos`, чтобы использовать наше текущее соглашение для пропсов `'all'`, `'completed'` и `'after'`.
 
 #### `getVisibleTodos` до:
 ```javascript
@@ -94,7 +94,7 @@ const App = ({ match }) => (
 );
 ```
 
-Теперь, когда наши фильтры видимости управляются React Router, нам больше не нужен `visibilityFilter` редюсер. Мы можем удалить его, а также убрать его из объявления `combineReducers()` в `index.js`.
+Теперь, когда наши фильтры видимости управляются React Router'ом, редюсер `visibilityFilter` больше не нужен. Можно удалить его, а также убрать его из объявления `combineReducers()` в `index.js`.
 
 [Резюме со 2:20 видео](https://egghead.io/lessons/javascript-redux-filtering-redux-state-with-react-router-params)
 
