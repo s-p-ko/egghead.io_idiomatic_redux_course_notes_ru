@@ -92,9 +92,9 @@ gitbook serve
 Узнаем, как научить `dispatch()` распознавать промисы, чтобы мы могли переместить асинхронную логику из компонентов в асинхронные экшен криэйтеры.
 [Видео](https://egghead.io/lessons/javascript-redux-wrapping-dispatch-to-recognize-promises)
 
-## 17. The Middleware chain
+## 17. Цепочка мидлвар
 
-We will learn how we can generalize wrapping `dispatch()` for different purposes into a concept called “middleware” that is widely available in the Redux ecosystem.
+Узнаем, как можно обобщить обертку `dispatch()` для различных целей в концепцию, под именем "мидлвар", которая широко доступна в экосистеме Redux.
 [Видео](https://egghead.io/lessons/javascript-redux-the-middleware-chain)
 
 ## 18. Applying Redux Middleware

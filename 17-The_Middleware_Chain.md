@@ -1,9 +1,9 @@
-# 17. The Middleware Chain
+# 17. Цепочка мидлвар
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-the-middleware-chain)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/17-the-middleware-chain)
 
-In our last lesson, we wrote two functions that wrap the `dispatch` function to add custom behavior. Let's take a closer look at how they work together.
+В нашем последнем уроке мы написали две функции, которые оборачивают `dispatch` функцию, чтобы добавить кастомное поведение. Давайте подробнее рассмотрим, как они работают вместе.
 
 ```javascript
 const configureStore = () => {
@@ -18,10 +18,9 @@ const configureStore = () => {
   return store;
 };
 ```
+Последняя версия функции `dispatch` перед возвратом `store` является результатом вызова `addPromiseSupportToDispatch`.
 
-The final version of the `dispatch` function before returning the `store` is the result of calling `addPromiseSupportToDispatch`.
-
-#### `addPromiseSupportToDispatch` Before:
+#### `addPromiseSupportToDispatch` до:
 ```javascript
 const addPromiseSupportToDispatch = (store) => {
   const rawDispatch = store.dispatch;
@@ -34,18 +33,17 @@ const addPromiseSupportToDispatch = (store) => {
 };
 ```
 
-The function returned by `addPromiseSupportToDispatch` acts like a normal `dispatch` function, but if it gets a Promise it waits for it to resolve, and then passes the result to `rawDispatch` (where `rawDispatch` is the previous value of `store.dispatch`).
+Функция, что возвращает `addPromiseSupportToDispatch`, действует как обычная `dispatch` функция, но если она получает промис, она ожидает его разрешения (resolve), а затем передает результат в `rawDispatch` (где`rawDispatch` - это предыдущее значение `store.dispatch`).
 
-For non-promises, the function calls `rawDispatch` right away. `rawDispatch` corresponds to store.dispatch at the time `addPromiseSupportToDispatch` was called.
+Для не-промисов функция сразу вызывает `rawDispatch`. `rawDispatch` соответствует store.dispatch во время вызова `addPromiseSupportToDispatch`.
 
+### Рефакторинг наших `dispatch`-усиливающих функций
 
-### Refactoring our `dispatch`-enhancing Functions
+Поскольку `store.dispatch` был переназначен ранее (внутри `configureStore`), не совсем справедливо называть его `rawDispatch` внутри `addPromiseSupportToDispatch`.
 
-Since `store.dispatch` was reassigned earlier (inside of `configureStore`), it's not completely fair to refer to it as `rawDispatch` inside of `addPromiseSupportToDispatch`.
+Мы переименуем `rawDispatch` в `next`, потому что это следующая `dispatch` функция в цепочке.
 
-We'll rename `rawDispatch` to `next`, because this is the next `dispatch` function in the chain.
-
-#### `addPromiseSupportToDispatch` After:
+#### `addPromiseSupportToDispatch` после:
 ```javascript
 const addPromiseSupportToDispatch = (store) => {
   const next = store.dispatch;
@@ -58,15 +56,15 @@ const addPromiseSupportToDispatch = (store) => {
 };
 ```
 
-Above, `next` refers to the `store.dispatch` that was returned from `addLoggingToDispatch()`.
+Выше, `next` относится к `store.dispatch`, который был возвращен из `addLoggingToDispatch()`.
 
-Recall that our `addLoggingToDispatch()` function also returns a function with the same API as the original `dispatch` function, but it logs the action `type`, the previous `state`, the `action`, and the next `state` along the way.
+Напомним, что наша функция `addLoggingToDispatch()` также возвращает функцию с тем же API, что и исходная `dispatch` функция, но логирует экшен `type`, предыдущее `state`, `action` и следующее `state`  по пути.
 
-It calls `rawDispatch` which corresponds to `store.dispatch` at the time that  `addLoggingToDispatch` was called. In this case, this is the `store.dispatch` provided by `createStore()` inside of `configureStore`.
+Это вызывает `rawDispatch`, который соответствует `store.dispatch` во время вызова `addLoggingToDispatch`. В данном случае это `store.dispatch`, предоставляемый `createStore()` внутри `configureStore`.
 
-However, it is entirely conceivable that we might want to override the `dispatch` function before adding the logging.
+Однако вполне возможно, что мы захотим переопределить функцию `dispatch` перед добавлением логирования.
 
-For consistency, we will rename `rawDispatch` to `next` here as well. In this particular case, `next` points to the original `store.dispatch`.
+Для единообразия мы также переименуем `rawDispatch` в `next`. В данном конкретном случае `next` указывает на исходный файл `store.dispatch`.
 
 #### `addLoggingToDispatch()`
 ```javascript
@@ -90,19 +88,19 @@ const addLoggingToDispatch = (store) => {
 };
 ```
 
-### Introducing Middleware Functions
+### Знакомство с мидлвар функциями
 
-While this method of extending the store works, it's not really great that we override the public API and replace it with custom functions.
+Хотя этот метод расширения стор работает, это не очень хорошо переопределять общедоступный API и заменять его кастомными функциями.
 
-To get away from this pattern, we will declare an array of _middleware functions_, which is just a fancy name for the extra-functionality functions we wrote.
+Чтобы уйти от этого паттерна, мы объявим массив _middleware functions_, который является просто причудливым названием для функций с дополнительными функциями, которые мы написали.
 
-This `middlewares` array will contain functions to be applied later as a single step.
+Этот массив `middlewares` будет содержать функции, которые будут применяться позже как один (единый) шаг.
 
-We'll push `addLoggingToDispatch` and `addPromiseSupportToDispatch` to the middleware array.
+Мы поместим `addLoggingToDispatch` и `addPromiseSupportToDispatch` в мидлвар массив.
 
-Now we create a function `wrapDispatchWithMiddlewares()` that takes the `store` as the first argument, and the array of middlewares as the second.
+Теперь мы создаем функцию `wrapDispatchWithMiddlewares()`, которая принимает `store` в качестве первого аргумента, а массив мидлваров - в качестве второго.
 
-#### Refactoring `configureStore`
+#### Рефакторинг `configureStore`
 ```javascript
 const configureStore = () => {
   const store = createStore(todoApp);
@@ -118,22 +116,22 @@ const configureStore = () => {
 };
 ```
 
-Inside of `wrapDispatchWithMiddlewares()` we're going to use `middlewares`'s `forEach` method to run some code for every middleware.
+Внутри `wrapDispatchWithMiddlewares()` мы собираемся использовать метод `middlewares`'а `forEach` для запуска некоторого кода для каждого мидлвара.
 
-Specifically, we will override the `store.dispatch` function to point to the result of calling the middleware with the `store` as an argument.
+В частности, мы переопределим функцию `store.dispatch`, чтобы она указывала на результат вызова мидлвара со `store` в качестве аргумента.
 
 ```javascript
 const wrapDispatchWithMiddlewares = (store, middlewares) =>
   middlewares.forEach(middleware =>
-    store.dispatch = middleware(store);
+    store.dispatch = middleware(store)
   );
 ```
 
-Recall that inside of our middleware functions themselves, there is a certain pattern that we have to repeat. We grabbing the value of `store.dispatch` and store it in a variable called `next` that we call later.
+Напомним, что внутри самих мидлвар функций есть определенный шаблон, который мы должны повторить. Мы берем значение `store.dispatch` и сохраняем его в переменной с именем `next`, которую мы вызываем позже.
 
-To make it a part of the middleware contract, we can make `next` an outside argument, just like the `store` before it and the `action` after it.
+Чтобы сделать его частью контракта мидлвара, мы можем сделать `next` внешним аргументом, точно так же, как `store` перед ним и `action` после него.
 
-#### Updating `addLoggingToDispatch()`
+#### Обновление `addLoggingToDispatch()`
 ```javascript
 const addLoggingToDispatch = (store) => {
   return (next) => {
@@ -156,11 +154,12 @@ const addLoggingToDispatch = (store) => {
 };
 ```
 
-With this change, the middleware becomes a function that returns a function that returns a function.
+С этим изменением мидлвар становится функцией, которая возвращает функцию, которая возвращает функцию.
 
-This pattern is called **currying**. This is not very common in JavaScript, but is actually very common in functional programming languages.
+Этот паттерн называется **каррирование**. Это не очень распространено в JavaScript, но широко распространено в языках функционального программирования.
 
-#### Updating `addPromiseSupportToDispatch`:
+
+#### Обновление `addPromiseSupportToDispatch`
 ```javascript
 const addPromiseSupportToDispatch = (store) => {
   return (next) => {
@@ -174,11 +173,11 @@ const addPromiseSupportToDispatch = (store) => {
 };
 ```
 
-Again, rather than take the next middleware from the store, we will make it injectable as an argument so that the function that calls the middlewares can choose which middleware to pass.
+Опять же, вместо того, чтобы брать следующий мидлвар из стора, мы сделаем его вводимым в качестве аргумента, чтобы функция, вызывающая мидлвар, могла выбирать, какой мидлвар передать.
 
-Finally, since `store` is not the only injected argument, we also need to inject the next middleware, which is the previous value of `store.dispatch`.
+Наконец, поскольку `store` - не единственный внедренный (инжектед) аргумент, нам также необходимо внедрить следующий мидлвар, который является предыдущим значением `store.dispatch`.
 
-#### Updating `wrapDispatchWithMiddlewares`
+#### Обновление `wrapDispatchWithMiddlewares`
 ```javascript
 const wrapDispatchWithMiddlewares = (store, middlewares) =>
   middlewares.slice().reverse().forEach(middleware => {
@@ -186,12 +185,12 @@ const wrapDispatchWithMiddlewares = (store, middlewares) =>
   });
 ```
 
-Now that middlewares are a first-class concept, we can rename `addLoggingToDispatch` to just `logger`, and rename `addPromiseSupportToDispatch` to `promise`.
+Теперь, когда мидлвары являются первоклассной концепцией, мы можем переименовать `addLoggingToDispatch` просто в `logger` и переименовать `addPromiseSupportToDispatch` в `promise`.
 
 
-### Arrow-ifying our `promise` Middleware
+### Оснастим стрелками и ифами наш `promise` мидлвар
 
-The curried style of function declaration can get very hard to read. Luckily we can use arrow functions and rely on the fact that they can have expressions as their bodies.
+Стиль каррирования объявления функции может может быть трудным для  чтения. К счастью, мы можем использовать стрелочные функции и полагаться на тот факт, что их тела могут быть выражениями.
 
 ```javascript
 // Before
@@ -215,15 +214,15 @@ const promise = (store) => (next) => (action) => {
 }
 ```
 
-It is still a function that returns a function returning a function, but it's much easier to read.
+Это по-прежнему функция, которая возвращает функцию, возвращающую функцию, но ее гораздо легче читать.
 
-The mental model you can use for this is "_this is just a function with several arguments that are applied as they become available_".
+Ментальная модель, которую вы можете использовать для этого, - "_это просто функция с несколькими аргументами, которые применяются по мере их появления_".
 
-### Wrapping up Middlewares
+### Завершаем с мидлварами
 
-Our middlewares are currently specified in the order in which the `dispatch` function is overridden, but it would be more natural to specify the order in which the action propagates through the middlewares.
+Наши мидлвары в настоящее время указаны в том порядке, в котором функция `dispatch` переопределяется, но было бы более естественным указать порядок, в котором экшен распространяется через мидлвары.
 
-We will change our middleware declaration to specify them in the order in which the action travels through them:
+Мы изменим наше объявление мидлвара, чтобы указать их в порядке, в котором экшен проходит через них:
 
 ```javascript
 const configureStore = () => {
@@ -233,8 +232,8 @@ const configureStore = () => {
   .
   .
 ```
+Мы также `wrapDispatchWithMiddlewares` справа налево, клонируя прошлый массив, а затем обращая его.
 
-We will also `wrapDispatchWithMiddlewares` from right to left by cloning the past array then reversing it.
 
 ```javascript
 const wrapDispatchWithMiddlewares = (store, middlewares) =>
@@ -243,7 +242,7 @@ const wrapDispatchWithMiddlewares = (store, middlewares) =>
   });
 ```
 
-[Recap at 5:42 in video](https://egghead.io/lessons/javascript-redux-the-middleware-chain)
+[Резюме с 5:42 видео](https://egghead.io/lessons/javascript-redux-the-middleware-chain)
 
 
 <p align="center">

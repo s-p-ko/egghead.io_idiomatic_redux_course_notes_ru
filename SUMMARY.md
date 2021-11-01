@@ -16,7 +16,7 @@
 - [Получение данных при изменении роута (маршрута)](14-Fetching_Data_on_Route_Change.md)
 - [Диспатчинг экшенов с получеными данными](15-Dispatching_Actions_with_the_Fetched_Data.md)
 - [ Обертывание `dispatch()` для распонавания проимсов](16-Wrapping_dispatch_to_Recognize_Promises.md)
-- [The Middleware chain](17-The_Middleware_Chain.md)
+- [Цепочка мидлвар](17-The_Middleware_Chain.md)
 - [Applying Redux Middleware](18-Applying_Redux_Middleware.md)
 - [Updating the State with the Fetched Data](19-Updating_the_State_with_the_Fetched_Data.md)
 - [Refactoring the reducers](20-Refactoring_the_Reducers.md)
