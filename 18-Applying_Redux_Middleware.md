@@ -1,15 +1,15 @@
-# 18. Applying Redux Middleware
+# 18. Применение Redux мидлвара
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-applying-redux-middleware)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/18-applying-redux-middleware)
 
-In the previous lesson, we figured out the contract that we want to use for our middleware functions.
+В предыдущем уроке мы выяснили контракт, который хотим использовать для наших мидлвар функций.
 
-However, middleware wouldn't be very useful if everybody had to implement `wrapDispatchWithMiddlewares` on their own.
+Тем не менее мидлвар не был бы очень полезным, если бы каждому приходилось реализовывать `wrapDispatchWithMiddlewares` самостоятельно.
 
-Now we'll remove it, and instead import a utility called `applyMiddleware` from Redux.
+Теперь мы удалим его и вместо этого импортируем утилиту `applyMiddleware` из Redux.
 
-#### `configureStore` Before:
+#### `configureStore` до:
 ```javascript
 const configureStore = () => {
   const store = createStore(todoApp);
@@ -25,15 +25,15 @@ const configureStore = () => {
 };
 ```
 
-Looking at our `configureStore` function, notice that we don't need the `store` right away. We can move the creation of the `store` down below where we specify the middleware.
+Глядя на нашу функцию `configureStore`, обратите внимание, что нам не нужен `store` сразу. Мы можем переместить создание `store` вниз, где мы указываем мидлвар.
 
-We can also remove our custom `wrapDispatchWithMiddlewares` function, and instead we will `createStore` with the middleware right away.
+Мы также можем удалить нашу пользовательскую функцию `wrapDispatchWithMiddlewares`, и вместо этого мы сразу же создадим `createStore` с мидлваром.
 
-The second argument to create store will be the result of calling `applyMiddleware` with my middleware functions as positional arguments.
+Второй аргумент для создания стора будет результатом вызова `applyMiddleware` с моими мидлвар функциями в качестве позиционных аргументов.
 
-This last argument to `createStore` is called an enhancer, and it's optional. If you want to specify the `persistedState`, you need to do this before the enhancer (you can also skip the `persistedState` if you don't have it).
+Этот последний аргумент `createStore` называется усилителем и является необязательным. Если вы хотите указать `persistedState`, вам нужно сделать это перед усилителем (вы также можете пропустить `persistedState`, если у вас его нет).
 
-#### `configureStore` After:
+#### `configureStore` посде:
 ```javascript
 // We also deleted `wrapDispatchWithMiddlewares()`
 
@@ -50,17 +50,17 @@ const configureStore = () => {
 };
 ```
 
-### Replacing our Custom Middleware
+### Замена нашего кастомного мидлвара
 
-Many middlewares are available as npm packages. Both the `promise` and the `logger` middlewares that we wrote are no exceptions to this.
+Многие мидлвары доступны в виде пакетов npm. И написанные нами `promise` и `logger` мидлвары не являются исключением.
 
-Running `npm install --save redux-promise` in a terminal will install a middleware that implements Promise support.
+Запуск `npm install --save redux-promise` в терминале установит мидлвар, который реализует поддержку Promise.
 
-You can install a package called `redux-logger` in the same way, which is similar to the logger middleware we wrote before, but it's more configurable.
+Точно так же можно установить пакет `redux-logger`, который похож на мидлвар логгера, написанный нами ранее, но `redux-logger` более настраиваемый.
 
-Inside of `configureStore.js`, we can now import and use our new middleware. Since we don't need to reference the `store` anymore, we can just return it directly from `configureStore`.
+Теперь внутри `configureStore.js` мы можем импортировать и использовать наши новые мидлвары. Поскольку нам больше не нужно ссылаться на `store`, мы можем просто вернуть его прямо из `configureStore`.
 
-#### Updated `configureStore.js`
+#### Обновленный `configureStore.js`
 ```javascript
 import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
@@ -83,7 +83,7 @@ const configureStore = () => {
 export default configureStore;
 ```
 
-[Recap at 2:06 in video](https://egghead.io/lessons/javascript-redux-applying-redux-middleware)
+[Резюме со 2:06 видео](https://egghead.io/lessons/javascript-redux-applying-redux-middleware)
 
 
 <p align="center">

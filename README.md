@@ -97,9 +97,9 @@ gitbook serve
 Узнаем, как можно обобщить обертку `dispatch()` для различных целей в концепцию, под именем "мидлвар", которая широко доступна в экосистеме Redux.
 [Видео](https://egghead.io/lessons/javascript-redux-the-middleware-chain)
 
-## 18. Applying Redux Middleware
+## 18. Применение Redux мидлвара
 
-We will learn how to replace the middleware we wrote and the custom code we used to glue it together with the existing core and third party utilities.
+Узнаем, как заменить написанные нами мидлвары и пользовательский код, который мы использовали, чтобы склеить его с существующими основными и сторонними утилитами.
 [Видео](https://egghead.io/lessons/javascript-redux-applying-redux-middleware)
 
 ## 19. Updating the State with the Fetched Data
