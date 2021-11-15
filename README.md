@@ -102,9 +102,9 @@ gitbook serve
 Узнаем, как заменить написанные нами мидлвары и пользовательский код, который мы использовали, чтобы склеить его с существующими основными и сторонними утилитами.
 [Видео](https://egghead.io/lessons/javascript-redux-applying-redux-middleware)
 
-## 19. Updating the State with the Fetched Data
+## 19. Обновление состояния с помощью полученных данных
 
-We will learn how moving the source of truth for the data to the server changes the state shape and the reducers in our app.
+Узнаем, как перемещение на сервер источника истинности для данных  изменяет форму состояния и редюсеры в нашем приложении.
 [Видео](https://egghead.io/lessons/javascript-redux-updating-the-state-with-the-fetched-data)
 
 ## 20. Refactoring the reducers

@@ -1,11 +1,11 @@
-# 19. Updating the State with the Fetched Data
+# 19. Обновление состояния с помощью полученных данных
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-updating-the-state-with-the-fetched-data#/tab-transcript)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/19-updating-state-with-fetched-data)
 
-In the current implementation of `getVisibleTodos` inside of `todos.js`, we keep all todos in memory. We have an array of all `id`s ever and we get the array of todos that we can filter according to the filter passed from React Router.
+В текущей реализации `getVisibleTodos` внутри `todos.js` все todos хранятся в памяти. У нас есть массив всех идентификаторов (`id`s), и мы получаем массив todos, которые мы можем фильтровать в соответствии с фильтром, переданным из React Router.
 
-#### Current `getVisibleTodos`
+#### Текущий `getVisibleTodos`
 ```javascript
 export const getVisibleTodos = (state, filter) => {
   const allTodos = getAllTodos(state);
@@ -22,17 +22,17 @@ export const getVisibleTodos = (state, filter) => {
 };
 ```
 
-However, this only works correctly if all the data from the server is already available in the client, which is usually not the case with applications that fetch something. If we have thousands of todos on the server, it would be impractical to fetch them all and filter them on the client.
+Однако это работает правильно только в том случае, если все данные с сервера уже доступны в клиенте, что обычно не относится к приложениям, которые что-то извлекают. Если у нас есть тысячи todos на сервере, было бы непрактично извлекать их все и фильтровать на клиенте.
 
-### Refactoring `getVisibleTodos`
+### Рефакторинг `getVisibleTodos`
 
-Rather than keep one big list of `id`s, we'll keep a list of `id`s for every filter's tab so that they can be stored separately and filled according to the actions with the fetched data.
+Вместо того, чтобы хранить один большой список идентификаторов (`id`s), мы будем вести список идентификаторов (`id`s) для каждой вкладки фильтра, чтобы их можно было хранить отдельно и заполнять в соответствии с действиями с извлеченными данными.
 
-We'll remove the `getAllTodos` selector because we won't have access to `allTodos`. We also don't need to filter on the client anymore because we will use the list of todos provided by the server. This means we can remove our `switch` statement from the current implementation.
+Мы удалим селектор `getAllTodos`, потому что у нас не будет доступа к `allTodos`. Нам также больше не нужно фильтровать на клиенте, потому что мы будем использовать список  todos, предоставленный сервером. Это означает, что мы можем удалить наш оператор `switch` из текущей реализации.
 
-Instead of reading from `state.allIds`, we will read the IDs from `state.IdsByFilter[filter]`. Then we will map the `id`s to the `state.ById` lookup table to get the actual todos.
+Вместо чтения из `state.allIds` мы будем читать IDs (идентификаторы) из `state.IdsByFilter[filter]`. Затем мы отмапим идентификаторы (`id`s) с таблицей поиска `state.ById`, чтобы получить актуальные todos.
 
-#### Updated `getVisibleTodos`
+#### Обновлено `getVisibleTodos`
 ```javascript
 export const getVisibleTodos = (state, filter) => {
   const ids = state.idsByFilter[filter];
@@ -40,11 +40,11 @@ export const getVisibleTodos = (state, filter) => {
 };
 ```
 
-### Refactoring `todos`
+### Рефакторинг `todos`
 
-The selector now expects `idsByFilter` and `byId` to be part of the combined `state` of the `todos` reducer.
+Селектор теперь ожидает, что `idsByFilter` и `byId` будут частью объединенного `state` (состояния) `todos`редюсера.
 
-#### `todos` Reducer Before:
+#### `todos` редюсер до:
 ```javascript
 const todos = combineReducers({
   byId,
@@ -52,9 +52,9 @@ const todos = combineReducers({
 });
 ```
 
-The `todos` reducer used to combine the lookup table and a list of `allIds`. Now, though, we'll replace the lis of `allIds` with the list of `idsByFilter`, which will be a new combined reducer.
+`todos` редюсер использовался для объединения (combine) таблицы поиска и списка `allIds`. Однако теперь мы заменим список `allIds` списком `idsByFilter`, который станет новым комбинированным редюсером.
 
-#### `todos` Reducer After:
+#### `todos` редюсер после:
 ```javascript
 const todos = combineReducers({
   byId,
@@ -62,9 +62,9 @@ const todos = combineReducers({
 });
 ```
 
-### Creating `idsByFilter`
+### Создание `idsByFilter`
 
-`idsByFilter` combines a separate list of `id`s for every filter. So it's `allIds` for the `all` filter, `activeIds` for the `active` filter, and `completedIDs` for the `completed` filter.
+`idsByFilter` объединяет отдельный список идентификаторов (`id`s) для каждого фильтра. Таким образом, `allIds` это для `all` фильтра, `activeIds` - для `active` фильтра и `completedIDs` - для `completed` фильтра.
 
 ```javascript
 const idsByFilter = combineReducers({
@@ -74,13 +74,14 @@ const idsByFilter = combineReducers({
 });
 ```
 
-### Updating the `allIds` Reducer
+### Обновление `allIds` редюсера
 
-The original `allIDs` reducer managed an array of IDs and the `ADD_TODO` action.
+Первоначальный `allIDs` редюсер управлял массивом идентификаторов (IDs) и `ADD_TODO` экшеном.
 
-We are going to take this responsibility away for now, because for now we want to teach it to respond to the data fetched from the server.
+Мы собираемся сейчас снять эту ответственность, потому что сейчас мы хотим научить его реагировать на данные, полученные с сервера.
 
-#### `allIds` Before:
+
+#### `allIds` до:
 ```javascript
 const allIds = (state = [], action) => {
   switch (action.type) {
@@ -92,9 +93,9 @@ const allIds = (state = [], action) => {
 };
 ```
 
-We'll start by renaming `ADD_TODO` to `RECEIVE_TODOS`. In order to handle the `RECEIVE_TODOS` action, we want to return a new array of todos that we'll get from the server response. We'll map this new array of todos to a function that just selects an `id` from the `todo`. Recall that we decided to keep all IDs separate from active IDs and completed IDs, so they are fetched completely independently.
+Начнем с переименования `ADD_TODO` в `RECEIVE_TODOS`. Чтобы обработать `RECEIVE_TODOS` экшен, мы хотим вернуть новый массив todos, который мы получим из ответа сервера. Мы отмапим этот новый массив todos с функцией, которая просто выбирает `id` из `todo`. Напомним, мы решили хранить все идентификаторы (IDs) отдельно от активных идентификаторов и завершенных идентификаторов, чтобы они извлекались полностью независимо.
 
-#### `allIds` After:
+#### `allIds` после:
 ```javascript
 const allIds = (state = [], action) => {
   switch (action.type) {
@@ -106,9 +107,9 @@ const allIds = (state = [], action) => {
 };
 ```
 
-#### Creating the `activeIds` Reducer
+#### Создание `activeIds` редюсера
 
-Our `activeIds` reducer will also keep track of an array of `id`s, but only for `todos` on the active tab. We will need to handle the `RECEIVE_TODOS` action in exactly the same way as the `allIds` reducer before it.
+Наш `activeIds` редюсер также будет отслеживать массив идентификаторов (`id`s), но только для `todos` на активной вкладке. Нам нужно будет обработать действие `RECEIVE_TODOS` точно так же, как и `allIds` редюсер до него.
 
 ```javascript
 const activeIds = (state = [], action) => {
@@ -121,15 +122,15 @@ const activeIds = (state = [], action) => {
 };
 ```
 
-### Updating the Correct Array
+### Обновление правильного массива
 
-Both `activeIds` and `allIds` need to return a new `state` when the `RECEIVE_TODOS` action fires, but we need to have a way of telling which `id` array we should update.
+И `activeIds`, и `allIds` должны возвращать новый `state`, когда срабатывает `RECEIVE_TODOS` экшен, но нам нужен способ указать, какой массив `id` мы должны обновить.
 
-If you recall the `RECEIVE_TODOS` action, you might remember that we passed the `filter` as part of the action. This lets us compare the `filter` inside the action with a `filter` corresponding to the reducer.
+Если вы вспомните `RECEIVE_TODOS` экшен, вы можете вспомнить, что мы передали `filter` как часть экшена. Это позволяет нам сравнивать `filter` внутри экшена с `filter`, соответствующим редюсеру.
 
-The `allIds` reducer is only interested in the actions with the `all` filter, and the `activeIds` is only interested in the `active` filter.
+Редюсер `allIds` интересуется только экшинами с `all` фильтром, а `activeIds` интересуется только `active` фильтром.
 
-#### `activeIds` Reducer
+#### `activeIds` редюсер
 ```javascript
 const activeIds = (state = [], action) => {
   if (action.filter !== 'active') {
@@ -137,11 +138,11 @@ const activeIds = (state = [], action) => {
   }
   // rest of code as above
 ```
-_Repeat for `allIds` but remember to replace `active` with `all`_
+_Повторите для `allIds`, но не забудьте заменить `active` на `all`_
 
+### Создание `completedIds` редюсера
 
-### Creating the `completedIds` Reducer
-This reducer is the same as our other filter reducers, but for the `complete` filter.
+Этот редюсер такой же, как и другие наши редюсеры фильтров, но для `complete` фильтра.
 
 ```javascript
 const completedIds = (state = [], action) => {
@@ -157,11 +158,11 @@ const completedIds = (state = [], action) => {
 };
 ```
 
-### Updating the `byId` Reducer
+### Обновление `byId` редюсера
 
-Now that we have reducers that managing the `id`s, we need to update the `byId` reducer to actually handle the new `todos` from the response.
+Теперь, когда у нас есть редюсеры, управляющие идентификаторами (`id`s), нам нужно обновить редюсер `byId`, чтобы он действительно обрабатывал новые `todos` из ответа.
 
-#### `byId` Before:
+#### `byId` до:
 ```javascript
 const byId = (state = {}, action) => {
   switch (action.type) {
@@ -177,15 +178,15 @@ const byId = (state = {}, action) => {
 };
 ```
 
-We can start by removing the existing `case`s because the data does not live locally anymore. Instead, we will handle the `RECEIVE_TODOS` action just in the other reducers.
+Мы можем начать с удаления существующих `case`s, потому что данные больше не хранятся локально. Вместо этого мы будем обрабатывать `RECEIVE_TODOS` экшен только в других редюсерах.
 
-Then we'll create `nextState`, a shallow copy of the `state` object which corresponds to the lookup table. We want to iterate through every `todo` object in the `response` and put it into our `nextState`.
+Затем мы создадим `nextState`, неглубокую копию объекта `state`, который соответствует таблице поиска. Мы хотим перебрать каждый объект `todo` в `response` и поместить его в наш `nextState`.
 
-We'll replace whatever is in `nextState`'s entry for `todo.id` with the new `todo` we just fetched.
+Мы заменим все, что находится в записи `nextState` для `todo.id`, новым `todo`, которое мы только что получили.
 
-Finally, we'll return the next version of the lookup table from our reducer.
+Наконец, мы вернем следующую версию таблицы поиска из нашего редюсера.
 
-#### `byId` After:
+#### `byId` после:
 ```javascript
 const byId = (state = {}, action) => {
   switch (action.type) {
@@ -201,13 +202,13 @@ const byId = (state = {}, action) => {
 };
 ```
 
-**Note:** Normally the assignment operation is a mutation. However, in this case it's fine because `nextState` is a shallow copy, and we're only assigning one level deep. Our function stays pure because we're not modifying any of the original state objects.
+**Примечание:** Обычно операция присваивания является мутацией. Однако в этом случае это нормально, потому что `nextState` является неглубокой копией, и мы присваиваем только один уровень глубины. Наша функция остается чистой, потому что мы не изменяем ни один из объектов исходного состояния.
 
-### Finishing Up
+### Заканчивая
 
-As the last step, we can remove the import of `todo.js` as well as the file itself from our project, because the logic for adding and toggling todos will be implemented as API calls to the server in the future lessons.
+В качестве последнего шага мы можем удалить импорт `todo.js`, а также сам файл из нашего проекта, потому что логика добавления и переключения todos будет реализована в виде API вызовов к серверу на будущих уроках.
 
-[Recap at 5:22 in video](https://egghead.io/lessons/javascript-redux-updating-the-state-with-the-fetched-data)
+[Резюме на 5:22 в видео](https://egghead.io/lessons/javascript-redux-updating-the-state-with-the-fetched-data)
 
 
 <p align="center">

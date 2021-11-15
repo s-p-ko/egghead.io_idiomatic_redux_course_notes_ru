@@ -18,7 +18,7 @@
 - [Обертывание `dispatch()` для распонавания проимсов](16-Wrapping_dispatch_to_Recognize_Promises.md)
 - [Цепочка мидлвар](17-The_Middleware_Chain.md)
 - [Применение Redux мидлвара](18-Applying_Redux_Middleware.md)
-- [Updating the State with the Fetched Data](19-Updating_the_State_with_the_Fetched_Data.md)
+- [Обновление состояния с помощью полученных данных](19-Updating_the_State_with_the_Fetched_Data.md)
 - [Refactoring the reducers](20-Refactoring_the_Reducers.md)
 - [Displaying Loading Indicators](21-Displaying_Loading_Indicators.md)
 - [Dispatching Actions Asynchronously with Thunks](22-Dispatching_Actions_Asynchronously_with_Thunks.md)
