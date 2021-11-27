@@ -19,7 +19,7 @@
 - [Цепочка мидлвар](17-The_Middleware_Chain.md)
 - [Применение Redux мидлвара](18-Applying_Redux_Middleware.md)
 - [Обновление состояния с помощью полученных данных](19-Updating_the_State_with_the_Fetched_Data.md)
-- [Refactoring the reducers](20-Refactoring_the_Reducers.md)
+- [Рефакторинг редюсеров](20-Refactoring_the_Reducers.md)
 - [Displaying Loading Indicators](21-Displaying_Loading_Indicators.md)
 - [Dispatching Actions Asynchronously with Thunks](22-Dispatching_Actions_Asynchronously_with_Thunks.md)
 - [Avoiding Race Conditions with Thunks](23-Avoiding_Race_Conditions_with_Thunks.md)

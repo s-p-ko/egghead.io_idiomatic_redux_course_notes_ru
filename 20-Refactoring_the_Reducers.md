@@ -1,29 +1,29 @@
-# 20. Refactoring the Reducers
+# 20. Рефакторинг редюсеров
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-refactoring-the-reducers)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/20-splitting-the-reducer-files)
 
-Earlier, we removed the `visibilityFilter` reducer, and so the root reducer in the app now combines only a single `todos` reducer. Since `index.js` acts effectively as a proxy to the `todos` reducer, we will remove `index.js` completely. Then we will rename `todos.js` to `index.js`, thereby making `todos` the new root reducer.
+Ранее мы удалили `visibilityFilter` редюсер, и поэтому корневой (root) редюсер в приложении теперь объединяет (combines) только один `todos` редюсер. Поскольку `index.js` эффективно действует как прокси для `todos` редюсера, мы полностью удалим `index.js`. Затем мы переименуем `todos.js` в `index.js`, тем самым сделав `todos` новым корневым редюсером.
 
-The root reducer file now contains `byId`, `allIds`, `activeIds`, and `completedIDs`. We're going to extract some of them into separate files.
+Файл корневого редюсера теперь содержит `byId`, `allIds`, `activeIds`, и `completedIDs`. Мы собираемся распаковать некоторые из них в отдельные файлы.
 
-Creating a file called `byid.js`, where we paste the code for the `byId` reducer.
+Создаем файл с именем `byid.js`, куда мы вставляем код для `byId` редюсера.
 
-Now we'll add a named export for a selector called `getTodo` that takes the `state` and `id`, where the state corresponds to the state of the `byId` reducer. Now going back to `index.js`, we can import the reducer as a default import.
+Теперь добавим именованный экспорт для селектора под названием `getTodo`, который принимает `state` и `id`, где state (состояние) соответствует состоянию редюсера `byId`. Теперь вернемся к `index.js`, мы можем импортировать редюсер как дефолтный импорт.
 
-We can also import any associated selectors in a single object with a namespace import:
+Мы также можем импортировать любые связанные селекторы в один объект с импортом пространства имен:
 
 ```javascript
 import byId, * as fromById from './byid'
 ```
 
-Now if we take a look at the reducers managing the IDs, we will notice that their code is almost exactly the same except for the filter value which they compare `action.filter` to.
+Теперь, если мы посмотрим на редюсеры, управляющие идентификаторами (IDs), мы заметим, что их код почти такой же, за исключением значения фильтра, с которым они сравнивают `action.filter`.
 
-### Creating `createList`
+### Создание `createList`
 
-Let's create a new function called `createList` that takes `filter` as an argument.
+Давайте создадим новую функцию под названием `createList`, которая принимает `filter` в качестве аргумента .
 
-`createList` will return another function– a reducer that handles the `id`s for the specified filter– , so its state shape is an array. To save time, we can copy & paste the implementation from `allIds`, and then just change the `'all'` literal to `createList`'s `filter` argument, so that we can create it for any filter.
+`createList` вернет другую функцию - редюсер, который обрабатывает `id`s для указанного фильтра - так что его форма состояния представляет собой массив. Чтобы сэкономить время, мы можем скопировать и вставить реализацию из `allIds`, а затем просто заменить литерал `'all'` на аргумент `filter` `createList`'а, чтобы мы могли создать его для любого фильтра.
 
 ```javascript
 const createList = (filter) => {
@@ -41,21 +41,21 @@ const createList = (filter) => {
 };
 ```
 
-Now we can remove the `allIds`, `activeIds`, and `completedIds` reducer code completely. Instead, we will generate the reducers using the new `createList` function, and pass the filter as an argument to it.
+Теперь мы можем полностью удалить код `allIds`, `activeIds`, и `completedIds`редюсеров. Вместо этого мы сгенерируем редюсеры, используя новую функцию `createList`, и передадим ей фильтр в качестве аргумента.
 
-Next, extract the `createList` function into a separate file called `createList.js`.
+Затем извлеките `createList` функциюв отдельный файл с именем `createList.js`.
 
-Now that it's in a separate file, we will add a public API for accessing the state in form of a selector. For now, we will call it `getIds`, and will just returns the state of the list (we may change this in the future).
+Теперь, когда он находится в отдельном файле, мы добавим общедоступный API для доступа к состоянию в виде селектора. Сейчас мы назовем его `getIds` и просто вернем состояние списка (мы можем изменить это в будущем).
 
-#### Finishing Up
+#### Заканчивая
 
-Back in `index.js`, we will import `createList` and any named selectors from this file.
+Вернувшись в `index.js`, мы импортируем `createList` и любые именованные селекторы из этого файла.
 
 ```javascript
 import createList, * as fromList from './createList';
 ```
 
-We will also rename `idsByFilter` to `listByFilter` because now that the list implementation is in a separate file, we will use the `getIds` selector that it exports.
+Мы также переименуем `idsByFilter`  в `listByFilter`, потому что теперь, когда реализация списка находится в отдельном файле, мы будем использовать селектор `getIds`, который он экспортирует.
 
 ```javascript
 export const getVisibleTodos = (state, filter) => {
@@ -63,12 +63,11 @@ export const getVisibleTodos = (state, filter) => {
   return ids.map(id => fromById.getTodo(state.byId, id));
 };
 ```
+Поскольку мы также переместили `byId` редюсер в отдельный файл, мы хотим убедиться, что не делаем предположений, что это просто таблица поиска. Имея это в виду, мы будем использовать селектор `fromById.getTodo`, который он экспортирует, и передает его состояние и соответствующий ID.
 
-Since we also moved the `byId` reducer into a separate file, we want to make sure we don't make an assumption that it's just a lookup table. With this in mind, we will use the `fromById.getTodo` selector that it exports and pass its state and the corresponding ID.
+С помощью этого рефакторинга мы сможем изменить форму состояния любого редюсера в будущем, не внося изменений в кодовую базу.
 
-With this refactor, we can change the state shape of any reducer in the future without rippling changes across the codebase.
-
-[Recap at 3:41 in video](https://egghead.io/lessons/javascript-redux-refactoring-the-reducers)
+[Резюме на 3:41 в видео](https://egghead.io/lessons/javascript-redux-refactoring-the-reducers)
 
 
 <p align="center">

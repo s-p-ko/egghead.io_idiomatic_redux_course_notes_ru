@@ -107,9 +107,9 @@ gitbook serve
 Узнаем, как перемещение на сервер источника истинности для данных  изменяет форму состояния и редюсеры в нашем приложении.
 [Видео](https://egghead.io/lessons/javascript-redux-updating-the-state-with-the-fetched-data)
 
-## 20. Refactoring the reducers
+## 20. Рефакторинг редюсеров
 
-We will learn how to remove the duplication in our reducer files and how to keep the knowledge about the state shape colocated with the newly extracted reducers.
+Узнаем, как удалить дублирование в файлах редюсера и как сохранить информацию о форме состояния вместе с недавно извлеченными редюсерами.
 [Видео](https://egghead.io/lessons/javascript-redux-refactoring-the-reducers)
 
 ## 21. Displaying Loading Indicators
