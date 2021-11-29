@@ -112,9 +112,9 @@ gitbook serve
 Узнаем, как удалить дублирование в файлах редюсера и как сохранить информацию о форме состояния вместе с недавно извлеченными редюсерами.
 [Видео](https://egghead.io/lessons/javascript-redux-refactoring-the-reducers)
 
-## 21. Displaying Loading Indicators
+## 21. Отображение индикаторов загрузки
 
-We will learn how to display the loading indicators while the data is being fetched.
+Узнаем, как отображать индикаторы загрузки во время загрузки данных.
 [Видео](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
 
 ## 22. Dispatching Actions Asynchronously with Thunks

@@ -1,16 +1,15 @@
-# 21. Displaying Loading Indicators
-
+# 21. Отображение индикаторов загрузки
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/21-displaying-loading-indicators)
 
-When the data is fetched asynchronously, we want to display some kind of visual cue to the user. We'll add a condition to the `render` function that says that if we're fetching data, and we have no to-dos to show, we'll return a loading indicator from the `render` function of `VisibleTodoList`.
+Когда данные извлекаются асинхронно, мы хотим показать пользователю какую-то визуальную подсказку. Мы добавим к функции `render` условие, которое гласит, что если мы получаем данные и у нас нет задач для отображения, мы вернем индикатор загрузки из функции `render` `VisibleTodoList`'а.
 
-We will grab `todos` and `isFetching` from `props`. Since `todos` is the only extra prop we need to pass to the list, instead of using the spread operator, we will just pass the `todos` directly.
+Мы возьмем `todos` и `isFetching` из `props`. Поскольку `todos` - единственный дополнительный проп, который нам нужно передать списку, то вместо использования спред оператора, мы просто передадим `todos` напрямую.
 
-Our `mapStateToProps` function already calculates `visibleTodos` and includes the `todos` in the props. We need to do something similar for `isFetching`. `getIsFetching` accepts the current `state` of the app, and the `filter` for the `todos` being fetched. It is declared alongside other top level selectors in the top level reducer file.
+Наша `mapStateToProps` функция уже вычисляет `visibleTodos` и включает `todos` в пропсы. Нам нужно сделать нечто подобное для `isFetching`. `getIsFetching` принимает текущее состояние приложения и `filter` для извлекаемых `todos`. Он объявлен вместе с другими селекторами верхнего уровня в файле редюсера верхнего уровня.
 
-#### Inside `VisibleTodoList.js`
+#### Внутри `VisibleTodoList.js`
 ```javascript
 render() {
     const { isFetching, toggleTodo, todos } = this.props;
@@ -38,46 +37,47 @@ render() {
   };
 ```
 
-### Updating the Root Reducer
+### Обновление корневого редюсера
 
-Switching to our root reducer file (`src/reducers/index.js`) we will add another exported named selector function for `getIsFetching`. It accepts the `state` and the `filter` as arguments, and it delegates to another selector to find if the list is currently being fetched.
+Перейдя к файлу корневого редюсера (`src/reducers/index.js`), мы добавим еще одну экспортированную именованную функцию селектора для `getIsFetching`. Она принимает `state` и `filter`» в качестве аргументов и делегирует другому селектору определение, выбирается ли список в данный момент.
 
-We will pass in the state of this list from `state.listByFilter`, but we haven't written `getIsFetching` yet.
+Мы передадим state этого списка из `state.listByFilter`, но мы еще не написали `getIsFetching`.
 
 ```javascript
 export const getIsFetching = (state, filter) =>
   fromList.getIsFetching(state.listByFilter[filter]);
 ```
 
-### Updating `createList.js`
+### Обновление `createList.js`
 
-Before creating our new `getIsFetching` selector, we need to modify the state shape of the list. Rather than assume `state` is an array of `id`s, we will assume it is an object that contains this array as a property.
+Перед созданием нашего нового селектора `getIsFetching` нам нужно изменить форму состояния списка. Вместо того, чтобы предполагать, что `state` является массивом `id`s'ов, мы предположим, что это объект, который содержит этот массив как свойство.
 
-Now we can add another selector called `getIsFetching` that reads `state.isFetching`.
+Теперь мы можем добавить еще один селектор под названием `getIsFetching`, который читает `state.isFetching`.
 
 ```javascript
 export const getIds = (state) => state.ids;
 export const getIsFetching = state => state.isFetching;
 ```
 
-We want our reducer to keep track of both of these fields, so rather than complicate the existing `createList` reducer, we will rename it to `ids`, because it manages just the `id`s.
+Мы хотим, чтобы наш редюсер отслеживал оба этих поля, поэтому вместо того, чтобы усложнять существующий редюсер `createList`, мы переименуем его в `ids`, потому что он управляет только идентификаторами (`id`s'ами).
 
-### Creating `isFetching`
+### Создание `isFetching`
 
-First, at the top of our file we need to add an import for the `combineReducers` utility from Redux:
+Во-первых, в верхней части нашего файла нам нужно добавить импорт для утилиты `combReducers` из Redux:
+
 ```javascript
 import { combineReducers } from 'redux';
 ```
 
-Now we can create our `isFetching` reducer that will manage just the `state`'s `isFetching` flag.
+Теперь мы можем создать редюсер `isFetching`, который будет управлять только флагом `isFetching`  `state`'а.
 
-Its initial state is `false`, and it looks just like any other reducer. We switch on the `action` `type`, and if it is `'REQUEST_TODOS'`, we'll return `true` because we started fetching.
+Его начальное состояние - `false`, и он выглядит так же, как любой другой редюсер. Мы включаем `action` `type`, и если это `'REQUEST_TODOS'`, мы вернем `true`, потому что мы начали выборку.
 
-If it's `'RECEIVE_TODOS'`, we'll return `false` because the operation has finished. For any unknown action, we'll return the current `state`.
+Если это `'RECEIVE_TODOS'`, мы вернем `false`, потому что операция завершена. Для любого неизвестного действия мы вернем текущй `state`.
 
-We'll include the same condition as our `ids` reducer that ignores any actions with a filter that does not match the `filter` argument to `createList`.
+Мы включим то же условие, что и наш `ids` редюсер, который игнорирует любые действия с фильтром, который не соответствует аргументу `filter` для `createList`.
 
-#### Inside `createList.js`
+#### Внутри `createList.js`
 ```javascript
 const isFetching = (state = false, action) => {
     if (filter !== action.filter) {
@@ -94,11 +94,11 @@ const isFetching = (state = false, action) => {
   };
 ```
 
-Notice that we handle the `REQUEST_TODOS` action, but we are not dispatching it anywhere.
+Обратите внимание, что мы обрабатываем `REQUEST_TODOS` экшен, но никуда его не диспатчим.
 
-### Adding the 'REQUEST_TODOS' Action Creator
+### Добавление 'REQUEST_TODOS' экшен  криэйтера
 
-In our action creators file (`src/actions/index.js`), we will add a new exported function called `requestTodos` that takes the `filter` and returns an action object describing the `'REQUEST_TODOS'` action with the corresponding filter.
+В нашем файле экшен криэтора (`src/actions/index.js`) мы добавим новую экспортируемую функцию с именем `requestTodos`, которая принимает `filter` и возвращает объект экшена, описывающий `'REQUEST_TODOS'` экшен с соответствующим фильтром
 
 ```javascript
 export const requestTodos = (filter) => ({
@@ -107,10 +107,11 @@ export const requestTodos = (filter) => ({
 });
 ```
 
-Every exported action creator will be available on the `props` of the `VisibleToDoList` component.
+Каждый экспортируемый экшен криэйтор будет доступен в `props` `VisibleToDoList` компонента.
 
-### Updating `fetchData` inside `VisibleToDoList`
-We can destructure `requestTodos` from the `props`, and call it right before starting the asynchronous `fetchToDos` operation.
+### Обновление `fetchData` внутри `VisibleToDoList`
+
+Мы можем деструктурировать`requestTodos` из `props` и вызвать его прямо перед запуском асинхронной операции `fetchToDos`.
 
 ```javascript
 fetchData() {
@@ -120,7 +121,7 @@ fetchData() {
 }
 ```
 
-[Recap at 3:51 in video](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
+[Резюме с 3:51 в видео](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
 
 <p align="center">
 <a href="./20-Refactoring_the_Reducers.md"><- Предыдущая</a>
