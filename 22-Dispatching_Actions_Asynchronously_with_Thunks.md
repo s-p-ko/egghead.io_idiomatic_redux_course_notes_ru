@@ -1,11 +1,11 @@
-# 22. Dispatching Actions Asynchronously with Thunks
+# 22. Асинхронный диспатчинг экшенов с помощью Thunks
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/22-dispatching-multiple-actions-with-thunks)
 
-To show the loading indicator in our current implementation, we dispatch the `requestTodos` action before we fetch the todos with `fetchTodos`. It would be great if we could make `requestTodos` dispatch automatically when we fetch the todos because we never want them to fire separately.
+Чтобы показать индикатор загрузки в нашей текущей реализации, мы отправляем (диспатчим) экшен `requestTodos` до того, как получим todos с помощью `fetchTodos`. Было бы замечательно, если бы мы могли автоматически отправлять `requestTodos` при получении todos, потому что мы никогда не хотим, чтобы они запускались отдельно.
 
-#### `VisibleTodoList.js` Before
+#### `VisibleTodoList.js` до
 ```javascript
 // inside of `VisibleTodoList`
 fetchData() {
@@ -15,24 +15,22 @@ fetchData() {
 }
 ```
 
+Для начала мы удалим явный `requestTodos` диспатч из компонента. Теперь нам больше не нужно `export` `requestTodos` экшен криэйтор внутри `actions/index.js` (но не стирать для него код).
 
-To start, we will remove the explicit `requestTodos` dispatch from the component. Now we no longer need to `export` the `requestTodos` action creator inside of `actions/index.js` (but don't erase the code for it).
+Наша цель - диспатчить `requestTodos()`, когда мы начинаем получение, и `receiveTodos()`, когда они заканчивают получение, но наш экшен криэйтор `fetchTodos` разрешается только через `receiveTodos` экшен.
 
-Our goal is to dispatch `requestTodos()` when we start fetching, and `receiveTodos()` when they finish fetching, but our `fetchTodos` action creator only resolves through the `receiveTodos` action.
-
-#### Current `fetchTodos` Action Creator
+#### Текущий `fetchTodos` экшен криэйтор
 ```javascript
 export const fetchTodos = (filter) =>
   api.fetchTodos(filter).then(response =>
     receiveTodos(filter, response)
   );
 ```
+Экшен промиса разрешается до одного действия в конце, но нам нужна абстракция, которая представляет несколько действий, отправленных за период времени. Вот почему вместо того, чтобы возвращать промис, я хочу вернуть функцию, которая принимает аргумент коллбэка диспатча.
 
-An action Promise resolves through to a single action at the end, but we want an abstraction that represents multiple actions dispatched over a period of time. This is why rather than returning a Promise, I want to return a function that accepts a dispatch callback argument.
+Это изменение позволяет нам вызывать `dispatch()` столько раз, сколько мы хотим, в любой момент времени во время асинхронной операции. Мы можем отправить действие `requestTodos` в начале, а затем, когда промис разрешится, мы можем явно отправить другой `receiveTodos` экшен.
 
-This change lets us call `dispatch()` as many times as we want at any point of time during the async operation. We can dispatch the `requestTodos` action in the beginning, then when the Promise resolves we can explicitly dispatch another `receiveTodos` action.
-
-#### Updated `fetchTodos`
+#### Обновленный `fetchTodos`
 ```javascript
 export const fetchTodos = (filter) => (dispatch) => {
   dispatch(requestTodos(filter));
@@ -42,24 +40,23 @@ export const fetchTodos = (filter) => (dispatch) => {
   });
 };
 ```
+Это больше типизация, чем возврат промиса, но это дает нам больше гибкости. Поскольку Promise может выражать только одно асинхронное значение, `fetchTodos` теперь возвращает функцию с коллбэк аргументом, чтобы он мог вызывать ее несколько раз во время асинхронной операции.
 
-This is more typing than returning a Promise, but it gives us more flexibility. Since a Promise can only express one async value, `fetchTodos` now returns a function with a callback argument so that it can call it multiple times during the async operation.
+### Представляем Thunks
 
-### Introducing Thunks
+Функции, возвращаемые из других функций, таких как `fetchTodos`, часто называют преобразователями (thunks). Теперь мы собираемся реализовать мидлвар для поддержки использования преобразователей в нашем коде.
 
-Functions returned from other functions like in `fetchTodos` are often called thunks. Now we're going to implement a middleware to support using thunks in our code.
+### Обновление `configureStore.js`
 
-### Updating `configureStore.js`
+Внутри `configureStore.js` мы удалим мидлвар `redux-prom` и заменим его мидлваром `thunk`, который мы сейчас напишем.
 
-Inside of `configureStore.js` we'll remove the `redux-promise` middleware and replace it with the `thunk` middleware we'll write now.
+Мидлвар `thunk` поддерживает диспатчинг thunks'ов. Он принимает в качестве аргументов `store`, следующий мидлвар (`next`) и `action` в качестве аргумента, как и любой другой мидлвар.
 
-The `thunk` middleware supports the dispatching of thunks. It takes the `store`, the next middleware (`next`), and the `action` as arguments, just like any other middleware.
+Если `action` является функцией, а не экшеном, мы будем предполагать, что это thunk, который хочет, чтобы в него была внедрена `dispatch`функция. В этом случае мы будем вызывать экшен с помощью `store.dispatch`.
 
-If `action` is a function instead of an action, we're going to assume that this is a thunk that wants the `dispatch` function to be injected into it. In this case, we'll call the action with `store.dispatch`.
+В противном случае мы просто возвращаем результат передачи экшена следующему мидлвару в цепочке.
 
-Otherwise, we just return the result of passing the action to the next middleware in chain.
-
-#### `thunk` Middleware in `configureStore.js`
+#### `thunk` мидлвар в `configureStore.js`
 ```javascript
 const thunk = (store) => (next) => (action) =>
   typeof action === 'function' ?
@@ -67,7 +64,7 @@ const thunk = (store) => (next) => (action) =>
     next(action);
 ```
 
-As a final step, we need to add our new `thunk` middleware to the array of middlewares inside `configureStore` so that it gets applied to the store.
+В качестве последнего шага нам нужно добавить наш новый `thunk` мидлвар  в массив мидлваров внутри `configureStore`, так чтобы он попал в стор.
 
 ```javascript
 const configureStore = () => {
@@ -75,7 +72,7 @@ const configureStore = () => {
   // rest of configureStore
 ```
 
-[Recap at 2:45 in video](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
+[Резюме на 2:45 в видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
 
 
 <p align="center">
