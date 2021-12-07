@@ -1,15 +1,15 @@
-# 23. Avoiding Race Conditions with Thunks
+# 23. Избегайте состояний гонки с помощью Thunk
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-avoiding-race-conditions-with-thunks)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/23-dispatching-actions-conditionally-with-thunks)
 
-When we increase the delay in our fake API client to five seconds, we notice a problem. We aren't checking if the tab is already loading before starting a request, and then a bunch of `receiveTodos` actions come back, potentially resulting in a race condition.
+Когда мы увеличиваем задержку в нашем фэйквом API клиенте до пяти секунд, мы замечаем проблему. Мы не проверяем, загружается ли уже вкладка перед запуском запроса, а потом возвращается множество `receiveTodos` экшенов, что может привести к состоянию гонки.
 
-To fix this, we can exit early from the `fetchTodos` action creator if we know that we are already fetching the todos for the given filter.
+Чтобы исправить это, мы можем досрочно выйти из `fetchTodos` экшен криэйтера, если уже знаем, что получаем todos для данного фильтра..
 
-Inside of `fetchTodos`, we will add an `if` to check if we are currently fetching by using our `getIsFetching` selector that accepts the store state and the filter as arguments. If it returns `true`, we will exit early from the thunk without dispatching any actions.
+Внутри `fetchTodos` мы добавим `if`, чтобы проверить, выполняем ли мы сейчас выборку (fetching), используя наш `getIsFetching` селектор, который принимает состояние стора и фильтр в качестве аргументов. Если он вернет true, мы выйдем из thunk'а раньше, без диспатчинга каких-либо экшенов.
 
-#### Updating `fetchTodos`
+#### Обновление `fetchTodos`
 ```javascript
 export const fetchTodos = (filter) => (dispatch) => {
   if (getIsFetching(getState(), filter)) {
@@ -18,17 +18,17 @@ export const fetchTodos = (filter) => (dispatch) => {
   /// rest of fetchTodos
 ```
 
-The `getIsFetching` selector is defined inside the top level reducer file, so we need to import it as a named `import` from `reducers`.
+Селектор `getIsFetching` определяется внутри файла редюсера верхнего уровня, поэтому нам нужно импортировать его как  `import` from `reducers`.
 
 ```javascript
 import { getIsFetching } from '../reducers';
 ```
 
-We are also using `getState()` that isn't defined in this file. It belongs to the `store` object, but we don't have access to it directly from the action creator.
+Мы также используем `getState()`, который не определен в этом файле. Он принадлежит объекту `store`, но у нас нет доступа к нему напрямую от экшен криэйтера.
 
-### Updating the `thunk` Middleware
+### Обновление `thunk` мидлвара
 
-We can make it so that the `thunk` middleware inside `configureStore.js` injects not just the `store.dispatch()` function inside the thunk actions, but also the `store.getState` function. This way, we can grab it as a second argument after `dispatch` inside of the `thunk` action creator.
+Мы можем сделать так, чтобы мидлвар `thunk` внутри `configureStore.js` внедрял не только `store.dispatch()` функцию внутри thunk экшенов, но также `store.getState` функцию. Таким образом, мы можем получить его как второй аргумент после `dispatch` внутри `thunk` экшен криэйтера.
 
 ```javascript
 // Inside configureStore.js
@@ -43,15 +43,15 @@ const thunk = (store) => (next) => (action) =>
 export const fetchTodos = (filter) => (dispatch, getState) => {
 ```
 
-With these changes, the `fetchTodos` action creator dispatches actions conditionally. If we run the app, we can't get it to produce more than three concurrent requests (one for each filter type).
+С этими изменениями `fetchTodos` экшен криэйтор диспатчит экшены  условно. Если мы запустим приложение, мы не сможем заставить его делать более трех одновременных запросов (по одному для каждого типа фильтра).
 
-The `isFetching` flag gets reset only when the corresponding `receiveTodos` actions come back, and then we can request the new todos. This is a good way to avoid unnecessary network operations and potential race conditions.
+Флаг `isFetching` сбрасывается только тогда, когда возвращаются соответствующие `receiveTodos` экшены, и тогда мы можем запросить новые todos. Это хороший способ избежать ненужных сетевых операций и потенциальных состояний гонки.
 
-### Updating `fetchTodos`
+### Обновление `fetchTodos`
 
-Since the return value of the thunk is a Promise, we will change our early `return` to be a Promise that resolves immediately. We don't have to do this, but it's convenient for the calling code.
+Поскольку возвращаемое значение thunk'а является промисом, мы изменим наш ранний `return` на промис, который разрешается немедленно. Нам делать этого не обязательноо, но для вызывающего кода это удобно.
 
-#### Inside `actions/index.js`
+#### Внутри `actions/index.js`
 ```javascript
 export const fetchTodos = (filter) => (dispatch, getState) => {
   if (getIsFetching(getState(), filter)) {
@@ -60,9 +60,9 @@ export const fetchTodos = (filter) => (dispatch, getState) => {
   // rest of fetchTodos
 ```
 
-The `thunk` middleware itself does not use this Promise, but it becomes the `return` value of dispatching this action creator, so we can use it inside the component to schedule some code after the asynchronous action has completed.
+Сам `thunk` мидлвар не использует этот промис, но он становится значением  `return`'а для диспатчинга этого экшен криэйтера, поэтому мы можем использовать его внутри компонента чтобы запланировать некоторый код после завершения асинхронного действия.
 
-#### Inside `VisibleTodoList`
+#### Внутри `VisibleTodoList`
 ```javascript
 fetchData() {
   const { filter, fetchTodos } = this.props;
@@ -72,14 +72,13 @@ fetchData() {
 
 ### Introducing `redux-thunk`
 
-`redux-thunk` is a middleware similar to what we just implemented. To install it, run
+`redux-thunk` является мидлваром, аналогичным тому, что мы только что реализовали. Чтобы установить его, запустите
 
 `npm install --save redux-thunk`.
 
+Установив `redux-thunk`, мы можем удалить только что написанную версию thunk мидлвара и вместо этого импортировать `thunk` из `redux-thunk`.
 
-With `redux-thunk` installed, we can remove the version of thunk middleware that we just wrote and import `thunk` from `redux-thunk` instead.
-
-[Recap at 2:52 in video](https://egghead.io/lessons/javascript-redux-avoiding-race-conditions-with-thunks)
+[Резюме со 2:52 в видео](https://egghead.io/lessons/javascript-redux-avoiding-race-conditions-with-thunks)
 
 
 <p align="center">
