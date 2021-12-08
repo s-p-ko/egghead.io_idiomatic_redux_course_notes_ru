@@ -1,17 +1,17 @@
-# 24. Displaying Error Messages
+# 24. Отображение Error Messages
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-displaying-error-messages)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/24-handling-network-errors)
 
-Sometimes API requests fail, and we will simulate this by `throw`ing inside the fake API client so that it returns a rejected Promise. If we run the app, the loading indicator gets stuck because the `isFetching` flag get set to `true`, but there is no corresponding `receiveTodos` action to set it back to `false` again.
+Иногда API запросы терпят неудачу, и мы будем имитировать это, «бросками» (`throw`ing) в фэйковом API клиенте, чтобы он возвращал отклоненный промис. Если мы запустим приложение, индикатор загрузки зависнет, потому что для флага `isFetching` будет установлено значение `true`, но нет соответствующего `receiveTodos` экшена, чтобы снова вернуть его в значение `false`.
 
-### Fixing It
+### Исправляем это
 
-We'll start by doing some cleanup inside the action creators file (`actions/index.js`).
+Мы начнем с некоторой чистки внутри файла экшен криэйтера (`actions/ index.js`).
 
-The `requestTodos` action is never used outside of `fetchTodos`, so we can embed the `requestTodos` object literal inside it. We can do the same thing with `receiveTodos` by copying and pasting it inside of `fetchTodos` where it is dispatched. We will also add the rejection handler as the second argument to our `Promise.then` method.
+`requestTodos` экшен никогда не используется вне `fetchTodos`, поэтому мы можем встроить литерал объекта `requestTodos` внутрь него. Мы можем сделать то же самое с `receiveTodos`, скопировав и вставив его в `fetchTodos`, куда он и диспатчиться. Мы также добавим обработчик отклонения в качестве второго аргумента в наш  `Promise.then` метод.
 
-#### Inside `fetchTodos`
+#### Внутри `fetchTodos`
 ```javascript
 return api.fetchTodos(filter).then(
   response => {
@@ -27,16 +27,16 @@ return api.fetchTodos(filter).then(
 );
 ```
 
-### Renaming Actions for Clarity
+### Переименование экшенов для ясности
 
-Since the `fetchTodos` action creator dispatches several actions, we will rename them to be more consistent:
-  * `'REQUEST_TODOS'` becomes `'FETCH_TODOS_REQUEST'` for requesting the todos
-  * `'RECEIVE_TODOS'` becomes `'FETCH_TODOS_SUCCESS'` for successfully fetching the todos
-  * Add `'FETCH_TODOS_FAILURE'` in our `error` handler when failing to fetch the todos.
+Поскольку экшен криэйтор `fetchTodos` диспатчит несколько экшенов, мы переименуем их, чтобы они были более согласованными:
+   * `'REQUEST_TODOS'` превращается в `'FETCH_TODOS_REQUEST'` для запроса todos
+   * `'RECEIVE_TODOS'` превращается в `'FETCH_TODOS_SUCCESS'` для успешного получения todos
+   * Добавьте `'FETCH_TODOS_FAILURE'` в наш обработчик `error`, когда не удается получить todos.
 
-Our `error` handler will also be passed two additional pieces of data: the `filter` and the `message` that can be read with `error.message` if specified. We will use `'Something went wrong.'` as a fallback.
+Нашему обработчику `error` также будут переданы два дополнительных блока данных: `filter` и `message`, которые можно прочитать с помощью `error.message`, если он указан. Мы будем использовать фразу `'Something went wrong.'` как запасной вариант.
 
-#### Updated `fetchTodos` `return`
+#### Обновленный `fetchTodos` `return`
 ```javascript
 return api.fetchTodos(filter).then(
   response => {
@@ -56,21 +56,21 @@ return api.fetchTodos(filter).then(
 );
 ```
 
-Now our `fetchTodos` action creator handles all the cases, and we can remove the old action creators that are now inlined (`requestTodos` and `receiveTodos`).
+Теперь наш экшен криэйтор `fetchTodos` обрабатывает все случаи, и мы можем удалить старые экшен криэйторы, которые теперь встроены (`requestTodos` и `receiveTodos`).
 
-### Updating our Reducers
+### Обновление наших редюсеров
 
-Since we changed action types, we now need to change the corresponding reducers.
+Поскольку мы изменили типы экшенов, теперь нам нужно изменить соответствующие редюсеры.
 
-Our `ids` reducer needs to handle `FETCH_TODOS_SUCCESS` instead of `RECEIVE_TODOS`.
+Наш `ids` редюсер должен обрабатывать `FETCH_TODOS_SUCCESS` вместо `RECEIVE_TODOS`.
 
-The `isFetching` reducer needs to handle `FETCH_TODOS_REQUEST` instead of `REQUEST_TODOS`, and `FETCH_TODOS_SUCCESS` instead of `RECEIVE_TODOS`.
+Редюсер `isFetching` должен обрабатывать `FETCH_TODOS_REQUEST` вместо `REQUEST_TODOS` и `FETCH_TODOS_SUCCESS` вместо `RECEIVE_TODOS`.
 
-We will also handle `FETCH_TODOS_FAILURE` by returning `false` so our loading indicator won't get stuck.
+Мы также обработаем `FETCH_TODOS_FAILURE`, вернув `false`, чтобы наш индикатор загрузки не зависал.
 
-The last reducer we need to change is `byId`, where we replace `RECEIVE_TODOS` with `FETCH_TODOS_SUCCESS`.
+Последний редюсер, который нам нужно изменить - это `byId`, где мы заменяем `RECEIVE_TODOS` на `FETCH_TODOS_SUCCESS`.
 
-#### Updated `isFetching` Reducer
+#### Обновленный `isFetching` редюсер
 ```javascript
 const isFetching = (state = false, action) => {
     if (filter !== action.filter) {
@@ -88,17 +88,18 @@ const isFetching = (state = false, action) => {
   };
 ```
 
-With these changes, the loading indicator won't get stuck because a corresponding failure action fires, resetting `isFetching` back to `false`.
+С этими изменениями индикатор загрузки не будет зависать, потому что срабатывает соответствующий экшен сбоя, переводя `isFetching` обратно в значение `false`.
 
-### Displaying the Error
+### Отображение Error
 
-We'll create a new file `FetchError.js` in our `components` directory.
+Мы создадим новый файл `FetchError.js` в директории `components` .
 
-After `import`ing `React`, we'll create a new functional stateless component `FetchError` that will take two props: a `message` string, and an `onRetry` function. This component will be the default export for this file.
+После `import`'а `React` мы создадим новый функциональный компонент `FetchError` без сохранения состояния, который будет принимать два пропа: строку `message` и функцию `onRetry`. Этот компонент будет экспортом по умолчанию для этого файла.
 
-The rendered `<div>` will contain an error saying that something bad happened (including the message that is passed in the props), and a button that when clicked will invoke the `onRetry` callback prop so that the user can retry fetching the data.
+Отрендеренный `<div>` будет содержать ошибку, говорящую о том, что произошло что-то плохое (включая сообщение, переданное в пропсах), и кнопку, которая при нажатии будет вызывать коллбэк проп `onRetry`, чтобы пользователь мог повторить попытку получения данных.
 
-##### `FetchError` Component
+
+##### `FetchError` компонент
 ```javascript
 const FetchError = ({ message, onRetry }) => (
   <div>
@@ -108,11 +109,11 @@ const FetchError = ({ message, onRetry }) => (
 );
 ```
 
-### Adding `FetchError` to `VisibleTodoList`
+### Добавление `FetchError` в `VisibleTodoList`
 
-We need to `import FetchError` inside of `VisibleTodoList`, then update the `render` method.
+Нам нужно `import FetchError` внутри `VisibleTodoList`, а затем обновить метод `render`.
 
-In order to get the error message, we need to destructure it from the `props` of the `VisibleTodoList` component.
+Чтобы получить error message, нам нужно деструктурировать его из `props` компонента `VisibleTodoList`.
 
 ```javascript
 // Inside VisibleTodoList
@@ -121,9 +122,9 @@ render() {
   ...
 ```
 
-We will also add another condition inside of `render` saying that "if we have an error message in our props and we have no todos to display, then return the `FetchError` component.
+Мы также добавим еще одно условие внутри `render`, говорящее, что _если_ у нас есть сообщение об ошибке в наших пропсах и у нас нет todos для отображения, _то_ вернуть `FetchError` компонент.
 
-The `FetchError` component itself wants a `message` prop, which will be passed the `errorMessage` prop I just de-structured. We will also provide an `onRetry` callback prop that we will pass an error function that calls `this.fetchData` to restart the data fetching process.
+Компонент `FetchError` сам требует проп `message`, которому будет передан проп `errorMessage`, который я только что деструктурировал. Мы также предоставим коллбэк проп `onRetry`, в котором мы передадим функцию ошибки, которая вызывает `this.fetchData` для перезапуска процесса выборки данных.
 
 ```javascript
 // Inside VisibleTodoList's `render()`
@@ -137,7 +138,7 @@ if (errorMessage && !todos.length) {
    }
 ```
 
-We need to add `errorMessage` into `VisibleTodoList`'s `mapStateToProps` in order to make it available. Following the same pattern used with `isFetching`, we will get the `errorMessage` prop by calling a selector called `getErrorMessage` and pass in the `state` of the app and the `filter`.
+Нам нужно добавить `errorMessage` в `mapStateToProps` из `VisibleTodoList`, чтобы сделать его доступным. Следуя тому же шаблону, который используется с `isFetching`, мы получим проп `errorMessage` путем вызова селектора с именем `getErrorMessage` и передачи `state` приложения и `filter`.
 
 ```javascript
 // Inside VisibleTodoList
@@ -152,36 +153,39 @@ const mapStateToProps = (state, { params }) => {
 };
 ```
 
-### Implementing `getErrorMessage`
-We need to add `getErrorMessage` to `VisibleTodoList`'s reducer import at the top of the file:
+### Реализация `getErrorMessage`
+
+Нам нужно добавить `getErrorMessage` к импорту редюсера `VisibleTodoList` в верхней части файла:
+
 `import { getVisibleTodos, getErrorMessage, getIsFetching } from '../reducers';`
 
-Now inside of our root reducers file (/reducers/index.js) we create our `getErrorMessage` selector by copying, pasting, and refactoring our `getIsFetching` selector.
+Теперь внутри нашего корневого файла редюсеров (/reducers/index.js) мы создаем селектор `getErrorMessage` с помощью копирования-вставки  и рефакторинга нашего `getIsFetching` селектора.
 
-#### Creating the Selector
+#### Создание селектора
 ```javascript
 export const getErrorMessage = (state, filter) =>
   fromList.getErrorMessage(state.listByFilter[filter]);
 ```
 
-#### Updating `createList`
+#### Обновление `createList`
 
-Inside `createList.js`, we'll add a new exported selector called `getErrorMessage` that takes the state of the list and returns a property called error message.
+Внутри `createList.js` мы добавим новый экспортированный селектор `getErrorMessage`, который принимает состояние (state) списка и возвращает свойство, называемое error message.
+
 ```javascript
 export const getErrorMessage = (state) => state.errorMessage;
 ```
 
-We'll now declare a new reducer called `errorMessage` with the initial `state` of `null`.  We do this because a reducer cannot have an undefined initial state, so we have to make its absence explicit.
+Теперь объявим новый редюсер с именем `errorMessage` с начальным `state` -  `null`. Мы делаем это, потому что редюсер не может иметь начальное состояние undefined, поэтому мы должны сделать его отсутствие явным.
 
-Like in the other reducers in this file, we want to skip any actions with the filter that don't match the `filter` specified as an argument to `createList`. When the filter _does_ match, we want to handle a few actions:
+Как и в других редюсерах в этом файле, мы хотим пропустить любые действия с фильтром, которые не соответствуют `filter`, указанному в качестве аргумента `createList`. Когда фильтр _совпадает_, мы хотим обработать несколько экшенов:
 
-  * Display an error message if there's a failure
-  * Clear the error message if the user retries their request
-  * Return the current state for any other action
+  * Отображение сообщения об ошибке в случае сбоя
+  * Удаление сообщения об ошибке, если пользователь повторяет свой запрос
+  * Вернуть текущее состояние для любого другого экшена
 
-The `errorMessage` reducer needs to be added to `combineReducers` as well.
+Редюсер `errorMessage` также должен быть добавлен в `combineReducers`.
 
-##### Completed `errorMessage` Reducer
+##### Завершенный `errorMessage` редюсер
 ```javascript
 const errorMessage = (state = null, action) => {
     if (filter !== action.filter) {
@@ -205,10 +209,10 @@ const errorMessage = (state = null, action) => {
   });
 ```
 
-### Updating the API
-Instead of having our API throw the error every time, we'll have it throw randomly so we can try out our "retry" button.
+### Обновление API
+Вместо того, чтобы наш API каждый раз выдавал ошибку, мы будем выбрасывать ее случайным образом, чтобы мы могли опробовать нашу кнопку «повторить попытку» ("retry" button).
 
-[Demonstration and recap at 6:43 in video](https://egghead.io/lessons/javascript-redux-displaying-error-messages)
+[Демонстрация и резюме на 6:43 в видео](https://egghead.io/lessons/javascript-redux-displaying-error-messages)
 
 
 <p align="center">
