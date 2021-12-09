@@ -117,19 +117,19 @@ gitbook serve
 Узнаем, как отображать индикаторы загрузки во время загрузки данных.
 [Видео](https://egghead.io/lessons/javascript-redux-displaying-loading-indicators)
 
-## 22. Dispatching Actions Asynchronously with Thunks
+## 22. Асинхронный диспатчинг экшенов с помощью Thunks
 
-We will learn about “thunks”—the most common way to write async action creators in Redux.
+Узнаем о “thunks” - наиболее распространенном способе написания асинхронных экшен криэйтеров в Redux.
 [Видео](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
 
-## 23. Avoiding Race Conditions with Thunks
+## 23. Избегайте состояний гонки с помощью Thunks
 
-We will learn how Redux Thunk middleware lets us conditionally dispatch actions to avoid unnecessary network requests and potential race conditions.
+Узнаем, как мидлвар Redux Thunk позволяет нам условно диспатчить  экшены, чтобы избежать ненужных сетевых запросов и потенциальных состояний гонки.
 [Видео](https://egghead.io/lessons/javascript-redux-avoiding-race-conditions-with-thunks)
 
-## 24. Displaying Error Messages
+## 24. Отображение Error Messages
 
-We will learn how to handle an error inside an async action, display its message in the user interface, and offer user an opportunity to retry the action.
+Узнаем, как обрабатывать ошибку внутри асинхронного экшена, отображать ее сообщение в пользовательском интерфейсе и предлагать пользователю возможность повторить действие.
 [Видео](https://egghead.io/lessons/javascript-redux-displaying-error-messages)
 
 ## 25. Creating Data on the Server
