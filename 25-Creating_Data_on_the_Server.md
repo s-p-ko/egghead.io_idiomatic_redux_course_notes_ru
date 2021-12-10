@@ -1,15 +1,15 @@
-# 25. Creating Data on the Server
+# 25. Создание данных на сервере
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-creating-data-on-the-server)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/25-creating-data-on-the-server)
 
-### Updating the Fake API
+### Обновление фейкового API
 
-Some new functions were added to our fake API client for the next few lessons.
+Некоторые новые функции были добавлены в наш фейковый API клиент для следующих нескольких уроков.
 
-The first new fake API endpoint is called `addTodo`. It simulates a network connection, and then it creates a new `todo` object. It puts the todo with the given text into the fake database, and it returns the `todo` object, just like REST endpoints normally do.
+Первый новый фейковый эндпоинт (конечная точка) API называется `addTodo`. Он имитирует сетевое соединение, а затем создает новый объект `todo`. Он помещает todo с заданным текстом в фейковую базу данных и возвращает объект `todo`, как это обычно делают REST эндпоинты.
 
-#### `addTodo` Endpoint
+#### `addTodo` эндпоинт
 ```javascript
 export const addTodo = (text) =>
   delay(500).then(() => {
@@ -23,9 +23,9 @@ export const addTodo = (text) =>
   });
 ```
 
-The second fake API endpoint I is called `toggleTodo`. It also simulates a network connection, and it finds the corresponding todo in the fake database and flips its `completed` field, also returning the `todo` as the response.
+Второй фейковый эндпоинт API я назвал `toggleTodo`. Он также имитирует сетевое соединение, находит соответствующий todo в фейковой базе данных и меняет его поле `completed`, также возвращая  `todo` в качестве ответа.
 
-#### `toggleTodo` Endpoint
+#### `toggleTodo` эндпоинт
 ```javascript
 export const toggleTodo = (id) =>
   delay(500).then(() => {
@@ -35,17 +35,17 @@ export const toggleTodo = (id) =>
   });
 ```
 
-### Updating the "Add Todo" Process
+### Обновление "Add Todo" процесса
 
-In this lesson, we will make the add todo button called the `addTodo` fake API endpoint.
+В этом уроке мы создадим кнопку добавления todo, которая вызывает фейковый `addTodo` эндпоинт API.
 
-Inside our action creators file, we will no longer need the `v4` function from `node-uuid` because the id generation will now occur on the server.
+Нам больше не понадобится функция `v4` из `node-uuid` внутри нашего файла экшен криэйтора, потому что генерация идентификатора теперь будет происходить на сервере.
 
-The `addTodo` action creator will be changed to be a thunk action creator, so we will add `dispatch` as a curried argument. The thunk will call the API's `addTodo` endpoint with the given text, and wait for the response to come back.
+`addTodo` экшен криэйтор будет изменен на thunk экшен криэйтор, поэтому мы добавим `dispatch` в качестве аргумента. Thunk вызовет эндпоинт `addTodo` API с заданным текстом и будет ждать ответа.
 
-When the response is available, it will dispatch an action with the type `'ADD_TODO_SUCCESS'`, and the server response.
+Когда ответ доступен, он отправит действие с типом `'ADD_TODO_SUCCESS'` и ответ сервера.
 
-##### Updated `addTodo` Action
+##### Обновленный `addTodo` экшен
 ```javascript
 export const addTodo = (text) => (dispatch) =>
   api.addTodo(text).then(response => {
@@ -56,11 +56,11 @@ export const addTodo = (text) => (dispatch) =>
   });
 ```
 
-#### Updating the `byId` Reducer
+#### Обновление `byId` редюсера
 
-Since the newly added todo will be part of the server response, we need to change the `byId` reducer to merge the todo into the lookup table that it manages.
+Поскольку недавно добавленное todo будет частью ответа сервера, нам нужно изменить редюсер `byId`, чтобы объединить todo с таблицей поиска, которой он управляет.
 
-I am adding a new case for the `'ADD_TODO_SUCCESS'` action. We'll use the object spread operator to create a new version of the lookup table, where under the action response ID key, there is a new todo object that I read from action response.
+Я добавляю новый случай для `'ADD_TODO_SUCCESS'` экшена. Мы воспользуемся спрэд оператором для объекта, чтобы создать новую версию таблицы поиска, где под ключом идентификатора ответа на экшен есть новый todo объект, который я прочитал из ответа действия.
 
 ```javascript
 // Inside reducers/byId.js
@@ -83,19 +83,19 @@ const byId = (state = {}, action) => {
 };
 ```
 
-However, we have not updated the list by filter, so all still only has three IDs in the list. If I go to another tab, the new todo appears because its ID is now included in the list of fetched IDs, and similarly, if I go back to the previous tab, it appears now because the data has been re-fetched.
+Однако мы не обновляли список по фильтру, поэтому у всех по-прежнему есть только три IDs'а в списке. Если я перейду на другую вкладку, появится новое todo, потому что его  ID теперь включен в список извлеченных IDs'ов, и аналогично, если я вернусь к предыдущей вкладке, он появится теперь, потому что данные были повторно извлечены.
 
-#### Updating `createList`
+#### Обновление `createList`
 
-Since the list of IDs for each tab is managed by a reducer defined inside `createlist.js`, we need to update our `ids` reducer to handle the `'ADD_TODO_SUCCESS'` action.
+Поскольку список IDs'ов для каждой вкладки управляется редюсером, определенным внутри `createlist.js`, нам нужно обновить наш `ids` редюсер для обработки `'ADD_TODO_SUCCESS'` экшена.
 
-When we receive a confirmation that the todo has been added on the server, we can return a new list of IDs with existing IDs in the beginning, and a newly added ID at the end.
+Когда мы получаем подтверждение того, что todo был добавлен на сервер, мы можем вернуть новый список IDs'ов с существующими IDs'ами в начале и вновь добавленным ID в конце.
 
-Unlike the other actions, `'ADD_TODO_SUCCESS'` does not have a `filter` property on the `action` object, our current `if (filter !== action.filter)` check inside of `ids` would fail. Because of this, we will replace the existing check with different checks in different cases.
+В отличие от других экшенов, `'ADD_TODO_SUCCESS'` не имеет свойства `filter` для `action` объекта, наша текущая проверка `if (filter !== action.filter)`  внутри `ids` завершится ошибкой. По этой причине мы заменим существующую проверку на разные проверки в разных случаях.
 
-For `FETCH_TODOS_SUCCESS`, we want to replace the fetched IDs if the filter in the action matches the filter of this list.
+Для `FETCH_TODOS_SUCCESS` мы хотим заменить выбранные IDs'ы, если фильтр в экшене соответствует фильтру этого списка.
 
-However, for `ADD_TODO_SUCCESS`, we want the newly added todo to appear in every list except the completed filter, because a newly added todo is not completed.
+Однако для `ADD_TODO_SUCCESS` мы хотим, чтобы вновь добавленная todo отображалась в каждом списке, кроме завершенного фильтра, потому что вновь добавленная todo не завершена.
 
 ```javascript
 const createList = (filter) => {
@@ -115,7 +115,7 @@ const createList = (filter) => {
   };
 ```
 
-[Demonstration and recap at 3:36 in video](https://egghead.io/lessons/javascript-redux-creating-data-on-the-server)
+[Демонстрация и подведение итогов с 3:36 на видео](https://egghead.io/lessons/javascript-redux-creating-data-on-the-server)
 
 
 <p align="center">
