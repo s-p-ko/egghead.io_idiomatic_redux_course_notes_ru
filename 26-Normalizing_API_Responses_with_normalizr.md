@@ -1,30 +1,31 @@
-# 26. Normalizing API Responses with `normalizer`
+# 26. Нормализация API ответов с помощью `normalizr`
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-normalizing-api-responses-with-normalizr)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/26-normalizing-json-responses-with-normalizr)
 
-The `byId` reducer currently has to handle server actions differently, because they have different response shapes.
+Редюсер `byId` в настоящее время должен по-разному обрабатывать действия сервера, потому что они имеют разные формы ответа.
 
-For example, the `'FETCH_TODOS_SUCCESS'` action's response is an array of todos. This array has be to iterated over and merged one at a time into the next state.
+Например, ответ экшена  `'FETCH_TODOS_SUCCESS'` - это массив todos. Этот массив нужно перебирать и объединять по одному в следующее состояние.
 
-The response for `'ADD_TODO_SUCCESS'` is the single todo that has just been added, and this single todo has to be merged in a different way.
+Ответ для `'ADD_TODO_SUCCESS'` - это единственная todo, которая была только что добавлена, и эту единственную todo нужно объединить другим способом.
 
-Instead of adding new cases for every new API call, I want to normalize the responses so the response shape is always the same.
+Вместо добавления новых случаев для каждого нового вызова API я хочу нормализовать ответы, чтобы форма ответа всегда была одинаковой.
 
-### Installing `normalizr`
+### Установка `normalizr`
 
-`normalizr` is a utility library that will help us normalize API responses to have the same shape.
+`normalizr` - это служебная библиотека, которая поможет нам нормализовать ответы API, чтобы они имели одинаковую форму.
 
 `$ npm install --save normalizr`
 
-###  Creating `schema.js`
-We'll create a new file `schema.js` inside of our `actions` directory.
+###  Создание `schema.js`
 
-We'll start by importing a `Schema` constructor and a function called `arrayOf` from `normalizr`.
+Мы создадим новый файл `schema.js` внутри нашего каталога `actions`.
 
-Our first exported Schema will be for the `todo` objects, and we'll specify `todos` as the name of the dictionary in the normalized response.
+Мы начнем с импорта конструктора `Schema` и функции с именем `arrayOf` из `normalizr`.
 
-Our next schema called `arrayOfTodos` corresponds to the responses that contain arrays of `todo` objects.
+Наша первая экспортированная схема будет для объектов `todo`, и мы укажем `todos` как имя словаря в нормализованном ответе.
+
+Наша следующая схема под названием `arrayOfTodos` соответствует ответам, которые содержат массивы объектов `todo`.
 
 ```javascript
 import { schema } from 'normalizr'
@@ -33,11 +34,11 @@ export const todo = new schema.Entity('todos');
 export const arrayOfTodos = new schema.Array(todo);
 ```
 
-### Updating our Action Creators
+### Обновление наших экшен криэйтеров
 
-Inside of `actions/index.js`, we'll add a named import for a function called `normalize` that we import from `normalizr`. We also add a namespace import for all the Schemas we defined in the schema file.
+Внутри файла `actions/index.js` мы добавим именованный импорт для функции с именем `normalize`, которую мы импортируем из `normalizr`. Мы также добавляем импорт пространства имен для всех схем, которые мы определили в файле схемы.
 
-Inside of the `FETCH_TODOS_SUCCESS` callback, we'll add a "normalized response" log so that I can see what the normalized response looks like. We call the `normalize` function with the original `response` as the first argument, and the corresponding schema (in this case, `arrayOfTodos`) as the second argument.
+Внутри колбэка `FETCH_TODOS_SUCCESS`  мы добавим log "normalized response", чтобы я мог видеть, как выглядит нормализованный ответ. Мы вызываем функцию `normalize` с исходным `response` в качестве первого аргумента и соответствующей схемой (в данном случае `arrayOfTodos`) в качестве второго аргумента.
 
 ```javascript
 return api.fetchTodos(filter).then(
@@ -54,7 +55,7 @@ return api.fetchTodos(filter).then(
   },
 ```
 
-We'll update `addTodo` in a similar manner:
+Мы обновим `addTodo` аналогичным образом:
 ```javascript
 export const addTodo = (text) => (dispatch) =>
   api.addTodo(text).then(response => {
@@ -69,20 +70,19 @@ export const addTodo = (text) => (dispatch) =>
   });
 ```
 
-### Comparing Responses
+### Сравнение ответов
 
-At this point, the response in the action is an array of to-do objects, but our normalized response for `'FETCH_TODOS_SUCCESS'` is an object that contains two fields: `entities` and `result`.
+На этом этапе ответ в экшене представляет собой массив todo объектов, но наш нормализованный ответ для `'FETCH_TODOS_SUCCESS'` - это объект, содержащий два поля:  `entities` и `result`.
 
-`entities` contains a normalized dictionary called `todos` that contains every `todo` in the response by its id. `normalizr` found these `todo` objects in the response by following the `arrayOfTodos` schema. Conveniently, they are indexed by IDs, so they will be easy to merge into the lookup table.
+`entity` содержит нормализованный словарь под названием` todos`, который содержит каждое `todo` в ответе по его id. `normalizr` нашел эти `todo` объекты в ответе, следуя схеме `arrayOfTodos`. Удобно, что они индексируются по IDs'ам, поэтому их будет легко объединить в таблицу поиска.
 
-The second field is the `result`, which is an array of `todo` IDs. They are in the same order as the `todos` in the original response array. However, `normalizr` replaced each `todo` with its ID, and moved every todo into the `todos` dictionary.
+Второе поле - это `result`, который представляет собой массив IDs'ов `todo`. Они находятся в том же порядке, что и задачи в исходном массиве ответов. Однако `normalizr` заменяет каждое `todo` своим ID и перемещает каждое todo в словарь `todos`.
 
+### Завершение обновлений наших экшен криэйтеров
 
-### Finishing our Action Creator Updates
+Теперь мы изменим экшен криэйтеры, чтобы они передавали нормализованный ответ в поле ответа вместо исходного ответа.
 
-We will now change the action creators so that they pass the normalized response in the response field, instead of the original response.
-
-##### Before:
+##### До:
 ```javascript
 return api.fetchTodos(filter).then(
   response => {
@@ -98,7 +98,7 @@ return api.fetchTodos(filter).then(
   },
 ```
 
-##### After:
+##### После:
 ```javascript
 return api.fetchTodos(filter).then(
     dispatch({
@@ -109,11 +109,11 @@ return api.fetchTodos(filter).then(
   },
 ```
 
-### Updating the Reducers
+### Обновление редюсеров
 
-We can delete the special cases in our `byId` reducer, because the response shape has been normalized. Instead of switching by action type, we will check to see if the action has a response object on it.
+Мы можем удалить особые случаи в нашем `byId` редюсере, потому что форма ответа нормализована. Вместо переключения по типу экшена мы проверим, есть ли у экшена объект ответа..
 
-##### `byId` Reducer Before:
+##### `byId` редюсер до:
 ```javascript
 const byId = (state = {}, action) => {
   switch (action.type) {
@@ -133,10 +133,9 @@ const byId = (state = {}, action) => {
   }
 };
 ```
+Мы вернем новую версию таблицы поиска, которая содержит все существующие записи, а также любые записи внутри `entity.todos` в нормализованном ответе. Для других экшенов я верну таблицу поиска как есть.
 
-We will return a new version of the lookup table that contains all existing entries, as well as any entries inside `entities.todos` in the normalized response. For other actions, I will return the lookup table as it is.
-
-##### `byId` Reducer After:
+##### `byId` редюсер после:
 ```javascript
 const byId = (state = {}, action) => {
   if (action.response) {
@@ -149,9 +148,9 @@ const byId = (state = {}, action) => {
 };
 ```
 
-Now we need to update the `ids` reducer inside of `createList.js` for our new `action.response` shape.
+Теперь нам нужно обновить `ids` редюсер внутри `createList.js` для нашей новой формы `action.response`.
 
-##### `ids` Reducer Before:
+##### `ids` редюсер до:
 ```javascript
 const ids = (state = [], action) => {
     switch (action.type) {
@@ -169,9 +168,9 @@ const ids = (state = [], action) => {
   };
 ```
 
-Now, the action response has a `result` field, which is either an array of `id`s (in the case of `'FETCH_TODOS_SUCCESS'`), or a single `id` of the fetched todo (in the case of `'ADD_TODO_SUCCESS'`).
+Теперь ответ экшена имеет поле `result`, которое является либо массивом `id`s'ов (в случае с `'FETCH_TODOS_SUCCESS'`), либо одним  `id` выбранной todo (в случае с `'ADD_TODO_SUCCESS'`).
 
-##### `ids` Reducer After
+##### `ids` редюсер после
 ```javascript
 const ids = (state = [], action) => {
    switch (action.type) {
@@ -189,7 +188,7 @@ const ids = (state = [], action) => {
  };
 ```
 
-[Demonstration and recap at 5:33 in video](https://egghead.io/lessons/javascript-redux-normalizing-api-responses-with-normalizr)
+[Демонстрация и подведение итогов на 5:33 видео](https://egghead.io/lessons/javascript-redux-normalizing-api-responses-with-normalizr)
 
 
 <p align="center">
