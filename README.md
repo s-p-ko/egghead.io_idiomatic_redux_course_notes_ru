@@ -132,17 +132,17 @@ gitbook serve
 Узнаем, как обрабатывать ошибку внутри асинхронного экшена, отображать ее сообщение в пользовательском интерфейсе и предлагать пользователю возможность повторить действие.
 [Видео](https://egghead.io/lessons/javascript-redux-displaying-error-messages)
 
-## 25. Creating Data on the Server
+## 25. Создание данных на сервере
 
-We will learn how to wait until the item is created on the server, and update the corresponding local state.
+Узнаем, как дождаться создания элемента на сервере и обновить соответствующее локальное состояние.
 [Видео](https://egghead.io/lessons/javascript-redux-creating-data-on-the-server)
 
-## 26. Normalizing API Responses with `normalizr`
+## 26. Нормализация API ответов с помощью `normalizr`
 
-We will learn how to use normalizr to convert all API responses to a normalized format so that we can simplify the reducers.
+Узнаем, как использовать normalizr для преобразования всех API ответов в нормализованный формат, чтобы мы могли упростить редюсеры.
 [Видео](https://egghead.io/lessons/javascript-redux-normalizing-api-responses-with-normalizr)
 
-## 27. Updating Data on the Server
+## 27. Обновление данных на сервере
 
-We will learn how to wait until the item is updated on the server, and then update the corresponding local state.
+Узнаем, как дождаться обновления элемента на сервере, а затем обновить соответствующее локальное состояние.
 [Видео](https://egghead.io/lessons/javascript-redux-updating-data-on-the-server)
