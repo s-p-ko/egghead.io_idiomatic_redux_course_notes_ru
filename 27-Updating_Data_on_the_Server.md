@@ -1,14 +1,15 @@
-# 27. Updating Data on the Server
+# 27. Обновление данных на сервере
 
 [Ссылка на видео](https://egghead.io/lessons/javascript-redux-updating-data-on-the-server)
 
 [Код урока на GitHub](https://github.com/gaearon/todos/tree/27-updating-data-on-the-server)
 
-We'll start by changing the `toggleTodo` action creator to be a thunk action creator, so we add `dispatch` as a curried argument. Next, we'll call the `toggleTodo` API endpoint, and wait for the response to come back.
+Мы начнем с изменения экшен криэйтора `toggleTodo` на thunk экшен криэйтор, поэтому мы добавим `dispatch` в качестве аргумента каррирования. Затем мы вызовем эндпоинт API `toggleTodo` и дождемся ответа.
 
-When the response is available, we will dispatch an action with the type `'TOGGLE_TODO_SUCCESS'`, and the response. We'll use `normalize` again by passing the original `response` as the first argument, and the todo schema as the second argument.
+Когда ответ будет доступен, мы отправим (отдиспатчим) экшен с типом `'TOGGLE_TODO_SUCCESS'` и ответом. Мы снова будем использовать `normalize`, передав исходный `response` в качестве первого аргумента и схему todo в качестве второго аргумента.
 
-##### Updated `toggleTodo` Action Creator
+
+##### Обновленный `toggleTodo` экшен криэйтор
 ```javascript
 export const toggleTodo = (id) => (dispatch) =>
   api.toggleTodo(id).then(response => {
@@ -19,11 +20,11 @@ export const toggleTodo = (id) => (dispatch) =>
   });
 ```
 
-### Updating the `ids` Reducer
+### Обновление `ids` оредюсера
 
-Inside of `createList.js` we will add a new case for the `'TOGGLE_TODO_SUCCESS'` action.
+Внутри `createList.js` мы добавим новый случай для экшена `'TOGGLE_TODO_SUCCESS'`.
 
-We'll extract the code for this case into a separate function called `handleToggle`, and pass in the `state` and the `action`.
+Мы извлечем код для этого случая в отдельную функцию под названием `handleToggle` и передадим ей `state` и `action`.
 
 ```javascript
 // Inside the `ids` reducer
@@ -31,17 +32,18 @@ We'll extract the code for this case into a separate function called `handleTogg
     return handleToggle(state, action);
 ```
 
-We'll put our `handleToggle` function above the `ids` reducer. It accepts the `state` (an array of ids) and the `'TOGGLE_TODO_SUCCESS'` action.
+Мы поместим нашу функцию `handleToggle` над редюсером `ids`. Он принимает `state` (массив ids'ов) и экшен `'TOGGLE_TODO_SUCCESS'`.
 
-We will destructure the `result` as the `toggledId` and the `entities` from the normalized response. Next, we will read the `completed` value from the `todo`, which I get by referencing `entities.todos` by the `toggledId`.
+Мы деструктурируем `result` как `toggledId` и `entities` из нормализованного ответа. Затем мы прочитаем значение `completed` из `todo`, которое я получаю, ссылаясь на `entities.todos` по `toggledId`.
 
-There are two cases in which we want to remove the todo from the list:
- * The `completed` field is `true` but the `filter` is `active`
- * `completed` is `false` but the `filter` is `completed`
 
-When `shouldRemove` is `true`, we want to return a copy of the list that does not contain the id of the todo that was just toggled. We accomplish this by filtering the list by id and only leave the ones that have a different id. Otherwise, we return the original array.
+Есть два случая, когда мы хотим удалить todo из списка:
+  * Поле `completed` является `true`, но `filter` - `active`.
+  * `completed` является `false`, но `filter` - `completed`
 
-##### Completed `handleToggle` Function
+Когда `shouldRemove` является `true`, мы хотим вернуть копию списка, которая не содержит  id todo, которая была только что переключена. Мы достигаем этого путем фильтрации списка по id и оставляем только те, которые имеют другой id. В противном случае мы возвращаем исходный массив.
+
+##### Завершенная функция `handleToggle`
 ```javascript
 const handleToggle = (state, action) => {
   const { result: toggledId, entities } = action.response;
@@ -56,7 +58,7 @@ const handleToggle = (state, action) => {
 };
 ```
 
-[Demonstration and recap at 3:20 in video](https://egghead.io/lessons/javascript-redux-updating-data-on-the-server)
+[Демонстрация и подведение итогов на 3:20 видео](https://egghead.io/lessons/javascript-redux-updating-data-on-the-server)
 
 <p align="center">
   <a href="./26-Normalizing_API_Responses_with_normalizr.md"><- Предыдущая</a>
